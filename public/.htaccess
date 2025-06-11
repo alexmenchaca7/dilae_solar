@@ -1,28 +1,12 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /
 
-    # Redirect Trailing Slashes If Not A Folder...
-    # e.g., /admin/dashboard/ to /admin/dashboard
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_URI} (.+)/$
-    RewriteRule ^ %1 [L,R=301]
-
-    # Send Requests To Front Controller...
-    # If the request is not for an existing directory or file,
-    # then rewrite it to index.php
-    RewriteCond %{REQUEST_FILENAME} !-d
+    # Si la solicitud no es para un archivo o directorio que existe...
     RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    # ...redirígela a index.php para que el router de PHP la maneje.
     RewriteRule ^ index.php [L]
 </IfModule>
 
-# Prevent directory listing for the public folder as well (belt and braces)
+# Prevenir el listado de directorios
 Options -Indexes
-
-# Optional: Basic Security Headers (Consider setting these in PHP for more control)
-# <IfModule mod_headers.c>
-#     Header set X-Content-Type-Options "nosniff"
-#     Header set X-Frame-Options "SAMEORIGIN"
-#     Header set X-XSS-Protection "1; mode=block"
-#     # Consider adding Content-Security-Policy header here or in PHP
-# </IfModule>
