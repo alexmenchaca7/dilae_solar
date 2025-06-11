@@ -16,11 +16,11 @@
     &__card {
         background-color: v.$blanco;
         border-radius: 3rem;
-        padding: 4rem 2.5rem; // Más padding vertical para dar espacio al texto
+        padding: 4rem 2.5rem;
         max-width: 120rem;
         width: 100%;
         box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.25);
-        @include m.grid(1, 2rem);
+        @include m.grid(1, 2rem, 0);
         text-align: center;
 
         @include m.tablet {            
@@ -32,37 +32,39 @@
         }
     }
 
-    &__imagen {
-        // En móvil, este contenedor se oculta porque la imagen ya está de fondo
-        display: none; 
+    &__texto {
+        // En móvil, este contenedor "desaparece" para que sus hijos (h1, p, etc.) 
+        // puedan ser ordenados individualmente con la imagen.
+        display: contents; 
+        text-align: left;
 
         @include m.tablet {
-            // En tablet/desktop, vuelve a mostrarse para el layout de 2 columnas
+            // En tablet, vuelve a ser un bloque normal para el layout de 2 columnas.
             display: block; 
-            order: 1; 
-            max-width: 100%;
-            margin: 0;
         }
     }
-    
-    // Los estilos para el texto siguen siendo responsivos como antes
+
     &__logo {
+        order: 1; // 1. Logo
         width: 15rem;
         margin: 0 auto 2rem auto;
 
         @include m.tablet {
+            order: initial;
             margin: 0 0 3rem 0;
         }
     }
 
     &__heading {
-        font-size: 4.5rem;
+        order: 2; // 2. Título Principal
+        font-size: 7.5rem;
         font-weight: 800;
         color: v.$primario-oscuro;
         margin: 0;
 
         @include m.tablet {
             font-size: 6rem;
+            order: initial;
         }
 
         @include m.desktop {
@@ -71,13 +73,14 @@
     }
 
     &__subheading {
-        font-size: 2rem;
+        order: 3; // 3. Subtítulo
+        font-size: 2.2rem;
         font-weight: 700;
         color: v.$primario-oscuro;
-        margin: 1rem 0 0 0;
+        margin: 0;
 
         @include m.tablet {
-            font-size: 2.2rem;
+            order: initial;
         }
 
         @include m.desktop {
@@ -85,7 +88,20 @@
         }
     }
 
+    &__imagen {
+        order: 4; // 4. Imagen 
+        margin-top: 1.5rem;
+        
+        @include m.tablet {
+            display: block; 
+            order: initial;
+            max-width: 100%;
+            margin: 0;
+        }
+    }
+
     &__parrafo {
+        order: 5; // 5. Párrafos
         font-size: 1.6rem;
         font-weight: 500;
         line-height: 1.5;
@@ -93,6 +109,7 @@
         margin: 2.5rem 0;
 
         @include m.tablet {
+            order: initial;
             margin: 3.5rem 0;
             text-align: left;
         }
