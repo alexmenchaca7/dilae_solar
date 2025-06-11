@@ -13,73 +13,101 @@
     min-height: 100vh;
     padding: 2rem;
 
-     &__card {
+    &__card {
         background-color: v.$blanco;
-        border-radius: 5rem;
-        padding: 3rem;
+        border-radius: 3rem;
+        padding: 4rem 2.5rem; // Más padding vertical para dar espacio al texto
         max-width: 120rem;
         width: 100%;
         box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.25);
-
         @include m.grid(1, 2rem);
+        text-align: center;
 
-        // Estilo para tablet y escritorio (2 columnas)
-        @include m.tablet {
+        @include m.tablet {            
             @include m.grid(2, 1.5rem);
             align-items: center;
             padding: 4rem;
-            text-align: left; // Alinear texto a la izquierda
+            border-radius: 5rem;
+            text-align: left; 
         }
     }
 
     &__imagen {
-        // En móvil, la imagen va primero
-        order: -1; 
-        max-width: 30rem;
-        margin: 0 auto 2rem auto;
+        // En móvil, este contenedor se oculta porque la imagen ya está de fondo
+        display: none; 
 
         @include m.tablet {
-            // En escritorio, la imagen toma su lugar en la segunda columna
+            // En tablet/desktop, vuelve a mostrarse para el layout de 2 columnas
+            display: block; 
             order: 1; 
             max-width: 100%;
             margin: 0;
         }
     }
-
+    
+    // Los estilos para el texto siguen siendo responsivos como antes
     &__logo {
         width: 15rem;
-        margin: 0 auto 3rem auto; // Centrado en móvil
+        margin: 0 auto 2rem auto;
 
         @include m.tablet {
-            margin: 0 0 3rem 0; // A la izquierda en escritorio
+            margin: 0 0 3rem 0;
         }
     }
 
     &__heading {
-        font-size: 7.5rem;
+        font-size: 4.5rem;
         font-weight: 800;
         color: v.$primario-oscuro;
         margin: 0;
+
+        @include m.tablet {
+            font-size: 6rem;
+        }
+
+        @include m.desktop {
+            font-size: 7.5rem;
+        }
     }
 
     &__subheading {
-        font-size: 2.4rem;
+        font-size: 2rem;
         font-weight: 700;
         color: v.$primario-oscuro;
-        margin: 0;
+        margin: 1rem 0 0 0;
+
+        @include m.tablet {
+            font-size: 2.2rem;
+        }
+
+        @include m.desktop {
+            font-size: 2.4rem;
+        }
     }
 
     &__parrafo {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
         font-weight: 500;
-        line-height: 1.4;
+        line-height: 1.5;
         color: v.$negro;
-        margin: 3.5rem 0;
-        text-align: justify;
+        margin: 2.5rem 0;
+
+        @include m.tablet {
+            margin: 3.5rem 0;
+            text-align: left;
+        }
+
+        @include m.desktop {
+            font-size: 1.8rem;
+            text-align: justify;
+        }
 
         &--enlace {
             @extend .construccion__parrafo;
-            text-align: left;
+            
+            @include m.tablet {
+               text-align: left;
+            }
         }
     }
 
