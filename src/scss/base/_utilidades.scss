@@ -1,0 +1,100 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+@use 'sass:color';
+
+
+.seccion {
+    margin-top: 5rem;
+}
+.contenido-centrado {
+    max-width: 80rem;
+}
+.alinear-derecha {
+    display: flex;
+    justify-content: flex-end;
+}
+.margen-abajo {
+    margin-bottom: 2rem;
+}
+.w-100 {
+    width: 100%;
+}
+.p-bold {
+    font-weight: v.$bold;
+}
+.t-align-center {
+    text-align: center;
+}
+
+
+/** Margenes **/
+.mt-0 {
+    margin-top: 0;
+}
+.mt-2 {
+    margin-top: 2rem;
+}
+.mt-5 {
+    margin-top: 5rem;
+}
+.mt-10 {
+    margin-top: 10rem;
+}
+.mt-15 {
+    margin-top: 15rem;
+}
+
+.mb-0 {
+    margin-bottom: 0;
+}
+.mb-5 {
+    margin-bottom: 5rem;
+}
+.mb-10 {
+    margin-bottom: 10rem;
+}
+.mb-15 {
+    margin-bottom: 15rem;
+}
+
+
+/** Enlaces **/
+.enlace-verde {
+    color: v.$primario;
+    font-size: 1.8rem;
+    text-decoration: underline;
+    font-weight: v.$bold;
+    display: inline-flex;  // Mantiene el texto y la flecha en la misma línea
+    max-width: 100%;
+    flex-wrap: wrap;  // Evita que la flecha pase a la siguiente línea
+    transition: all 0.3s ease-in-out;
+
+
+    &:after {
+        content: '';
+        display: flex;
+        background: url(/../build/img/arrow-right-primary.svg) no-repeat center;
+        width: 2rem;
+        height: 2rem;
+        margin-left: 0.5rem;
+        align-self: center; // Asegura que la flecha se mantenga alineada con el texto
+        transition: all 0.3s ease-in-out;
+    }
+
+    &:hover {
+        color: color.adjust(v.$primario, $lightness: -10%);
+        
+        &:after {
+            background: url(/../build/img/arrow-right-shade-3.svg) no-repeat center;
+            margin-left: 0.8rem;
+        }
+    }
+}
+
+.enlace {
+    font-weight: v.$bold;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}

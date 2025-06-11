@@ -1,0 +1,23 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+@use 'sass:color';
+
+.acciones {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+
+    &--centrar {
+        @extend .acciones;
+        justify-content: center;
+    }
+
+    &__enlace {
+        color: v.$negro;
+        font-weight: 300;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

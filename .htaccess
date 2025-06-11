@@ -1,0 +1,68 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Optional: Redirect www to non-www (uncomment to use)
+    # RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+    # RewriteRule ^ http://%1%{REQUEST_URI} [L,R=301] # Use https if SSL is enabled
+
+    # Optional: Redirect HTTP to HTTPS (uncomment to use if SSL is configured)
+    # RewriteCond %{HTTPS} off
+    # RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Rewrite all requests to the public directory
+    # If the request is for the root, serve from public/
+    RewriteRule ^$ public/ [L]
+
+    # If the request is not an existing file or directory in the root,
+    # AND the request doesn't already start with /public/,
+    # then rewrite to public/
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# Prevent directory listing for the root
+Options -Indexes
+
+# Deny access to sensitive files and directories at the root level
+<Files ".env">
+    Require all denied
+</Files>
+<Files "composer.json">
+    Require all denied
+</Files>
+<Files "composer.lock">
+    Require all denied
+</Files>
+<Files "gulpfile.js">
+    Require all denied
+</Files>
+<Files "package.json">
+    Require all denied
+</Files>
+<Files "package-lock.json">
+    Require all denied
+</Files>
+
+# Deny access to core application directories if accessed directly from root
+<IfModule mod_authz_core.c>
+    <DirectoryMatch "^/(includes|models|controllers|classes|vendor|src|views)/">
+        Require all denied
+    </DirectoryMatch>
+    # Deny access to specific PHP files in the includes directory if accessed directly
+    <FilesMatch "^includes/(app|database|funciones|generar_slugs|crear_usuario)\.php$">
+        Require all denied
+    </FilesMatch>
+</IfModule>
+<IfModule !mod_authz_core.c>
+    <IfModule mod_access_compat.c>
+        <DirectoryMatch "^/(includes|models|controllers|classes|vendor|src|views)/">
+            Deny from all
+        </DirectoryMatch>
+        <FilesMatch "^includes/(app|database|funciones|generar_slugs|crear_usuario)\.php$">
+            Deny from all
+        </FilesMatch>
+    </IfModule>
+</IfModule>

@@ -1,0 +1,29 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+@use 'sass:color';
+
+.boton-verde {
+    @include m.boton(v.$primario, inline-block);
+}
+.boton-verde-block {
+    @include m.boton(v.$primario, block);
+    width: 100%;
+}
+.boton-whatsapp {
+    @include m.boton(v.$primario, inline-flex);
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    transition: all 0.3s ease-in-out;
+    width: 100%;
+
+    &:hover {
+        background-color: color.adjust(v.$primario, $lightness: -10%);
+        transform: scale(1.02);
+    }
+
+    img {
+        width: 2rem;
+        height: 2rem;
+    }
+}

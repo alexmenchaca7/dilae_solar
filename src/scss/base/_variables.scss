@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');  
+
+// Tipografia
+$fuente_principal: "Inter", serif;
+
+// Colores
+$primario:#6BB13D;
+$negro: #000000;
+$blanco: #FFFFFF;
+$fondo: #F5F5F5;
+$gris: oklch(0.446 0.03 256.802);
+$gris-claro: #D1D1D1;
+$gris-oscuro: #181818;
+$dashboard: #2A3B31;
+$shade-3: #3B6412;
+$rojo: rgb(189, 7, 7);
+
+
+
+$error: #E53835;
+$warning: #FBC02D;
+$success: #2E7D31;
+
+// Tamaño de Media Queries
+$telefono: 480px;
+$tablet: 768px;
+$desktopS: 900px;
+$desktop: 1200px;
+$desktopXL: 1400px;
+
+// Fuentes
+$delgada: 300;
+$regular : 400;
+$bold: 600;
+$black: 900;
+
+// MAPA de Breakpoints (para usar con mixins)
+$breakpoints: ( 
+    telefono: $telefono,
+    tablet: $tablet,       
+    desktopS: $desktopS,
+    desktop: $desktop,
+    desktopXL: $desktopXL
+);
