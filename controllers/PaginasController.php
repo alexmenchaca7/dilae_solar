@@ -19,7 +19,7 @@ class PaginasController {
             "contactPoint" => [
                 [
                     "@type" => "ContactPoint",
-                    "telephone" => "+52-XXX-XXX-XXXX", // Tu teléfono principal
+                    "telephone" => "+52-81-3876-0590", // Tu teléfono principal
                     "contactType" => "customer service"
                 ],
                 [
@@ -35,8 +35,8 @@ class PaginasController {
         ];
 
         $datos_vista = [
-            'titulo' => 'Soluciones en Iluminación', // O el título que prefieras
-            'meta_description' => 'Empresa mexicana especialista en proyección, diseño y consultoría en iluminación...', // Tu meta descripción
+            'titulo' => 'Sitio en Construcción',
+            'meta_description' => 'Página oficial de Dilae Solar. Estamos trabajando para ofrecerte la mejor experiencia. ¡Vuelve pronto!',
             'schema' => '<script type="application/ld+json">' . json_encode($schema) . '</script>',
             'inicio' => true // Para que el título en layout.php sea el correcto
         ];
