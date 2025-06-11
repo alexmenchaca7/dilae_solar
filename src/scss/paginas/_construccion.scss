@@ -1,0 +1,94 @@
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
+@use 'sass:color';
+
+.construccion-bg {
+    background-color: #D2E4C7;
+}
+
+.construccion {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+
+     &__card {
+        background-color: v.$blanco;
+        border-radius: 5rem;
+        padding: 3rem;
+        max-width: 120rem;
+        width: 100%;
+        box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.25);
+
+        @include m.grid(1, 2rem);
+
+        // Estilo para tablet y escritorio (2 columnas)
+        @include m.tablet {
+            @include m.grid(2, 1.5rem);
+            align-items: center;
+            padding: 4rem;
+            text-align: left; // Alinear texto a la izquierda
+        }
+    }
+
+    &__imagen {
+        // En móvil, la imagen va primero
+        order: -1; 
+        max-width: 30rem;
+        margin: 0 auto 2rem auto;
+
+        @include m.tablet {
+            // En escritorio, la imagen toma su lugar en la segunda columna
+            order: 1; 
+            max-width: 100%;
+            margin: 0;
+        }
+    }
+
+    &__logo {
+        width: 15rem;
+        margin: 0 auto 3rem auto; // Centrado en móvil
+
+        @include m.tablet {
+            margin: 0 0 3rem 0; // A la izquierda en escritorio
+        }
+    }
+
+    &__heading {
+        font-size: 7.5rem;
+        font-weight: 800;
+        color: v.$primario-oscuro;
+        margin: 0;
+    }
+
+    &__subheading {
+        font-size: 2.4rem;
+        font-weight: 700;
+        color: v.$primario-oscuro;
+        margin: 0;
+    }
+
+    &__parrafo {
+        font-size: 1.8rem;
+        font-weight: 500;
+        line-height: 1.4;
+        color: v.$negro;
+        margin: 3.5rem 0;
+        text-align: justify;
+
+        &--enlace {
+            @extend .construccion__parrafo;
+            text-align: left;
+        }
+    }
+
+    &__enlace {
+        color: v.$primario;
+        font-weight: v.$bold;
+        text-decoration: underline;
+        &:hover {
+            color: color.adjust(v.$primario, $lightness: -10%);
+        }
+    }
+}
