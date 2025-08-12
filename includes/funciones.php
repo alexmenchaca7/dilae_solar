@@ -56,3 +56,24 @@ function is_auth() : bool {
 
     return isset($_SESSION['login']) && $_SESSION['login'] === true && isset($_SESSION['confirmado']) && $_SESSION['confirmado'] === "1";
 }
+
+function get_asset($filename) {
+    $manifest_path = __DIR__ . '/../public/build/rev-manifest.json';
+
+    if (!file_exists($manifest_path)) {
+        return "/build/" . $filename;
+    }
+
+    $manifest = json_decode(file_get_contents($manifest_path), true);
+
+    // La clave es el nombre del archivo original, ej: "app.css"
+    if (isset($manifest[$filename])) {
+        // Obtenemos la extensión (css o js) para construir la subcarpeta
+        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+        
+        // Construimos la ruta correcta: /build/ + css/ + app-52b33daa5a.css
+        return '/build/' . $ext . '/' . $manifest[$filename];
+    }
+    
+    return "/build/" . $filename;
+}

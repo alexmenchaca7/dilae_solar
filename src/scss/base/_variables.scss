@@ -1,19 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');  
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap'); 
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap'); 
 
 // Tipografia
 $fuente_principal: "Inter", serif;
+$fuente_header: "Roboto", sans-serif;
 
 // Colores
-$primario:#6BB13D;
+$primario:#001F3F;
 $primario-oscuro: #172D00;
+$naranja: #C7922A;
 $negro: #000000;
 $blanco: #FFFFFF;
+$base: #FDFDFD;
 $fondo: #F5F5F5;
-$gris: oklch(0.446 0.03 256.802);
+$fondo-gris: #E5E5E5;
+$gris: #18191F;
 $gris-claro: #D1D1D1;
-$gris-oscuro: #181818;
-$dashboard: #2A3B31;
-$shade-3: #3B6412;
+$gris-oscuro: #6E6E6E;
 $rojo: rgb(189, 7, 7);
 
 
@@ -21,6 +24,7 @@ $rojo: rgb(189, 7, 7);
 $error: #E53835;
 $warning: #FBC02D;
 $success: #2E7D31;
+
 
 // Tamaño de Media Queries
 $telefono: 480px;

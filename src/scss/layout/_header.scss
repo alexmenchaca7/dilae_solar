@@ -1,0 +1,61 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+@use 'sass:color';
+
+.no-webp .inicio {
+    background-image: url(/build/img/hero-index.png);
+}
+
+.webp .inicio {
+    background-image: url(/build/img/hero-index.webp);
+}
+
+.header {
+
+}
+
+.hero {
+    background-color: v.$negro;
+    
+    &.inicio {
+        position: relative;
+        background-position: center center;
+        background-size: cover;
+        min-height: 55rem;
+    }
+
+    .contenido-header {
+        position: absolute;
+        background-color: rgba(0, 31, 63, 0.68);
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        h1 {
+            color: v.$blanco;
+            font-weight: 700;
+            max-width: 76rem;
+            line-height: 64px;
+            margin-top: 0;
+
+            span {
+                color: v.$naranja;
+            }
+        }
+
+        p {
+            color: v.$blanco;
+            max-width: 66rem;
+            font-size: 2.4rem;
+            font-weight: 500;
+            line-height: 28px;
+            text-align: justify;
+        }
+
+        
+    }
+}

@@ -10,7 +10,7 @@ import { glob } from 'glob';
 // Módulo para buscar archivos y directorios basados en patrones (como '*.js' o '**/*.scss').
 // Es útil para localizar múltiples archivos dentro de una estructura de carpetas.
 
-import {src, dest, watch, series} from 'gulp';
+import {src, dest, watch, series, parallel} from 'gulp';
 // Funciones principales de Gulp:
 // - `src`: Selecciona los archivos de origen que serán procesados.
 // - `dest`: Define la carpeta de destino donde se guardarán los archivos procesados.
@@ -40,28 +40,77 @@ import sharp from 'sharp';
 
 import svgmin from 'gulp-svgmin'; // Importa el plugin para optimizar SVG
 
+import rev from 'gulp-rev'; // Plugin de Gulp para agregar un hash único a los nombres de archivos, útil para el versionado de archivos estáticos.
+
+import { deleteAsync } from 'del'; // Módulo para eliminar archivos y directorios de manera asíncrona.
+
 const sass = gulpSass(dartSass); // Combinando gulp-sass con el compilador oficial dartSass para procesar SCSS correctamente
 
 
 
 
-// Tarea para procesar y minificar JavaScript
-export function js(done){
-    src('src/js/**/*.js') // Selecciona todos los archivos .js dentro de src/js y sus subcarpetas
-        .pipe(concat('app.js')) // Combina todos los archivos en uno solo
-        .pipe(terser()) // Minifica el archivo combinado
-        .pipe(dest('./public/build/js')); // Guarda el resultado en build/js/
-    done();
+// --- TAREAS DE LIMPIEZA ---
+// Limpia solo la carpeta de CSS
+function cleanCss() {
+    return deleteAsync('public/build/css');
+}
+// Limpia solo la carpeta de JS
+function cleanJs() {
+    return deleteAsync('public/build/js');
+}
+// Limpia la carpeta de imágenes (opcional, pero bueno para consistencia)
+function cleanImg() {
+    return deleteAsync('public/build/img');
+}
+// Tarea principal que limpia todo al inicio
+function cleanAll() {
+    return deleteAsync('public/build');
 }
 
 
-// Tarea para procesar y minificar CSS
-export function css(done) {
-    src('src/scss/app.scss', {sourcemaps: true})
-        .pipe(sass().on('error', sass.logError)) // Compila SASS y si hay un error lo muestra en la terminal
+// --- TAREAS DE COMPILACIÓN CON MANIFIESTO UNIFICADO ---
+export function css() {
+    return src('src/scss/app.scss', { sourcemaps: true })
+        .pipe(sass().on('error', sass.logError))
         .pipe(cleanCSS())
-        .pipe(dest('./public/build/css', {sourcemaps: '.'})) // Guarda los archivos en la carpeta de destino
-        
+        .pipe(rev())
+        .pipe(dest('./public/build/css', { sourcemaps: '.' }))
+        .pipe(rev.manifest('public/build/rev-manifest.json', {
+            base: 'public/build',
+            merge: true // Une este manifiesto con el existente
+        }))
+        .pipe(dest('public/build')); // Guarda el manifiesto en la raíz de 'build'
+}
+
+export function js() {
+    return src('src/js/**/*.js')
+        .pipe(concat('app.js'))
+        .pipe(terser())
+        .pipe(rev())
+        .pipe(dest('./public/build/js'))
+        .pipe(rev.manifest('public/build/rev-manifest.json', {
+            base: 'public/build',
+            merge: true // Une este manifiesto con el existente
+        }))
+        .pipe(dest('public/build')); // Guarda el manifiesto en la raíz de 'build'
+}
+
+export async function imagenes(done) {
+    const srcDir = './src/img';
+    const buildDir = './public/build/img';
+    if (!fs.existsSync(buildDir)) {
+        fs.mkdirSync(buildDir, { recursive: true });
+    }
+    const images = await glob('./src/img/**/*{jpg,png,svg}');
+    images.forEach(file => {
+        const relativePath = path.relative(srcDir, path.dirname(file));
+        const outputSubDir = path.join(buildDir, relativePath);
+        if (path.extname(file).toLowerCase() === '.svg') {
+            procesarSVG(file, outputSubDir);
+        } else {
+            procesarImagenes(file, outputSubDir);
+        }
+    });
     done();
 }
 
@@ -99,31 +148,6 @@ export function css(done) {
 //         console.log(error);
 //     }
 // }
-
-
-// Tarea para optimizar las imagenes originales
-export async function imagenes(done) {
-    const srcDir = './src/img'; // Carpeta donde están las imágenes originales
-    const buildDir = './public/build/img'; // Carpeta donde se guardarán las nuevas imágenes
-
-    // Usando glob para encontrar todas las imágenes en el directorio de origen con extensiones .jpg, .png y .svg
-    const images =  await glob('./src/img/**/*{jpg,png,svg}')
-
-    // Procesando cada imagen encontrada
-    images.forEach(file => {
-        const relativePath = path.relative(srcDir, path.dirname(file)); // Obteniendo la ruta relativa desde srcDir
-        const outputSubDir = path.join(buildDir, relativePath); // Creando la ruta de salida correspondiente en buildDir
-
-        // Si el archivo es un SVG, optimizarlo
-        if (path.extname(file).toLowerCase() === '.svg') {
-            procesarSVG(file, outputSubDir);  // Procesa los archivos SVG
-        } else {
-            // Llamando a la función para procesar imágenes JPEG, WebP, AVIF
-            procesarImagenes(file, outputSubDir);
-        }
-    });
-    done();
-}
 
 
 // Función auxiliar para optimizar y copiar archivos SVG
@@ -198,14 +222,18 @@ function procesarImagenes(file, outputSubDir) {
 }
 
 
-// Tarea para observar cambios en los archivos
-export function dev() { // No se pasa la función de done porque es un watch
-    watch('src/scss/**/*.scss', css); // Aqui se observan todos los archivos con extensión .scss y cuando hayan cambios ejcuta la función de css
-    watch('src/js/**/*.js', js); // Aqui se observan todos los archivos con extensión .js y cuando hayan cambios ejcuta la función de js
-    watch('src/img/**/*.{png,jpg}', imagenes); // Aqui se observan todos los archivos con extensión .png y .jpg y cuando hayan cambios ejcuta la función de imagenes
+// ===== TAREA WATCH CORREGIDA Y DEFINITIVA =====
+export function dev() {
+    watch('src/scss/**/*.scss', series(cleanCss, css)); // Limpia CSS y luego compila
+    watch('src/js/**/*.js', series(cleanJs, js));         // Limpia JS y luego compila
+    watch('src/img/**/*.{png,jpg}', series(cleanImg, imagenes)); // Limpia imágenes y luego las procesa
 }
 
+const build = parallel(series(js, css), imagenes);
 
-// Flujo de trabajo por defecto
-export default series(js, css, imagenes, dev);
-export const build = series(js, css, imagenes);
+// ===== FLUJO DE TRABAJO FINAL Y DEFINITIVO =====
+export default series(
+    cleanAll, // 1. Primero, limpia todo.
+    build,    // 2. Luego, ejecuta la compilación en el orden correcto.
+    dev       // 3. Finalmente, empieza a observar los cambios.
+);

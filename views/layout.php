@@ -49,14 +49,48 @@
     <link rel="manifest" href="/favicon/site.webmanifest" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="/build/css/app.css?v=<?= time() ?>">
+    <link rel="stylesheet" href="<?php echo get_asset('app.css'); ?>">
 
     <?php if (isset($schema)) echo $schema; ?>
 </head>
 
 <body>
     <div class="layout__header">
+        <header class="header">
+            <div class="barra">
+                <div class="contenedor">
+                    <a href="/">
+                        <picture>
+                            <source srcset="/build/img/logo.webp" type="image/webp">
+                            <source srcset="/build/img/logo.png" type="image/png">
+                            <img loading="lazy" src="/build/img/logo.png" alt="Logo de Dilae Solar" class="logo">
+                        </picture>
+                    </a>
 
+                    <nav class="navegacion">
+                        <a href="/nosotros">Nosotros</a>
+                        <a href="/soluciones">Soluciones</a>
+                        <a href="/calculadora">Calculadora</a>
+                        <a href="/blog">Blog</a>
+                        <a href="/contacto">Contacto</a>
+                    </nav>
+
+                    <a href="/contacto" class="btn-cotizar">Obtén una Cotización</a>
+                </div>
+            </div>
+            
+            <?php if ($inicio): ?>
+                <section class="hero <?php echo $inicio ? 'inicio' : ''; ?>">
+                    <div class="contenido-header">
+                        <div class="contenedor">
+                            <h1>Deje de pagarle a CFE. Invierta en el activo más importante: <span>su hogar.</span></h1>
+                            <p>Instalación de paneles solares en Guadalajara que se pagan solos y aumentan la plusvalía de su propiedad.</p>
+                            <a href="/contacto" class="btn-contacto">Solicitar mi Estudio de Ahorro</a>
+                        </div>
+                    </div>
+                </section>
+            <?php endif; ?>
+        </header>
     </div>
 
     <div class="layout__contenido">
@@ -67,6 +101,6 @@
         
     </div>
     
-    <script src="/build/js/app.js?v=<?= time() ?>"></script>
+    <script src="<?php echo get_asset('app.js'); ?>" defer></script>
 </body>
 </html>
