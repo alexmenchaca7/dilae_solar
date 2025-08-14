@@ -51,10 +51,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="<?php echo get_asset('app.css'); ?>">
 
+    <script defer="defer" type="text/javascript" src="https://dashboard.dilaesolar.com/im_livechat/loader/2"></script>
+    <script defer="defer" type="text/javascript" src="https://dashboard.dilaesolar.com/im_livechat/assets_embed.js"></script>
+
     <?php if (isset($schema)) echo $schema; ?>
 </head>
 
-<body>
+<body class="layout">
     <div class="layout__header">
         <header class="header">
             <div class="barra">
@@ -98,7 +101,87 @@
     </div>
     
     <div class="layout__footer">
-        
+        <footer class="footer">
+            <div class="contenedor footer-contenedor">
+                <div class="footer-logo">
+                    <a href="/" class="footer-logo__brand">
+                        <picture>
+                            <source srcset="/build/img/logo-white.webp" type="image/webp">
+                            <source srcset="/build/img/logo-white.png" type="image/png">
+                            <img loading="lazy" src="/build/img/logo-white.png" alt="Logo de Dilae Solar">
+                        </picture>
+                    </a>
+                    <p>Copyright © <?php echo date('Y'); ?> <a href="/">DILAE</a></p>
+                    <p>Todos los derechos reservados</p>
+                    <div class="footer-social">
+                        <div class="logo-container">
+                            <a rel="noopener noreferrer" target="_blank" href="https://www.instagram.com">
+                                <i class="fa-brands fa-instagram"></i>
+                            </a>
+                        </div>
+                        <div class="logo-container">
+                            <a rel="noopener noreferrer" target="_blank" href="https://www.facebook.com/p/DILAE-100063075438310/">
+                                <i class="fa-brands fa-facebook"></i>
+                            </a>
+                        </div>
+                        <div class="logo-container">
+                            <a rel="noopener noreferrer" target="_blank" href="https://www.youtube.com/@dilaesadecv3250">
+                                <i class="fa-brands fa-youtube"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-links">
+                    <h3>Enlaces</h3>
+
+                    <div class="footer-links__enlaces">
+                        <div class="logo-container"><a href="/nosotros">Nosotros</a></div>
+                        <div class="logo-container"><a href="/soluciones">Soluciones</a></div>
+                        <div class="logo-container"><a href="/calculadora">Calculadora</a></div>
+                        <div class="logo-container"><a href="/blog">Blog</a></div>
+                        <div class="logo-container"><a href="/contacto">Contacto</a></div>
+                    </div>
+                </div>
+
+                <div class="footer-info">
+                    <h3>Oficinas</h3>
+                    <a class="logo-container" rel="noopener noreferrer" target="_blank" href="https://maps.app.goo.gl/Nz3JU3Pzct4UUZea8">
+                        Calzada de las Flores #1111-L4, Zapopan, Jalisco, México
+                    </a>
+
+                    <a class="logo-container" href="tel:+523346323029">
+                        <i class="fa-solid fa-phone"></i>
+                        +52 (33) 4632-3029
+                    </a>
+
+                    <a class="logo-container" href="mailto:contacto@dilaesolar.com">
+                        <i class="fa-solid fa-envelope"></i>
+                        contacto@dilaesolar.com
+                    </a>
+
+                    <p class="logo-container">Horario: L-V, 9:00 - 18:00 hrs</p>
+                </div>
+
+                <div class="footer-contacto">
+                    <div class="footer-subscribe">
+                        <h3>Mantente actualizado</h3>
+                        <form action="/subscribe" method="POST" class="form-suscripcion-ajax">
+                            <input type="email" name="email" placeholder="Tu correo electrónico" required>
+                            <button type="submit" aria-label="Suscribirse">
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="footer-soporte">
+                        <h3>Soporte</h3>
+                        <div class="logo-container"><a href="/terminos">Términos de Servicio</a></div>
+                        <div class="logo-container"><a href="/privacidad">Aviso de Privacidad</a></div>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
     
     <script src="<?php echo get_asset('app.js'); ?>" defer></script>
