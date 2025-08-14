@@ -70,12 +70,24 @@
                         </picture>
                     </a>
 
-                    <nav class="navegacion">
-                        <a href="/nosotros">Nosotros</a>
-                        <a href="/soluciones">Soluciones</a>
-                        <a href="/calculadora">Calculadora</a>
-                        <a href="/blog">Blog</a>
-                        <a href="/contacto">Contacto</a>
+                    <button class="hamburguesa" id="hamburguesa" aria-label="Abrir navegación">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+
+                    <nav class="navegacion" id="navegacion">
+                        <div class="navegacion__panel">
+                            <button class="cerrar-nav" id="cerrar-nav" aria-label="Cerrar navegación">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+
+                            <ul class="nav-list">
+                                <li><a href="/nosotros">Nosotros</a></li>
+                                <li><a href="/soluciones">Soluciones</a></li>
+                                <li><a href="/calculadora">Calculadora</a></li>
+                                <li><a href="/blog">Blog</a></li>
+                                <li><a href="/contacto">Contacto</a></li>
+                            </ul>
+                        </div>
                     </nav>
 
                     <a href="/contacto" class="btn-cotizar">Obtén una Cotización</a>

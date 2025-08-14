@@ -71,6 +71,7 @@
             border-radius: 50%;
             background-color: v.$gris-claro;
             transition: background-color .3s ease;
+            cursor: pointer;
 
             @include m.tablet {
                 width: 2rem;
@@ -89,6 +90,11 @@
         padding: 2rem;
         position: relative;
         order: 2; // se muestra segundo en móviles
+        transition: 0.3s ease transform;
+
+        &:hover {
+            transform: scale(1.01);
+        }
 
         @include m.tablet {
             padding: 4rem;
@@ -171,12 +177,13 @@
     }
 
     &__selectores {
-        display: flex;
+        display: none;
         flex-direction: column;
         gap: 2rem;
         order: 1; // se muestra primero en móviles
 
         @include m.tablet {
+            display: flex;
             order: initial;
         }
     }
@@ -197,37 +204,28 @@
             margin: 0;
         }
 
-        @include m.tablet {
-            &::before {
-                content: '';
-                position: absolute;
-                left: 0;
-                bottom: 0;
-                width: 80%;
-                height: 8px;
-                background-color: v.$gris-claro;
-            }
+        &::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 80%;
+            height: 8px;
+            background-color: v.$gris-claro;
         }
 
-        @include m.tablet {
-            &::after {
-                content: '';
-                position: absolute;
-                left: 0;
-                bottom: 0;
-                width: 8px;
-                height: 50%;
-                background-color: v.$gris-claro;
-            }
+        &::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 8px;
+            height: 50%;
+            background-color: v.$gris-claro;
         }
 
         &.activo {
             position: relative;
-            background-color: color.adjust(transparent, $alpha: 0.02);
-
-            @include m.tablet {
-                background-color: color.adjust(v.$blanco, $alpha: 1);
-            }
             
             &::before {
                 background-color: v.$naranja;

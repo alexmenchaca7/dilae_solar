@@ -7,6 +7,10 @@ html, body {
     height: 100%;
 }
 
+body.no-scroll {
+    overflow: hidden;
+}
+
 html {
     font-size: 62.5%;
     box-sizing: border-box;

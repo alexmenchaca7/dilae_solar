@@ -4,6 +4,8 @@
 
 .barra {
     background-color: v.$base;
+    position: relative;
+    z-index: 1002;
 
     > .contenedor {
         display: flex;
@@ -17,20 +19,154 @@
     }
 }
 
-.navegacion {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 3.5rem;
-    margin: 0;
+.navegacion {    
+    // Estilos generales del menú para movil
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 
-    a {
+    // Logica del Overlay
+    opacity: 0;
+    visibility: hidden;
+    background-color: rgba(0, 0, 0, 0); // Empieza con sombra transparente
+    transition: opacity 0.4s ease, visibility 0.4s, background-color 0.4s ease;
+
+    // Estilos del Panel Deslizante (solo para movil)
+    &__panel {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: min(55%, 30rem);
+        background-color: #1c1c1c;
+        padding: 12rem 4rem 4rem 4rem;
+        z-index: 1001; // Panel por encima del overlay
+
+        // Transición de deslizamiento
+        transform: translateX(100%);
+        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); // Curva de easing más profesional
+
+        @include m.desktopS {
+            // En escritorio, el panel no debe tener estilos que interfieran.
+            all: unset;
+        }
+    }
+
+    &.visible {
+        opacity: 1;
+        visibility: visible;
+        background-color: rgba(0, 0, 0, 0.5); // Overlay se oscurece
+
+        .navegacion__panel {
+            transform: translateX(0);
+        }
+
+        // Animación en cascada para los enlaces
+        .nav-list li {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    // Estilos para la versión de escritorio
+    @include m.desktopS {
+        position: static;
+        width: auto;
+        height: auto;
+        background-color: transparent;
+        opacity: 1;
+        visibility: visible;
+        transition: none;
+    }
+}
+
+.nav-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 3.5rem;
+
+    // Estado inicial para la animación de enlaces
+    li {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.3s ease-out, transform 0.3s ease;
+    }
+
+    // Asignamos un retraso a cada elemento para el efecto cascada
+    @for $i from 1 through 5 {
+        li:nth-child(#{$i}) {
+            transition-delay: #{0.2 + $i * 0.08}s;
+        }
+    }
+
+    // Estilos para escritorio
+    @include m.desktopS {
+        flex-direction: row;
+        align-items: center;
+
+        li { // Resetea los estilos de animación
+            all: unset;
+        }
+    }
+}
+
+// Estilos de los enlaces 
+.navegacion a {
+    color: v.$blanco;
+    font-size: 2rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+
+    @include m.desktopS {
         color: v.$gris;
-        transition: all 0.2s ease;
+        font-size: initial;
+        font-weight: initial;
 
         &:hover {
-            font-weight: 500;
+            color: v.$naranja;
         }
+    }
+}
+
+.btn-cotizar {
+    display: none;
+
+    @include m.desktopS {
+        display: initial;
+    }
+}
+
+.hamburguesa {
+    all: unset;
+    box-sizing: border-box;
+    display: initial;
+    font-size: 3rem;
+    cursor: pointer;
+    color: v.$primario;
+    transition: transform 0.3s ease;
+
+    @include m.desktopS {
+        display: none;
+    }
+}
+
+.cerrar-nav {
+    all: unset;
+    box-sizing: border-box;
+    position: absolute;
+    top: 4rem;
+    right: 4rem;
+    font-size: 3rem;
+    cursor: pointer;
+    color: v.$blanco;
+    
+    @include m.desktopS {
+        display: none;
     }
 }

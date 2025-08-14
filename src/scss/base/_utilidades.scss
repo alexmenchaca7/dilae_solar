@@ -25,6 +25,14 @@
 .t-align-center {
     text-align: center;
 }
+.d-none {
+    display: none;
+}
+@include m.desktopS {
+    .d-desktopS-flex {
+        display: flex;
+    }
+}
 
 
 /** Margenes **/
