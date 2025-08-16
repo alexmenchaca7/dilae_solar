@@ -39,8 +39,8 @@ class Router {
         if ($fn) {
             call_user_func_array($fn, array_merge([$this], $params));
         } else {
-            header('Location: /');
-            exit; // Es una buena práctica usar exit después de una redirección
+            http_response_code(404);
+            echo "Página no encontrada";
         }
     }
 

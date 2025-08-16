@@ -18,6 +18,8 @@ $router = new Router();
 
 // PAGINA DE INICIO
 $router->get('/', [PaginasController::class, 'index']);
+$router->get('/nosotros', [PaginasController::class, 'nosotros']);
+$router->get('/soluciones', [PaginasController::class, 'soluciones']);
 
 
 

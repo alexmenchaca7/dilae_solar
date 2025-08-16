@@ -7,7 +7,9 @@
     margin-top: 5rem;
 }
 .contenido-centrado {
-    max-width: 80rem;
+    width: 95%;
+    max-width: 100rem;
+    margin: 0 auto;
 }
 .alinear-derecha {
     display: flex;
@@ -41,6 +43,9 @@
 }
 .mt-2 {
     margin-top: 2rem;
+}
+.mt-3 {
+    margin-top: 3rem;
 }
 .mt-5 {
     margin-top: 5rem;

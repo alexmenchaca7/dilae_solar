@@ -101,7 +101,7 @@ export async function imagenes(done) {
     if (!fs.existsSync(buildDir)) {
         fs.mkdirSync(buildDir, { recursive: true });
     }
-    const images = await glob('./src/img/**/*{jpg,png,svg}');
+    const images = await glob('./src/img/**/*{jpg,jpeg,png,svg}');
     images.forEach(file => {
         const relativePath = path.relative(srcDir, path.dirname(file));
         const outputSubDir = path.join(buildDir, relativePath);
@@ -222,16 +222,21 @@ function procesarImagenes(file, outputSubDir) {
 }
 
 
-// ===== TAREA WATCH CORREGIDA Y DEFINITIVA =====
+// ===== TAREA WATCH =====
 export function dev() {
-    watch('src/scss/**/*.scss', series(cleanCss, css)); // Limpia CSS y luego compila
-    watch('src/js/**/*.js', series(cleanJs, js));         // Limpia JS y luego compila
-    watch('src/img/**/*.{png,jpg}', series(cleanImg, imagenes)); // Limpia imágenes y luego las procesa
+    // Para CSS: Primero limpia la carpeta de CSS y LUEGO compila.
+    watch('src/scss/**/*.scss', series(cleanCss, css)); 
+    
+    // Para JS: Primero limpia la carpeta de JS y LUEGO compila.
+    watch('src/js/**/*.js', series(cleanJs, js));
+    
+    // Para Imágenes: Es buena práctica limpiar también antes de procesar.
+    watch('src/img/**/*.{png,jpg,jpeg,svg}', series(cleanImg, imagenes)); 
 }
 
 const build = parallel(series(js, css), imagenes);
 
-// ===== FLUJO DE TRABAJO FINAL Y DEFINITIVO =====
+// ===== FLUJO DE TRABAJO FINAL =====
 export default series(
     cleanAll, // 1. Primero, limpia todo.
     build,    // 2. Luego, ejecuta la compilación en el orden correcto.
