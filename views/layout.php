@@ -51,9 +51,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="<?php echo get_asset('app.css'); ?>">
 
-    <script defer="defer" type="text/javascript" src="https://dashboard.dilaesolar.com/im_livechat/loader/2"></script>
-    <script defer="defer" type="text/javascript" src="https://dashboard.dilaesolar.com/im_livechat/assets_embed.js"></script>
-
     <?php if (isset($schema)) echo $schema; ?>
 </head>
 
@@ -187,6 +184,18 @@
             </div>
         </footer>
     </div>
+
+    <iframe 
+        src="/chat-widget.html" 
+        id="dilae-chat-iframe"
+        style="position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 360px;   /* ancho del chat */
+            height: 500px;  /* alto cuando está abierto */
+            border: none;
+            z-index: 9999;">
+    </iframe>
     
     <script src="<?php echo get_asset('app.js'); ?>" defer></script>
 </body>

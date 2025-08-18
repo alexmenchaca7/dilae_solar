@@ -113,4 +113,21 @@ document.addEventListener('DOMContentLoaded', function() {
         // Iniciar el slider por primera vez
         iniciarSlider();
     }
+
+
+
+    /** FRAME CHATBOT ODOO **/
+    const iframe = document.getElementById('dilae-chat-iframe');
+  
+    // al inicio solo la burbuja
+    iframe.style.width = "1000px";
+    iframe.style.height = "1000px";
+
+    // si quieres que al hacer click se expanda 
+    iframe.addEventListener("load", () => {
+        iframe.contentWindow.document.addEventListener("click", () => {
+        iframe.style.width = "2000px";
+        iframe.style.height = "2000px";
+        });
+    });
 });

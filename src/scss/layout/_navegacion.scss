@@ -15,7 +15,11 @@
     }
 
     .logo {
-        height: 8rem;
+        height: 5rem;
+
+        @include m.tablet {
+            height: 8rem;
+        }
     }
 }
 

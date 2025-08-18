@@ -31,4 +31,10 @@ class PaginasController {
             
         ]); 
     }
+
+    public static function contacto(Router $router) {
+        $router->render('paginas/contacto', [
+            'hero' => 'templates/hero-contacto'
+        ]); 
+    }
 }
