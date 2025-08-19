@@ -185,16 +185,8 @@
         </footer>
     </div>
 
-    <iframe 
-        src="/chat-widget.html" 
-        style="
-            position: fixed;
-            width: 100%;   
-            height: 100%;  
-            border: none;
-            z-index: 9999;">
-    </iframe>
-    
+    <script defer="defer" type="text/javascript" src="https://dashboard.dilaesolar.com/im_livechat/loader/1"></script>
+    <script defer="defer" type="text/javascript" src="https://dashboard.dilaesolar.com/im_livechat/assets_embed.js"></script>
     <script defer data-domain="dilaesolar.com" src="https://analytics.dilaesolar.com/js/script.js"></script>
     <script src="<?php echo get_asset('app.js'); ?>" defer></script>
 </body>
