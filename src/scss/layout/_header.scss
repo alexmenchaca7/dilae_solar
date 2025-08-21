@@ -18,6 +18,14 @@
     background-image: url(/build/img/hero-soluciones.webp);
 }
 
+.no-webp .hero-contacto {
+    background-image: url(/build/img/hero-contacto.jpg);
+}
+
+.webp .hero-contacto {
+    background-image: url(/build/img/hero-contacto.webp);
+}
+
 .hero {
     position: relative;
     background-position: center center;
@@ -111,6 +119,8 @@
     position: relative;
 
     .contenido-header {
+        background-color: rgba(0, 16, 32, 0.58);
+
         .contenedor {
             display: flex;
             flex-direction: column;
@@ -120,17 +130,18 @@
 
         h1 {
             font-size: 3.8rem;
-            color: v.$primario;
+            font-weight: 500;
+            color: v.$blanco;
             text-align: center;
             margin-top: 0;
             margin-bottom: 2rem;
         }
 
         p {
-            font-weight: 300;
             font-size: 1.6rem;
+            font-weight: 500;
             line-height: 140%;
-            color: v.$gris-oscuro;
+            color: v.$blanco;
             max-width: 77rem;
             text-align: center;
             margin: 0;
@@ -145,29 +156,5 @@
                 font-size: 2rem;
             }
         }
-    }
-
-    .hero-curva-izq {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 50%;
-        max-width: 90rem;
-    }
-
-    .hero-curva-der {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        width: 50%;
-        max-width: 53rem;
-    }
-
-    .hero-curva-naranja {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        width: 50%;
-        max-width: 53rem;
     }
 }

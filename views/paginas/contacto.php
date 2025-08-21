@@ -5,7 +5,10 @@
                 <h2>Póngase en Contacto</h2>
                 <p>Nuestro equipo se pondrá en contacto con usted lo antes posible.</p>
             </div>
-                
+            
+            <?php
+                include_once __DIR__ . '/../templates/alertas.php';
+            ?>
             <form class="formulario"  action="/contacto" method="POST">
                 <div class="formulario__fila-doble">
                     <div class="formulario__campo">
@@ -27,7 +30,21 @@
 
                     <div class="formulario__campo">
                         <label for="horario" class="formulario__label">Horario de Preferencia <span>*</span></label>
-                        
+                        <select class="formulario__input" id="horario" name="horario" required>
+                            <option value="" disabled <?php echo empty($datos['horario']) ? 'selected' : ''; ?>>Seleccione un horario</option>
+                            
+                            <option value="Mañana (9:00 - 12:00)" <?php echo ($datos['horario'] ?? '') === 'Mañana (9:00 - 12:00)' ? 'selected' : ''; ?>>
+                                Mañana (9:00 - 12:00)
+                            </option>
+                            
+                            <option value="Tarde (12:00 - 15:00)" <?php echo ($datos['horario'] ?? '') === 'Tarde (12:00 - 15:00)' ? 'selected' : ''; ?>>
+                                Tarde (12:00 - 15:00)
+                            </option>
+                            
+                            <option value="Noche (15:00 - 18:00)" <?php echo ($datos['horario'] ?? '') === 'Noche (15:00 - 18:00)' ? 'selected' : ''; ?>>
+                                Noche (15:00 - 18:00)
+                            </option>
+                        </select>
                     </div>
                 </div>
                 
@@ -52,9 +69,8 @@
         </section>
 
         <section class="contacto__info">
-            <h2>Información de Contacto</h2>
-
             <div class="info">
+                <h2>Información de Contacto</h2>
                 <div class="info__seccion">
                     <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 45 45" fill="none">
                         <circle cx="22.5" cy="22.5" r="22.5" fill="#E3EDF6"/>

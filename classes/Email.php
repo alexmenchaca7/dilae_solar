@@ -17,121 +17,181 @@ class Email {
         $this->token = $token;
     }
 
-    public function enviarConfirmacion() {
-
-        // create a new object
+    private function getMailerInstance() {
         $mail = new PHPMailer();
         $mail->isSMTP();
-        $mail->Host = $_ENV['EMAIL_HOST'];
-        $mail->SMTPAuth = true;
-        $mail->Port = $_ENV['EMAIL_PORT'];
-        $mail->Username = $_ENV['EMAIL_USER'];
-        $mail->Password = $_ENV['EMAIL_PASS'];
-    
-        $mail->setFrom('no-reply@dilae.com');
-        $mail->addAddress($this->email, $this->nombre);
-        $mail->Subject = 'Establece tu Contraseña';
-
-        // Set HTML
-        $mail->isHTML(TRUE);
+        $mail->Host       = $_ENV['EMAIL_HOST'];
+        $mail->SMTPAuth   = true;
+        $mail->Username   = $_ENV['EMAIL_USER'];
+        $mail->Password   = $_ENV['EMAIL_PASS'];
+        $mail->SMTPSecure = 'ssl'; 
+        $mail->Port       = $_ENV['EMAIL_PORT'];
         $mail->CharSet = 'UTF-8';
+        $mail->isHTML(true);
+        $mail->setFrom('contacto@dilaesolar.com', 'Dilae Solar');
+        return $mail;
+    }
 
-        $contenido = '<html>';
-        $contenido .= "<h1>Hola " . $this->nombre .  ":</h1>";
-        $contenido .= "<p>Has registrado correctamente tu cuenta en Dilae, pero es necesario establecer tu contraseña...</p>";
-        $contenido .= "<p>Presiona aquí: <a href='" . $_ENV['HOST'] . "/establecer-password?token=" . $this->token . "'>Establecer Contraseña</a></p>";
-        $contenido .= "<p>Si no creaste esta cuenta puedes ignorar el mensaje.</p>";
-        $contenido .= '</html>';
-        $mail->Body = $contenido;
+    private function generateStyledHTML($title, $content) {
+        $host = $_ENV['HOST']; // Asegúrate que HOST en .env sea tu URL pública, ej: https://www.dilaesolar.com
+        $html = "
+        <!DOCTYPE html>
+        <html lang='es'>
+        <head>
+            <meta charset='UTF-8'>
+            <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+            <title>" . htmlspecialchars($title) . "</title>
+            <style> body { margin: 0; padding: 0; } </style>
+        </head>
+        <body style='margin: 0 !important; padding: 0 !important; background-color: #f5f5f5;'>
+            <table border='0' cellpadding='0' cellspacing='0' width='100%'>
+                <tr>
+                    <td bgcolor='#f5f5f5' align='center' style='padding: 20px 0;'>
+                        <table border='0' cellpadding='0' cellspacing='0' width='100%' style='max-width: 600px;'>
+                            <tr>
+                                <td align='center' bgcolor='#181818' style='padding: 20px 0;'>
+                                    <a href='{$host}' target='_blank'>
+                                        <img src='{$host}/build/img/logo-white.png' alt='Dilae Solar logo' style='display: block; width: 150px;' border='0'>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td bgcolor='#ffffff' align='left' style='padding: 30px; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; color: #4D4D4D;'>
+                                    {$content}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td bgcolor='#f5f5f5' align='center' style='padding: 20px; font-family: Arial, sans-serif; font-size: 12px; line-height: 18px; color: #999999;'>
+                                    Dilae Solar | CALZADA DE LAS FLORES #1111, INT LOCAL 4, ZAPOPAN, JAL 45133<br><br>
+                                    Este es un correo electrónico automático, por favor no respondas a este mensaje.
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </body>
+        </html>";
+        return $html;
+    }
 
-        //Enviar el mail
+    private function generateStyledButton($url, $text) {
+        return "
+        <table border='0' cellspacing='0' cellpadding='0' role='presentation' width='100%'>
+            <tr>
+                <td align='center' style='padding: 20px 0;'>
+                    <table border='0' cellspacing='0' cellpadding='0' role='presentation'>
+                        <tr>
+                            <td align='center' bgcolor='#001F3F' style='border-radius: 5px;'>
+                                <a href='{$url}' target='_blank' style='font-size: 16px; font-family: Arial, sans-serif; color: #ffffff; text-decoration: none; padding: 15px 25px; border-radius: 5px; display: inline-block; font-weight: bold;'>{$text}</a>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>";
+    }
+
+    public function enviarConfirmacion() {
+        $mail = $this->getMailerInstance();
+        $mail->addAddress($this->email, $this->nombre);
+        $mail->Subject = 'Establece tu Contraseña en Dilae';
+
+        $buttonURL = $_ENV['HOST'] . "/establecer-password?token=" . $this->token;
+        $buttonHTML = $this->generateStyledButton($buttonURL, 'Establecer Contraseña');
+
+        $bodyContent = "
+            <h2 style='color: #181818; font-family: Arial, sans-serif;'>¡Hola, {$this->nombre}!</h2>
+            <p>Has sido registrado como administrador en Dilae. Para completar el proceso y acceder al panel, necesitas establecer tu contraseña.</p>
+            {$buttonHTML}
+            <p>Si no esperabas este correo, puedes ignorarlo de forma segura.</p>";
+        
+        $mail->Body = $this->generateStyledHTML('Establecer Contraseña', $bodyContent);
+        $mail->send();
+    }
+
+    public function enviarConfirmacionSuscripcion() {
+        $mail = $this->getMailerInstance();
+        $mail->addAddress($this->email, 'Nuevo Suscriptor');
+        $mail->Subject = 'Confirma tu suscripción a Dilae';
+
+        $buttonURL = $_ENV['HOST'] . "/confirmar-suscripcion?token=" . $this->token;
+        $buttonHTML = $this->generateStyledButton($buttonURL, 'Confirmar mi Suscripción');
+
+        $bodyContent = "
+            <h2 style='color: #181818; font-family: Arial, sans-serif;'>Casi listo...</h2>
+            <p>Gracias por tu interés en nuestro boletín. Para completar tu suscripción, por favor confirma tu correo electrónico haciendo clic en el siguiente botón:</p>
+            {$buttonHTML}
+            <p>Si no solicitaste esto, puedes ignorar este correo de forma segura.</p>";
+
+        $mail->Body = $this->generateStyledHTML('Confirmar Suscripción', $bodyContent);
         $mail->send();
     }
 
     public function enviarInstrucciones() {
-
-        // create a new object
-        $mail = new PHPMailer();
-        $mail->isSMTP();
-        $mail->Host = $_ENV['EMAIL_HOST'];
-        $mail->SMTPAuth = true;
-        $mail->Port = $_ENV['EMAIL_PORT'];
-        $mail->Username = $_ENV['EMAIL_USER'];
-        $mail->Password = $_ENV['EMAIL_PASS'];
-    
-        $mail->setFrom('no-reply@dilaesolar.com');
+        $mail = $this->getMailerInstance();
         $mail->addAddress($this->email, $this->nombre);
-        $mail->Subject = 'Reestablece tu password';
+        $mail->Subject = 'Reestablece tu Contraseña';
 
-        // Set HTML
-        $mail->isHTML(TRUE);
-        $mail->CharSet = 'UTF-8';
+        $buttonURL = $_ENV['HOST'] . "/reestablecer?token=" . $this->token;
+        $buttonHTML = $this->generateStyledButton($buttonURL, 'Reestablecer Contraseña');
 
-        $contenido = '<html>';
-        $contenido .= "<h1>Hola " . $this->nombre .  ":</h1>";
-        $contenido .= "<p>Has solicitado reestablecer tu password en Dilae, sigue el siguiente enlace para hacerlo.</p>";
-        $contenido .= "<p>Presiona aquí: <a href='" . $_ENV['HOST'] . "/reestablecer?token=" . $this->token . "'>Reestablecer Password</a>";        
-        $contenido .= "<p>Si no solicitaste este cambio, puedes ignorar el mensaje</p>";
-        $contenido .= '</html>';
-        $mail->Body = $contenido;
+        $bodyContent = "
+            <h2 style='color: #181818; font-family: Arial, sans-serif;'>¡Hola, {$this->nombre}!</h2>
+            <p>Has solicitado reestablecer tu contraseña. Haz clic en el siguiente botón para continuar con el proceso.</p>
+            {$buttonHTML}
+            <p>Si no solicitaste este cambio, puedes ignorar este mensaje.</p>";
 
-        //Enviar el mail
+        $mail->Body = $this->generateStyledHTML('Reestablecer Contraseña', $bodyContent);
         $mail->send();
     }
 
     public function enviarFormularioContacto($datosFormulario) {
-        // Crear un nuevo objeto PHPMailer
-        $mail = new PHPMailer();
-        $mail->isSMTP();
-        $mail->Host = $_ENV['EMAIL_HOST'];
-        $mail->SMTPAuth = true;
-        $mail->Port = $_ENV['EMAIL_PORT'];
-        $mail->Username = $_ENV['EMAIL_USER'];
-        $mail->Password = $_ENV['EMAIL_PASS'];
-        // $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // O 'ssl' si tu puerto es 465
-
-        // Remitente y Destinatario(s)
-        // El remitente 'setFrom' idealmente debería ser una dirección de tu dominio.
-        // El email del usuario del formulario se usa como 'ReplyTo'.
-        $mail->setFrom('no-reply@dilaesolar.com', 'Formulario Contacto Dilae'); // Cambia 'Formulario Contacto Dilae' si quieres
-        
-        // Email al que se enviará el formulario (el email de DILAE)
-        $emailAdmin = 'contacto@dilaesolar.com'; 
-        $mail->addAddress($emailAdmin, 'Administrador Dilae');     
-        
-        // Añadir el email del remitente del formulario como "Responder A"
+        $mail = $this->getMailerInstance();
+        $emailAdmin = 'forms@dilaesolar.com'; 
+        $mail->addAddress($emailAdmin, 'Administrador Dilae Solar');     
         if (!empty($datosFormulario['email'])) {
             $mail->addReplyTo($datosFormulario['email'], $datosFormulario['nombre']);
         }
+        $mail->Subject = 'Nuevo Mensaje desde el Formulario de Contacto';
 
-        // Contenido del Email
-        $mail->isHTML(true);
-        $mail->CharSet = 'UTF-8';
-        $mail->Subject = 'Nuevo Mensaje de Contacto: ' . htmlspecialchars($datosFormulario['asunto']);
-
-        $cuerpo = "<html>";
-        $cuerpo .= "<head><style>body {font-family: Arial, sans-serif; line-height: 1.6;} h2 {color: #6BB13D;}</style></head>";
-        $cuerpo .= "<body>";
-        $cuerpo .= "<h2>Nuevo Mensaje Recibido desde el Formulario de Contacto</h2>";
-        $cuerpo .= "<p><strong>Nombre:</strong> " . htmlspecialchars($datosFormulario['nombre']) . "</p>";
-        $cuerpo .= "<p><strong>Email:</strong> " . htmlspecialchars($datosFormulario['email']) . "</p>";
-        if (!empty($datosFormulario['telefono'])) {
-            $cuerpo .= "<p><strong>Teléfono:</strong> " . htmlspecialchars($datosFormulario['telefono']) . "</p>";
-        }
-        $cuerpo .= "<p><strong>Asunto:</strong> " . htmlspecialchars($datosFormulario['asunto']) . "</p>";
-        $cuerpo .= "<h3>Mensaje:</h3>";
-        $cuerpo .= "<p style='white-space: pre-wrap;'>" . nl2br(htmlspecialchars($datosFormulario['mensaje'])) . "</p>"; // pre-wrap y nl2br para saltos de línea
-        $cuerpo .= "</body>";
-        $cuerpo .= "</html>";
+        $bodyContent = "
+            <h2 style='color: #181818; font-family: Arial, sans-serif;'>Nuevo Mensaje de Contacto</h2>
+            <p><strong>Nombre:</strong> " . htmlspecialchars($datosFormulario['nombre']) . "</p>
+            <p><strong>Email:</strong> " . htmlspecialchars($datosFormulario['email']) . "</p>
+            <p><strong>Telefono de Contacto:</strong> " . htmlspecialchars($datosFormulario['telefono']) . "</p>
+            <p><strong>Horario de Preferencia:</strong> " . htmlspecialchars($datosFormulario['horario']) . "</p>
+            <p><strong>Codigo Postal:</strong> " . htmlspecialchars($datosFormulario['codigo_postal']) . "</p>
+            <h3 style='color: #181818; border-top: 1px solid #eeeeee; padding-top: 20px; margin-top: 20px;'>Mensaje:</h3>
+            <p style='background-color: #f5f5f5; padding: 15px; border-radius: 5px;'>" . nl2br(htmlspecialchars($datosFormulario['mensaje'])) . "</p>
+        ";
         
-        $mail->Body = $cuerpo;
-        $mail->AltBody = strip_tags($cuerpo); // Versión en texto plano
-
-        // Enviar el email
+        $mail->Body = $this->generateStyledHTML('Nuevo Mensaje de Contacto', $bodyContent);
         try {
             return $mail->send();
         } catch (\Exception $e) {
-            // Puedes registrar el error si lo deseas: error_log("Mailer Error: " . $mail->ErrorInfo);
+            error_log("Mailer Error: " . $mail->ErrorInfo);
+            return false;
+        }
+    }
+
+    public function enviarNotificacionSuscripcion($emailUsuario) {
+        $mailAdmin = $this->getMailerInstance();
+        $mailAdmin->addAddress('contacto@dilaesolar.com', 'Administrador Dilae Solar');
+        $mailAdmin->Subject = 'Nueva Suscripción al Boletín';
+
+        $bodyContent = "
+            <h2 style='color: #181818; font-family: Arial, sans-serif;'>Nueva Suscripción</h2>
+            <p>Un nuevo usuario se ha suscrito al boletín a través de la web.</p>
+            <p><strong>Correo electrónico:</strong> " . htmlspecialchars($emailUsuario) . "</p>
+            <p><strong>Fecha:</strong> " . date('d/m/Y H:i:s') . "</p>
+        ";
+
+        $mailAdmin->Body = $this->generateStyledHTML('Nueva Suscripción', $bodyContent);
+        try {
+            return $mailAdmin->send();
+        } catch (\Exception $e) {
+            error_log("Mailer Error (Notificación de Suscripción): " . $mailAdmin->ErrorInfo);
             return false;
         }
     }

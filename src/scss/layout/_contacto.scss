@@ -14,7 +14,6 @@
     }
 
     &__formulario {
-        
         .header {
             margin-bottom: 2.5rem;
             text-align: center;
@@ -56,9 +55,14 @@
             align-items: center;
             justify-content: center;
             gap: 0.7rem;
-            max-width: 38rem;
 
-            @include m.tablet {
+            @include m.telefono {
+                width: 38rem;
+                margin-inline: auto;
+            }
+
+            @include m.desktop {
+                margin-inline: 0;
                 max-width: 38rem;
             }
         }
@@ -66,9 +70,21 @@
 }
 
 .contacto__info {
+    display: flex;
+    flex-direction: column;
     padding: 3rem;
     background-color: #F6F6F6;
     border-radius: 1rem;
+
+    @include m.tablet {
+        flex-direction: row;
+        justify-content: center;
+        gap: 5rem;
+    }
+
+    @include m.desktop {
+        flex-direction: column;
+    }
 
     h2 {
         font-size: 2rem;
@@ -153,6 +169,7 @@
 }   
 
 .contacto__info .horario {
+
     h3 {
         font-size: 1.5rem;
         font-weight: 500;
@@ -169,6 +186,7 @@
         &__dia {
             display: flex;
             justify-content: space-between;
+            gap: 5rem;
             
             p {
                 display: inline-block;
