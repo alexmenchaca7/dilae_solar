@@ -148,8 +148,8 @@ class Email {
 
     public function enviarFormularioContacto($datosFormulario) {
         $mail = $this->getMailerInstance();
-        $emailAdmin = 'forms@dilaesolar.com'; 
-        $mail->addAddress($emailAdmin, 'Administrador Dilae Solar');     
+        $mail->setFrom('forms@dilaesolar.com', 'Dilae Solar');
+        $mail->addAddress('forms@dilaesolar.com', 'Administrador Dilae Solar');     
         if (!empty($datosFormulario['email'])) {
             $mail->addReplyTo($datosFormulario['email'], $datosFormulario['nombre']);
         }
