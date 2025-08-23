@@ -2,8 +2,12 @@
 @use 'base/mixins' as m;
 @use 'sass:color';
 
-.soluciones {
-    
+.no-webp .soluciones-contacto-bg {
+    background-image: url(/build/img/soluciones-contacto.webp);
+}
+
+.webp .soluciones-contacto-bg {
+    background-image: url(/build/img/soluciones-contacto.jpg);
 }
 
 .solucion-bg {
@@ -127,12 +131,15 @@
 }
 
 .soluciones-contacto-bg {
-    background: #E5E5E5;
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25) inset;
     padding: 8rem 0;
 }
 
 .soluciones-contacto {
+    max-width: 67rem;
     background-color: v.$blanco;
     border-radius: 1rem;
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
@@ -141,31 +148,61 @@
     align-items: center;
     padding: 4rem 2rem;
 
+    svg {
+        margin-top: -6rem; // Adds space between the icon and the title
+        margin-bottom: 3rem;
+        width: 4rem;
+        height: auto;
+    }
+
     h2 {
         margin-top: 0;
-        margin-bottom: 2rem;
+        margin-bottom: 2.8rem;
         font-size: 2.2rem;
-        color: v.$primario;
         font-family: v.$fuente_principal;
+        font-weight: 400;
         text-align: center;
     }
 
     p {
         margin: 0;
-        font-size: 1.4rem;
+        font-size: 1.2rem;
+        font-weight: 300;
+        line-height: normal;
         text-align: center;
+        max-width: 47rem;
+    }
+
+    .btn-soluciones-contacto {
+        margin-top: 2.8rem;
+        padding: 1.2rem 4.2rem;
+        border-radius: 5px;
+        font-size: 1.8rem;
+        color: v.$blanco;
+        background-color: v.$primario;
+        transition: 0.3s ease all;
+
+        &:hover {
+            background-color: color.scale(v.$primario, $lightness: -10%);
+        }
     }
 
     @include m.tablet {
         padding: 6rem 8rem;
 
+        svg {
+            margin-top: -8rem;
+            margin-bottom: 5rem;
+            width: 5rem;
+        }
+
         h2 {
-            font-size: 3.6rem;
+            font-size: 3.2rem;
             margin-bottom: 2.8rem;
         }
 
         p {
-            font-size: 2rem;
+            font-size: 1.6rem;
         }
     }
 }

@@ -3,22 +3,16 @@
 @use 'sass:color';
 
 .alerta {
-    padding: .5rem;
     text-align: center;
     color: v.$blanco;
-    font-weight: v.$bold;
-    text-transform: uppercase;
-    margin: 1rem 0;
+    font-size: 1.4rem;
+    margin: 1rem 0 2rem 0;
 
     &__error {
-        background-color: color.adjust(v.$error, $lightness: 35%);
-        border-left: .5rem solid v.$error;
         color: v.$error;
     }
 
     &__exito {
-        background-color: color.adjust(v.$success, $lightness: 50%);
-        border-left: .5rem solid v.$success;
         color: v.$success;
     }
 }

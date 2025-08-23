@@ -30,6 +30,7 @@
     position: relative;
     background-position: center center;
     background-size: cover;
+    background-attachment: fixed;
 
     .contenido-header {
         position: absolute;
@@ -50,10 +51,6 @@
             @include m.tablet {
                 font-size: 6.4rem;
             }
-
-            span {
-                color: v.$naranja;
-            }
         }
 
         p {
@@ -64,23 +61,74 @@
 }
 
 .hero-index {
-    min-height: 55rem;
+    min-height: 90rem;
 
     .contenido-header {
-        background-color: rgba(0, 31, 63, 0.68);
+        background-color: rgba(0, 16, 32, 0.58);
+        justify-content: flex-start;
+        padding-top: 20rem;
 
         h1 {
-            max-width: 76rem;
+            font-size: 4rem;
+            font-weight: 400;
+            text-align: center;
+
+            @include m.tablet {
+                font-size: 7rem;
+            }
         }
 
         p {
             font-size: 1.8rem;
-            font-weight: 500;
-            line-height: 116.667%;
-            max-width: 66rem;
+            font-weight: 300;
+            line-height: 100%;
+            text-align: center;
+            max-width: 78rem;
+            margin-inline: auto;
 
             @include m.tablet {
-                font-size: 2.4rem;
+                font-size: 2.8rem;
+            }
+        }
+
+        .botones {
+            margin-top: 7rem;
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+
+            .btn-calculadora-index,
+            .btn-contacto-index {
+                display: inline-block;
+                text-align: center;
+                border-radius: 5px;
+                font-family: v.$fuente-header;
+                font-size: 2rem;
+                padding-block: 0.8rem;
+                width: 25rem;
+                transition: 0.3s ease all;
+            }
+
+            .btn-calculadora-index {
+                color: v.$negro;
+                background-color: #fdfdfd;
+
+                &:hover {
+                    color: #fdfdfd;
+                    background-color: v.$negro;
+                }
+            }
+
+            .btn-contacto-index {
+                color: #fdfdfd;
+                background-color: transparent;
+                border: 1px solid #fdfdfd;
+
+                &:hover {
+                    color: #fdfdfd;
+                    background-color: v.$negro;
+                    border: 1px solid v.$negro;
+                }
             }
         }
     }
@@ -95,6 +143,7 @@
         h1 {
             max-width: 65rem;
             margin-bottom: 8px;
+            font-weight: 400;
         }
 
         svg {
@@ -103,13 +152,10 @@
         }
 
         p {
-            font-size: 1.6rem;
+            font-size: 2.4rem;
             line-height: normal;
             max-width: 63rem;
-
-            span {
-                font-weight: 500;
-            }
+            margin-top: 6.7rem;
         }
     }
 }
