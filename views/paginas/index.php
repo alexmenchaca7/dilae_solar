@@ -1,5 +1,23 @@
-<main class="contenedor seccion">
-    <div class="garantia">
+<main class="contenedor">
+    <section class="index-soluciones seccion">
+        <div class="index-soluciones__contenido">
+            <h2>Soluciones que <span>Transforman</span></h2>
+            <p>En Dilae combinamos trayectoria, innovación y un servicio cercano para ofrecer soluciones solares de confianza.</p>
+            <p>Conozca más sobre quiénes somos y cómo convertimos la energía del sol en valor para su hogar.</p>
+            <a href="/nosotros">Conozca Más</a>
+        </div>
+    
+        <div class="index-soluciones__imagen">
+            <picture>
+                <source srcset="/build/img/index-soluciones.avif" type="image/avif">
+                <source srcset="/build/img/index-soluciones.webp" type="image/webp">
+                <source srcset="/build/img/index-soluciones.jpg" type="image/jpeg">
+                <img loading="lazy" src="/build/img/index-soluciones.jpg" alt="Imagen de Ensamblaje de Paneles Solares">
+            </picture>
+        </div>
+    </section>
+
+    <section class="garantia seccion">
         <h2 class="garantia__heading">Nuestra Garantía de Confianza</h2>
         <p class="garantia__subheading">Tres pilares que aseguran el éxito de su inversión y su total tranquilidad.</p>
 
@@ -53,5 +71,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 </main>
