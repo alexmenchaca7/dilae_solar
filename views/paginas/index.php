@@ -1,23 +1,53 @@
-<main class="contenedor">
-    <section class="index-soluciones seccion">
-        <div class="index-soluciones__contenido">
-            <h2>Soluciones que <span>Transforman</span></h2>
-            <p>En Dilae combinamos trayectoria, innovación y un servicio cercano para ofrecer soluciones solares de confianza.</p>
-            <p>Conozca más sobre quiénes somos y cómo convertimos la energía del sol en valor para su hogar.</p>
-            <a href="/nosotros">Conozca Más</a>
-        </div>
-    
-        <div class="index-soluciones__imagen">
-            <picture>
-                <source srcset="/build/img/index-soluciones.avif" type="image/avif">
-                <source srcset="/build/img/index-soluciones.webp" type="image/webp">
-                <source srcset="/build/img/index-soluciones.jpg" type="image/jpeg">
-                <img loading="lazy" src="/build/img/index-soluciones.jpg" alt="Imagen de Ensamblaje de Paneles Solares">
-            </picture>
+<main>
+    <section class="index-soluciones-bg">
+        <div class="index-soluciones contenedor">
+            <div class="index-soluciones__contenido">
+                <h2>Soluciones que <span>Transforman</span></h2>
+                <p>En Dilae combinamos trayectoria, innovación y un servicio cercano para ofrecer soluciones solares de confianza.</p>
+                <p>Conozca más sobre quiénes somos y cómo convertimos la energía del sol en valor para su hogar.</p>
+                <a href="/nosotros">Conozca Más</a>
+            </div>
+        
+            <div class="index-soluciones__imagen">
+                <picture>
+                    <source srcset="/build/img/index-soluciones.avif" type="image/avif">
+                    <source srcset="/build/img/index-soluciones.webp" type="image/webp">
+                    <source srcset="/build/img/index-soluciones.jpg" type="image/jpeg">
+                    <img loading="lazy" src="/build/img/index-soluciones.jpg" alt="Imagen de Ensamblaje de Paneles Solares">
+                </picture>
+            </div>
         </div>
     </section>
 
-    <section class="garantia seccion">
+    <section class="index-resultados-bg">
+        <div class="index-resultados contenedor">
+            <div class="index-resultados__contenedor">
+                <div class="index-resultados__contenido">
+                    <h2>Resultados que nos respaldan</h2>
+                    <p>Nuestra experiencia y el impacto en nuestros clientes hablan por sí mismos. Con Dilae Solar, la energía  se convierte en independencia, ahorro y tranquilidad.</p>
+                </div>
+        
+                <div class="index-resultados__grid">
+                    <div class="index-resultados__item">
+                        <h3>+10</h3>
+                        <p>años de experiencia que respaldan su inversión</p>
+                    </div>
+                    <div class="index-resultados__item">
+                        <h3>90%</h3>
+                        <p>de ahorro promedio en recibos de luz*</p>
+                    </div>
+                    <div class="index-resultados__item">
+                        <h3>100+</h3>
+                        <p>clientes satisfechos con DILAE</p>
+                    </div>
+                </div>
+            </div>
+    
+            <small>*Ahorro estimado en clientes residenciales con tarifas altas (DAC).</small>
+        </div>
+    </section>
+    
+    <section class="garantia contenedor">
         <h2 class="garantia__heading">Nuestra Garantía de Confianza</h2>
         <p class="garantia__subheading">Tres pilares que aseguran el éxito de su inversión y su total tranquilidad.</p>
 

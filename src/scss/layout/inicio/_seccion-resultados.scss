@@ -1,0 +1,113 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+.index-resultados-bg {
+    background-color: #fff;
+    padding: 5rem 0 3.5rem 0;
+
+    @include m.desktop {
+        padding-top: 8.5rem;
+    }
+}
+
+.index-resultados {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4.5rem;
+
+    small {
+        font-size: 1.2rem;
+        font-family: v.$fuente-header;
+        font-weight: 300;
+        line-height: 132.621%;
+    }
+
+    @include m.tablet {
+        align-items: flex-end;
+        
+        small {
+            font-size: 1.4rem;
+        }
+    }
+
+    &__contenedor {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 3rem;
+
+        @include m.desktop {
+            grid-template-columns: 1fr 2fr;
+            align-items: flex-end;
+            gap: 8.5rem;
+        }
+    }
+
+    &__contenido {
+        h2 {
+            text-align: center;
+            font-size: 2.4rem;
+            font-weight: 400;
+            line-height: normal;
+            margin: 0;
+
+            @include m.tablet {
+                font-size: 2.8rem;
+                text-align: left;
+            }
+        }
+
+        p {
+            text-align: center;
+            font-family: v.$fuente-header;
+            font-size: 1.6rem;
+            font-weight: 300;
+            line-height: 132.621%;
+            margin-bottom: 0;
+
+            @include m.tablet {
+                text-align: justify;
+                font-size: 2rem;
+            }
+        }
+    }
+
+    &__grid {
+        display: flex;
+        gap: 2.5rem;
+
+        @include m.tablet {
+            gap: 4.3rem;
+        }
+    }
+
+    &__item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        h3 {
+            font-size: 5rem;
+            font-weight: 300;
+            line-height: 132.621%;
+            margin: 0;
+
+            @include m.tablet {
+                font-size: 8.5rem;
+            }
+        }
+
+        p {
+            margin: 0;
+            text-align: center;
+            font-size: 1.6rem;
+            font-weight: 300;
+            font-family: v.$fuente-header;
+            line-height: 132.621%;
+
+            @include m.tablet {
+                font-size: 2rem;
+            }
+        }
+    }
+}

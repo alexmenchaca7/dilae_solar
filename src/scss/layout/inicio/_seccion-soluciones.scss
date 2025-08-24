@@ -2,6 +2,15 @@
 @use 'base/mixins' as m;
 @use 'sass:color';
 
+.index-soluciones-bg {
+    background-color: #f7f7f7;
+    padding: 5rem 0;
+
+    @include m.desktop {
+        padding: 7.6rem 0;
+    }
+}
+
 .index-soluciones {
     display: flex;
     flex-direction: column;
