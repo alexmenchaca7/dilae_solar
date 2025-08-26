@@ -2,32 +2,37 @@
 @use 'base/mixins' as m;
 @use 'sass:color';
 
-.garantia {
-    margin-top: 11rem;
+.no-webp .index-garantia-bg {
+    background-image: url(/build/img/index-garantia.webp);
+}
+
+.webp .index-garantia-bg {
+    background-image: url(/build/img/index-garantia.jpg);
+}
+
+.index-garantia-bg {
+    position: relative;
+    background-position: center center;
+    background-size: cover;
+    margin-top: 3rem;
     margin-bottom: 7.5rem;
+    background-attachment: fixed;
+}
+
+.index-garantia {
+    background: rgba(0, 16, 32, 0.58);
+    padding: 8rem 0;
 
     &__heading {
-        color: v.$primario;
-        font-weight: 700;
+        color: v.$blanco;
+        font-weight: 400;
+        font-size: 4rem;
         text-align: center;
-        margin-bottom: 0;
-        font-size: 3rem;
-
-        @include m.tablet {
-            font-size: 3.6rem;
-        }
-    }
-
-    &__subheading {
-        color: v.$gris-oscuro;
-        text-align: center;
-        font-size: 1.5rem;
         margin-top: 0;
-        margin-bottom: 5rem;
+        margin-bottom: 6rem;
 
         @include m.tablet {
-            font-size: 2rem;
-            margin-bottom: 2rem;
+            font-size: 4.8rem;
         }
 
         &::after {
@@ -40,6 +45,15 @@
             border-radius: 5px;
             background-color: v.$naranja;
         }
+    }
+
+    &__subheading {
+        font-family: v.$fuente-header;
+        font-size: 2rem;
+        text-align: center;
+        color: v.$base;
+        margin-top: 5.5rem;
+        margin-bottom: 0;
     }
 
     &__grid {
@@ -66,7 +80,7 @@
             margin-left: 3rem;
         }
 
-        .garantia__indicador {
+        .index-garantia__indicador {
             width: 1.4rem;
             height: 1.4rem;
             border-radius: 50%;
@@ -88,14 +102,10 @@
     &__principal {
         background-color: v.$blanco;
         box-shadow: 0 8px 28.6px 0 rgba(0, 0, 0, 0.25);
+        border-radius: 5px;
         padding: 2rem;
         position: relative;
         order: 2; // se muestra segundo en móviles
-        transition: 0.3s ease transform;
-
-        &:hover {
-            transform: scale(1.01);
-        }
 
         @include m.tablet {
             padding: 4rem;
@@ -192,6 +202,7 @@
     &__selector {
         background-color: v.$blanco;
         box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+        border-radius: 5px;
         padding: 2.5rem;
         cursor: pointer;
         position: relative;

@@ -47,58 +47,63 @@
         </div>
     </section>
     
-    <section class="garantia contenedor">
-        <h2 class="garantia__heading">Nuestra Garantía de Confianza</h2>
-        <p class="garantia__subheading">Tres pilares que aseguran el éxito de su inversión y su total tranquilidad.</p>
-
-        <div class="garantia__indicadores">
-            <span class="garantia__indicador activo" data-indicador="1"></span>
-            <span class="garantia__indicador" data-indicador="2"></span>
-            <span class="garantia__indicador" data-indicador="3"></span>
-        </div>
-
-        <div class="garantia__grid">
-            <div class="garantia__principal">
-                <div class="garantia__contenido">
-                    <div class="garantia__contenido-item activo" data-tab="1">
-                        <div class="garantia__contenido-texto">
-                            <h3>Solidez y Trayectoria</h3>
-                            <p>Con la experiencia de 10 años de DILAE en la ejecución de proyectos de iluminación LED a gran escala en todo México. Solidez y capacidad probada ahora enfocada en tu proyecto solar residencial.</p>
+    <section class="index-garantia-bg">
+        <div class="index-garantia">
+            <div class="contenedor">
+                <h2 class="index-garantia__heading">Nuestra Garantía de Confianza</h2>
+        
+                <div class="index-garantia__indicadores">
+                    <span class="index-garantia__indicador activo" data-indicador="1"></span>
+                    <span class="index-garantia__indicador" data-indicador="2"></span>
+                    <span class="index-garantia__indicador" data-indicador="3"></span>
+                </div>
+        
+                <div class="index-garantia__grid">
+                    <div class="index-garantia__principal">
+                        <div class="index-garantia__contenido">
+                            <div class="index-garantia__contenido-item activo" data-tab="1">
+                                <div class="index-garantia__contenido-texto">
+                                    <h3>Solidez y Trayectoria</h3>
+                                    <p>Con la experiencia de 10 años de DILAE en la ejecución de proyectos de iluminación LED a gran escala en todo México. Solidez y capacidad probada ahora enfocada en tu proyecto solar residencial.</p>
+                                </div>
+                                
+                                <img loading="lazy" src="/build/img/garantia-solidez.svg" alt="Icono de Solidez y Trayectoria">
+                            </div>
+        
+                            <div class="index-garantia__contenido-item" data-tab="2">
+                                <div class="index-garantia__contenido-texto">
+                                    <h3>Tecnología de Vanguardia</h3>
+                                    <p>Su inversión está segura. Solo integramos componentes de fabricantes Tier 1, reconocidos mundialmente por su eficiencia y garantía.</p>
+                                </div>
+                                
+                                <img loading="lazy" src="/build/img/garantia-tecnologia.svg" alt="Icono de Tecnología de Vanguardia">
+                            </div>
+        
+                            <div class="index-garantia__contenido-item" data-tab="3">
+                                <div class="index-garantia__contenido-texto">
+                                    <h3>Ejecución Impecable</h3>
+                                    <p>Nuestra metodología de Ejecución Impecable garantiza cada detalle. Una supervisión exhaustiva, desde el análisis estructural hasta la configuración final, asegura un resultado perfecto y duradero.</p>
+                                </div>
+        
+                                <img loading="lazy" src="/build/img/garantia-ejecucion.svg" alt="Icono de Ejecución Impecable">
+                            </div>
                         </div>
-                        
-                        <img loading="lazy" src="/build/img/garantia-solidez.svg" alt="Icono de Solidez y Trayectoria">
                     </div>
-
-                    <div class="garantia__contenido-item" data-tab="2">
-                        <div class="garantia__contenido-texto">
-                            <h3>Tecnología de Vanguardia</h3>
-                            <p>Su inversión está segura. Solo integramos componentes de fabricantes Tier 1, reconocidos mundialmente por su eficiencia y garantía.</p>
+        
+                    <div class="index-garantia__selectores">
+                        <div class="index-garantia__selector activo" data-target="1">
+                            <p>Solidez y Trayectoria</p>
                         </div>
-                        
-                        <img loading="lazy" src="/build/img/garantia-tecnologia.svg" alt="Icono de Tecnología de Vanguardia">
-                    </div>
-
-                    <div class="garantia__contenido-item" data-tab="3">
-                        <div class="garantia__contenido-texto">
-                            <h3>Ejecución Impecable</h3>
-                            <p>Nuestra metodología de Ejecución Impecable garantiza cada detalle. Una supervisión exhaustiva, desde el análisis estructural hasta la configuración final, asegura un resultado perfecto y duradero.</p>
+                        <div class="index-garantia__selector" data-target="2">
+                            <p>Tecnología de Vanguardia</p>
                         </div>
-
-                        <img loading="lazy" src="/build/img/garantia-ejecucion.png" alt="Icono de Ejecución Impecable">
+                        <div class="index-garantia__selector" data-target="3">
+                            <p>Ejecución Impecable</p>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="garantia__selectores">
-                <div class="garantia__selector activo" data-target="1">
-                    <p>Solidez y Trayectoria</p>
-                </div>
-                <div class="garantia__selector" data-target="2">
-                    <p>Tecnología de Vanguardia</p>
-                </div>
-                <div class="garantia__selector" data-target="3">
-                    <p>Ejecución Impecable</p>
-                </div>
+                <p class="index-garantia__subheading">Tres pilares que aseguran el éxito de su inversión y su total tranquilidad.</p>
             </div>
         </div>
     </section>

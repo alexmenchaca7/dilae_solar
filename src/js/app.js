@@ -30,12 +30,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     /** LOGICA PARA LOS SELECTORES DE LA SECCIÓN DE GARANTIA EN LA PAGINA DE INICIO **/
-    const seccionGarantia = document.querySelector('.garantia');
+    const seccionGarantia = document.querySelector('.index-garantia');
     if (seccionGarantia) {
         // Seleccionar todos los elementos necesarios
-        const selectores = document.querySelectorAll('.garantia__selector');
-        const contenidos = document.querySelectorAll('.garantia__contenido-item');
-        const indicadores = document.querySelectorAll('.garantia__indicador');
+        const selectores = document.querySelectorAll('.index-garantia__selector');
+        const contenidos = document.querySelectorAll('.index-garantia__contenido-item');
+        const indicadores = document.querySelectorAll('.index-garantia__indicador');
 
         let tabActual = 1;
         const totalTabs = selectores.length;
@@ -52,9 +52,9 @@ document.addEventListener('DOMContentLoaded', function() {
             indicadores.forEach(indicador => indicador.classList.remove('activo'));
 
             // Mostrar el contenido y activar el selector/indicador correspondiente
-            const contenidoActivo = document.querySelector(`.garantia__contenido-item[data-tab="${targetId}"]`);
-            const selectorActivo = document.querySelector(`.garantia__selector[data-target="${targetId}"]`);
-            const indicadorActivo = document.querySelector(`.garantia__indicador[data-indicador="${targetId}"]`);
+            const contenidoActivo = document.querySelector(`.index-garantia__contenido-item[data-tab="${targetId}"]`);
+            const selectorActivo = document.querySelector(`.index-garantia__selector[data-target="${targetId}"]`);
+            const indicadorActivo = document.querySelector(`.index-garantia__indicador[data-indicador="${targetId}"]`);
 
             if (contenidoActivo) contenidoActivo.classList.add('activo');
             if (selectorActivo) selectorActivo.classList.add('activo');

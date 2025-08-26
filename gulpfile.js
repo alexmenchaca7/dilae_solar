@@ -38,8 +38,6 @@ import sharp from 'sharp';
 // Librería avanzada de procesamiento de imágenes en Node.js.
 // Permite redimensionar, convertir formatos (como JPEG a WebP o a AVIF), ajustar calidad y otras operaciones con imágenes.
 
-import svgmin from 'gulp-svgmin'; // Importa el plugin para optimizar SVG
-
 import rev from 'gulp-rev'; // Plugin de Gulp para agregar un hash único a los nombres de archivos, útil para el versionado de archivos estáticos.
 
 import { deleteAsync } from 'del'; // Módulo para eliminar archivos y directorios de manera asíncrona.
@@ -150,21 +148,14 @@ export async function imagenes(done) {
 // }
 
 
-// Función auxiliar para optimizar y copiar archivos SVG
+// Función para copiar archivos SVG
 function procesarSVG(file, outputSubDir) {
-    
-    // Creando el directorio de salida si no existe
     if (!fs.existsSync(outputSubDir)) {
-        fs.mkdirSync(outputSubDir, { recursive: true }); // Creando todos los subdirectorios necesarios
+        fs.mkdirSync(outputSubDir, { recursive: true });
     }
-
-    const baseName = path.basename(file, path.extname(file)); // Obteniendo el nombre base del archivo sin la extensión
-    const outputFile = path.join(outputSubDir, `${baseName}.svg`); // Ruta del archivo SVG optimizado
-
-    // Procesando y optimizando el archivo SVG
+    // Simplemente copia el archivo SVG del origen al destino
     src(file)
-        .pipe(svgmin()) // Optimiza el SVG
-        .pipe(dest(outputSubDir)); // Guarda el SVG optimizado en la carpeta de salida
+        .pipe(dest(outputSubDir));
 }
 
 
