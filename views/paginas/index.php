@@ -188,4 +188,14 @@
             </div>
         </div>
     </section>
+
+    <section class="index-independencia-bg">
+        <div class="index-independencia">
+            <div class="contenedor">
+                <h2>Calcule su Independencia</h2>
+                <p>Descubra en segundos cuántos paneles necesita, su ahorro anual y el retorno de inversión. Nuestra calculadora solar es <span>sencilla, sin registros ni compromisos</span>, y le da la claridad financiera que merece para tomar una decisión informada.</p>
+                <a href="/calculadora">Calcular mi Ahorro Ahora</a>
+            </div>
+        </div>
+    </section>
 </main>
