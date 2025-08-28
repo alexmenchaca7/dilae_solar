@@ -29,7 +29,7 @@
         
                 <div class="index-resultados__grid">
                     <div class="index-resultados__item">
-                        <h3>+10</h3>
+                        <h3>10+</h3>
                         <p>años de experiencia que respaldan su inversión</p>
                     </div>
                     <div class="index-resultados__item">

@@ -74,9 +74,11 @@
 
     &__grid {
         display: flex;
-        gap: 2.5rem;
+        flex-direction: column;
+        gap: 5rem;
 
         @include m.tablet {
+            flex-direction: row;
             gap: 4.3rem;
         }
     }
@@ -87,7 +89,7 @@
         align-items: center;
 
         h3 {
-            font-size: 5rem;
+            font-size: 8.5rem;
             font-weight: 300;
             line-height: 132.621%;
             margin: 0;
