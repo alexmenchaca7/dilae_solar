@@ -253,4 +253,12 @@
             </div>
         </div>
     </section>
+
+    <section class="index-contacto-bg">
+        <div class="index-contacto contenedor">
+            <h2>¿Listo para tomar el control de tu energía?</h2>
+            <p>El primer paso hacia el ahorro y la independencia energética es un análisis personalizado. Nuestro equipo de expertos está listo para diseñar una solución a la medida de tu hogar, sin costo ni compromiso.</p>
+            <a href="/contacto">Solicitar mi Estudio de Ahorro</a>
+        </div>
+    </section>
 </main>

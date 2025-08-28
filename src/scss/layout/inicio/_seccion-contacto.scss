@@ -1,0 +1,86 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+@use 'sass:color';
+
+.index-contacto-bg {
+    background-color: v.$primario;
+}
+
+.index-contacto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: -0.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50%;
+        height: 1.5rem;
+        border-radius: 1rem;
+        background-color: v.$naranja;
+        z-index: 1;
+    }
+
+    h2 {
+        color: v.$blanco;
+        text-align: center;
+        font-size: 4rem;
+        font-weight: 300;
+        line-height: normal;
+        max-width: 59rem;
+        margin-top: 10rem;
+        margin-bottom: 2.8rem;
+
+        @include m.tablet {
+            font-size: 4.8rem;
+        }
+    }
+
+    p {
+        color: v.$blanco;
+        text-align: center;
+        font-weight: 200;
+        font-size: 1.6rem;
+        font-family: v.$fuente-header;
+        line-height: normal;
+        max-width: 75rem;
+        margin-top: 0;
+        margin-bottom: 4.4rem;
+
+        @include m.tablet {
+            font-size: 2rem;
+        }
+    }
+
+    a {
+        display: inline-block;
+        text-align: center;
+        border-radius: 1rem;
+        font-family: v.$fuente-header;
+        font-size: 1.6rem;
+        font-weight: 400;
+        padding-block: 1rem;
+        width: 32rem;
+        color: #fdfdfd;
+        background-color: transparent;
+        border: 1px solid #fdfdfd;
+        transition: 0.3s ease all;
+        margin-bottom: 8.7rem;
+
+        &:hover {
+            color: v.$primario;
+            font-weight: 600;
+            background-color: v.$blanco;
+            border: 1px solid v.$blanco;
+        }
+
+        @include m.tablet {
+            font-size: 2.2rem;
+            width: 36rem;
+        }
+    }
+}

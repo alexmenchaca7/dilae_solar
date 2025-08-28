@@ -2,9 +2,11 @@
 @use 'base/mixins' as m;
 
 .footer {
+    position: relative;
     background-color: v.$footer;
     padding: 7.5rem 0 9rem 0;
     text-align: center;
+    z-index: 100;
 
     h2, h3 {
         color: v.$blanco;
