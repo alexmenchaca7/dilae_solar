@@ -1,0 +1,116 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+@use 'sass:color';
+
+.index-soluciones-solares-bg {
+    background-color: #f7f7f7;
+    padding: 5rem 0;
+
+    @include m.desktop {
+        padding: 7.5rem 0;
+    }
+}
+
+.index-soluciones-solares {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h2 {
+        text-align: center;
+        font-weight: 400;
+        font-size: 2.8rem;
+        line-height: normal;
+        margin-top: 0;
+        margin-bottom: 1.8rem;
+
+        span {
+            font-weight: 700;
+        }
+
+        @include m.tablet {
+            font-size: 3.6rem;
+        }
+    }
+
+    p {
+        text-align: center;
+        font-family: v.$fuente-header;
+        font-weight: 300;
+        font-size: 1.8rem;
+        line-height: 140%;
+        max-width: 100rem;
+        margin-top: 0;
+        margin-bottom: 5.6rem;
+
+        @include m.tablet {
+            font-size: 2.4rem;
+        }
+    }
+
+    &__grid {
+        display: flex;
+        flex-direction: column;
+        gap: 5rem;
+
+        @include m.tablet {
+            flex-direction: row;
+            gap: 2.4rem;
+        }
+    }
+
+    &__item {
+        display: flex;
+        flex-direction: column;
+        background: v.$base;
+        border-radius: 5px;
+        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+        transition: 0.3s ease all;
+
+        &:hover {
+            transform: scale(1.01);
+        }
+    }
+
+    &__imagen {
+        height: 22rem;
+        width: auto;
+
+        picture, img {
+            width: 100%;
+            height: 100%;
+            border-radius: 5px 5px 0 0;
+            object-fit: cover;          
+        }
+
+        @include m.telefono {
+            height: 30rem;
+        }
+    }
+
+    &__contenido {
+        padding: 2rem 2.8rem;
+
+        h3 {
+            font-size: 2rem;
+            font-weight: 500;
+            line-height: normal;
+            margin-top: 0;
+            margin-bottom: 1.6rem;
+            text-align: center;
+
+            @include m.desktop {
+                text-align: left;
+            }
+        }
+
+        p {
+            font-size: 1.5rem;
+            font-weight: 300;
+            font-weight: v.$fuente-header;
+            line-height: normal;
+            text-align: justify;
+            margin: 0;
+        }
+    }
+}

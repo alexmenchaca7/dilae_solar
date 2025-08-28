@@ -198,4 +198,59 @@
             </div>
         </div>
     </section>
+
+    <section class="index-soluciones-solares-bg">
+        <div class="index-soluciones-solares contenedor">
+            <h2>Soluciones Solares a su <span>Medida</span></h2>
+            <p>En Dilae diseñamos e integramos sistemas solares que se adaptan a las necesidades de cada hogar. Descubra nuestras soluciones que aseguran independencia y tranquilidad financiera.</p>
+    
+            <div class="index-soluciones-solares__grid">
+                <a href="/soluciones#sistemas-interconectados" class="index-soluciones-solares__item">
+                    <div class="index-soluciones-solares__imagen">
+                        <picture>
+                            <source srcset="/build/img/index-sistemas-interconectados.avif" type="image/avif">
+                            <source srcset="/build/img/index-sistemas-interconectados.webp" type="image/webp">
+                            <source srcset="/build/img/index-sistemas-interconectados.jpg" type="image/jpg">
+                            <img loading="lazy" src="/build/img/index-sistemas-interconectados.jpg" alt="Imagen de Sistemas Interconectados">
+                        </picture>
+                    </div>
+    
+                    <div class="index-soluciones-solares__contenido">
+                        <h3>Sistemas Interconectados</h3>
+                        <p>Optimice su consumo conectando su hogar a la red eléctrica con paneles solares de alto rendimiento. Reduzca su recibo de luz y aproveche al máximo la energía del sol con instalaciones seguras y certificadas.</p>
+                    </div>
+                </a>
+                <a href="/soluciones#sistemas-almacenamiento" class="index-soluciones-solares__item">
+                    <div class="index-soluciones-solares__imagen">
+                        <picture>
+                            <source srcset="/build/img/index-sistemas-almacenamiento.avif" type="image/avif">
+                            <source srcset="/build/img/index-sistemas-almacenamiento.webp" type="image/webp">
+                            <source srcset="/build/img/index-sistemas-almacenamiento.png" type="image/png">
+                            <img loading="lazy" src="/build/img/index-sistemas-almacenamiento.png" alt="Imagen de Sistemas de Almacenamiento">
+                        </picture>
+                    </div>
+    
+                    <div class="index-soluciones-solares__contenido">
+                        <h3>Sistemas de Almacenamiento</h3>
+                        <p>Guarde la energía producida durante el día y utilícela cuando más lo necesite. Nuestros sistemas de almacenamiento le brindan autonomía, estabilidad y la tranquilidad de contar siempre con energía disponible.</p>
+                    </div>
+                </a>
+                <a href="/soluciones#accesorios" class="index-soluciones-solares__item">
+                    <div class="index-soluciones-solares__imagen">
+                        <picture>
+                            <source srcset="/build/img/index-accesorios.avif" type="image/avif">
+                            <source srcset="/build/img/index-accesorios.webp" type="image/webp">
+                            <source srcset="/build/img/index-accesorios.jpg" type="image/jpg">
+                            <img loading="lazy" src="/build/img/index-accesorios.jpg" alt="Imagen de Accesorios">
+                        </picture>
+                    </div>
+    
+                    <div class="index-soluciones-solares__contenido">
+                        <h3>Accesorios para su Ecosistema</h3>
+                        <p>Complemente su sistema solar con soluciones inteligentes como calentadores solares, cargadores para autos eléctricos y más. Eleve el confort de su hogar y maximice el valor de su inversión.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
 </main>

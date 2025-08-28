@@ -1,6 +1,6 @@
 <main class="soluciones">
     <div class="solucion-bg">
-        <section class="solucion contenedor">
+        <section class="solucion contenedor" id="sistemas-interconectados">
             <div class="solucion__contenido">
                 <h2>
                     <span>
@@ -59,7 +59,7 @@
     </div>
 
     <div class="solucion-bg">
-        <section class="solucion contenedor">
+        <section class="solucion contenedor" id="sistemas-almacenamiento">
             <div class="solucion__contenido">
                 <h2>
                     <span>
@@ -120,7 +120,7 @@
     </div>
 
     <div class="solucion-bg">
-        <section class="solucion contenedor">
+        <section class="solucion contenedor" id="accesorios">
             <div class="solucion__contenido">
                 <h2>
                     <span>
