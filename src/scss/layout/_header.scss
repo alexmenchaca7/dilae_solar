@@ -26,6 +26,14 @@
     background-image: url(/build/img/hero-contacto.webp);
 }
 
+.no-webp .hero-nosotros {
+    background-image: url(/build/img/hero-nosotros.png);
+}
+
+.webp .hero-nosotros {
+    background-image: url(/build/img/hero-nosotros.webp);
+}
+
 .hero {
     position: relative;
     background-position: center center;
@@ -212,6 +220,63 @@
             }
 
             p {
+                font-size: 2rem;
+            }
+        }
+    }
+}
+
+.hero-nosotros {
+    min-height: 64rem;
+    position: relative;
+
+    .contenido-header {
+        background: rgba(0, 0, 0, 0.58);
+
+        .contenedor {
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+        }
+
+        h1 {
+            font-size: 4.6rem;
+            font-weight: 500;
+            color: v.$base;
+            line-height: normal;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            max-width: 54rem;
+
+            @include m.tablet {
+                font-size: 6.4rem;
+            }
+        }
+
+        h2 {
+            font-size: 3rem;
+            font-weight: 400;
+            color: v.$base;
+            line-height: normal;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+
+            @include m.tablet {
+                font-size: 3.6rem;
+            }
+        }
+
+        p {
+            font-size: 1.6rem;
+            font-weight: 300;
+            font-family: v.$fuente-header;
+            color: v.$base;
+            line-height: normal;
+            margin: 0;
+            max-width: 55rem;
+            text-align: left;
+
+            @include m.tablet {
                 font-size: 2rem;
             }
         }
