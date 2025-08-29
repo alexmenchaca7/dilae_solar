@@ -90,10 +90,31 @@
                     <p>Brindamos soporte postventa, monitoreo de su sistema y atención personalizada para resolver cualquier necesidad futura. En Dilae Solar garantizamos que su inversión se mantenga confiable, rentable y libre de complicaciones.</p>
                 </div>
             </div>
-            
+
             <button id="nextBtn" class="carousel-button next" aria-label="Siguiente">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </button>
+        </div>
+    </section>
+
+    <section class="nosotros-contador-bg">
+        <div class="nosotros-contador contenedor">
+            <div class="nosotros-contador__items">
+                <div class="nosotros-contador__item">
+                    <h3>10+</h3>
+                    <p>Marcas líderes en tecnología solar</p>
+                </div>
+                <div class="nosotros-contador__item">
+                    <h3>15 años*</h3>
+                    <p>De garantía en materiales y construcción</p>
+                </div>
+                <div class="nosotros-contador__item">
+                    <h3>30 años*</h3>
+                    <p>De garantía en potencia de salida lineal</p>
+                </div>
+            </div>
+            
+            <small>* Las garantías dependen del fabricante y modelo. Los plazos mostrados corresponden a la cobertura máxima disponible en el mercado.</small>
         </div>
     </section>
 </main>

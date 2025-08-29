@@ -1,0 +1,67 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+@use 'sass:color';
+
+.nosotros-contador-bg {
+    background-color: #f7f7f7;
+}
+
+.nosotros-contador {
+    display: flex;
+    flex-direction: column;
+    gap: 4.5rem;
+    padding: 4.5rem 0 2.5rem 0;
+
+    &__items {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 7.5rem;
+
+        @include m.desktopS {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0;
+        }
+    }
+
+    &__item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+
+        @include m.desktopS {
+            max-width: 30rem;
+        }
+
+        h3 {
+            margin: 0;
+            font-size: 6.4rem;
+            font-weight: 500;
+            line-height: normal;
+        }
+
+        p {
+            margin: 0;
+            font-size: 2rem;
+            font-family: v.$fuente-header;
+            line-height: normal;
+            text-align: center;
+
+            @include m.desktopS {
+                font-size: 2.4rem;
+            }
+        }
+    }
+
+    small {
+        color: v.$gris-oscuro;
+        font-size: 1.4rem;
+        font-family: v.$fuente-header;
+        font-weight: 300;
+        text-align: center;
+        line-height: normal;
+    }
+}
