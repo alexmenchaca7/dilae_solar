@@ -117,4 +117,24 @@
             <small>* Las garantías dependen del fabricante y modelo. Los plazos mostrados corresponden a la cobertura máxima disponible en el mercado.</small>
         </div>
     </section>
+
+    <section class="nosotros-socio-bg">
+        <div class="nosotros-socio contenedor">
+            <div class="nosotros-socio__fondo">
+                <div class="nosotros-socio__contenido">
+                    <h3>Tu Socio Técnico</h3>
+                    <h2>Transformamos su inversión en resultados <span>medibles</span></h2>
+                    <p>Unimos ingeniería, experiencia y atención personalizada para entregar proyectos que realmente cumplen lo prometido. Cada sistema es cuidadosamente planificado, ejecutado con estándares de calidad superiores y respaldado por un acompañamiento constante que asegura rendimiento y tranquilidad a largo plazo.</p>
+                </div>
+            </div>
+
+            <div class="nosotros-socio__imagen">
+                <picture>
+                    <source srcset="/build/img/nosotros-socio.avif" type="image/avif">
+                    <source srcset="/build/img/nosotros-socio.webp" type="image/webp">
+                    <img loading="lazy" src="/build/img/nosotros-socio.jpg" alt="Imagen montando paneles solares">
+                </picture>
+            </div>
+        </div>
+    </section>
 </main>

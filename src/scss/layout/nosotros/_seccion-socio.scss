@@ -1,0 +1,138 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+@use 'sass:color';
+
+.no-webp .nosotros-socio-bg {
+    background-image: url(/build/img/nosotros-socio-bg.jpg);
+}
+
+.webp .nosotros-socio-bg {
+    background-image: url(/build/img/nosotros-socio-bg.webp);
+}
+
+.nosotros-socio-bg {
+    position: relative;
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.nosotros-socio {
+    display: grid;
+    grid-template-columns: 1fr; // En móvil, una columna
+    gap: 3rem;
+    margin-bottom: 7.5rem;
+    padding: 8.7rem 0;
+
+    @include m.desktop {
+        grid-template-columns: repeat(2, 1fr);
+        align-items: center; // Centra verticalmente la imagen y el cuadro de texto
+    }
+
+    &__fondo {
+        background-color: #f7f7f7; // Un gris claro y suave
+        border-radius: 5px;
+        position: relative; // Necesario para que el posicionamiento absoluto del hijo funcione
+        width: 100%; // En móvil ocupa todo el ancho
+        padding-top: 5rem; // Espacio superior en móvil
+
+        @include m.desktop {
+            width: 75rem;
+            height: 55rem;
+            padding-top: 0; // Resetear padding en tablet
+        }
+    }
+
+    &__contenido {
+        // En móvil, el padding normal funciona bien
+        padding: 2rem;
+
+        @include m.desktop {
+            // En tablet, se posiciona de forma absoluta con las medidas que diste
+            position: absolute;
+            top: 5rem;
+            left: 10rem;
+            right: 25rem;
+            bottom: 9rem;
+            padding: 0; // Reseteamos el padding porque el espacio lo da el posicionamiento
+        }
+
+        h3 {
+            font-size: 1.6rem;
+            font-weight: 500;
+            margin-top: 0;
+            margin-bottom: 1.2rem;
+            line-height: 140%;
+
+            @include m.desktop {
+                font-size: 2rem;
+                margin-bottom: 1.6rem;
+            }
+        }
+        
+        h2 {
+            font-size: 3.6rem;
+            font-weight: 400;
+            margin-top: 0;
+            margin-bottom: 1.6rem;
+            line-height: 110%;
+
+            @include m.desktop {
+                font-size: 4rem;
+            }
+
+            span {
+                font-weight: 700;
+            }
+        }
+
+        p {
+            text-align: justify;
+            font-family: v.$fuente-header;
+            font-size: 1.4rem;
+            line-height: 183%;
+
+            @include m.desktop {
+                font-size: 1.8rem;
+            }
+        }
+    }
+
+    &__imagen {
+        display: none;
+        position: relative; // Necesario para el z-index
+        z-index: 2; // Coloca la imagen por encima del cuadro de texto
+        max-width: 60rem;
+        max-height: 40rem;
+        border-radius: 5px;
+        overflow: hidden;
+        place-self: center; // Centra la imagen en el grid
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.20);
+            border-radius: 5px;
+        }
+
+        @include m.tablet {
+            display: block;
+        }
+        
+        @include m.desktop {
+            margin-left: -20rem; 
+            box-shadow: -10px 10px 10px 0 rgba(0, 0, 0, 0.25);
+        }
+
+        picture, img {
+            display: block; // Asegura que el contenedor ocupe todo el espacio
+            width: 100%;
+            height: 100%;
+        }
+    }
+}
