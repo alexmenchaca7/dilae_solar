@@ -101,15 +101,15 @@
         <div class="nosotros-contador contenedor">
             <div class="nosotros-contador__items">
                 <div class="nosotros-contador__item">
-                    <h3>10+</h3>
+                    <h3><span class="contador" data-target="10">0</span>+</h3>
                     <p>Marcas líderes en tecnología solar</p>
                 </div>
                 <div class="nosotros-contador__item">
-                    <h3>15 años*</h3>
+                    <h3><span class="contador" data-target="15">0</span> años*</h3>
                     <p>De garantía en materiales y construcción</p>
                 </div>
                 <div class="nosotros-contador__item">
-                    <h3>30 años*</h3>
+                    <h3><span class="contador" data-target="30">0</span> años*</h3>
                     <p>De garantía en potencia de salida lineal</p>
                 </div>
             </div>

@@ -117,41 +117,89 @@ document.addEventListener('DOMContentLoaded', function() {
 
     /** LOGICA PARA EL CARRUSEL DE LA PAGINA DE NOSOTROS EN LA SECCION DE PROCESO */
     const carousel = document.querySelector('.nosotros-proceso__carousel');
-    const container = document.querySelector('.nosotros-proceso__items');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
 
-    if (!container) return; // Si no existe el carrusel, no hacer nada
+    if (carousel) {
+        const container = document.querySelector('.nosotros-proceso__items');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
 
-    const updateButtons = () => {
-        const scrollLeft = container.scrollLeft;
-        const scrollWidth = container.scrollWidth;
-        const clientWidth = container.clientWidth;
+        const updateButtons = () => {
+            const scrollLeft = container.scrollLeft;
+            const scrollWidth = container.scrollWidth;
+            const clientWidth = container.clientWidth;
 
-        // Deshabilitar botón "anterior" si estamos al principio
-        prevBtn.disabled = scrollLeft < 1;
+            // Deshabilitar botón "anterior" si estamos al principio
+            prevBtn.disabled = scrollLeft < 1;
 
-        // Deshabilitar botón "siguiente" si estamos al final
-        nextBtn.disabled = scrollLeft + clientWidth >= scrollWidth - 1;
-    };
+            // Deshabilitar botón "siguiente" si estamos al final
+            nextBtn.disabled = scrollLeft + clientWidth >= scrollWidth - 1;
+        };
 
-    // Evento para el botón "siguiente"
-    nextBtn.addEventListener('click', () => {
-        const itemWidth = container.querySelector('.nosotros-proceso__item').offsetWidth;
-        const gap = parseInt(window.getComputedStyle(container).gap, 10);
-        container.scrollLeft += itemWidth + gap;
-    });
+        // Evento para el botón "siguiente"
+        nextBtn.addEventListener('click', () => {
+            const itemWidth = container.querySelector('.nosotros-proceso__item').offsetWidth;
+            const gap = parseInt(window.getComputedStyle(container).gap, 10);
+            container.scrollLeft += itemWidth + gap;
+        });
 
-    // Evento para el botón "anterior"
-    prevBtn.addEventListener('click', () => {
-        const itemWidth = container.querySelector('.nosotros-proceso__item').offsetWidth;
-        const gap = parseInt(window.getComputedStyle(container).gap, 10);
-        container.scrollLeft -= itemWidth + gap;
-    });
+        // Evento para el botón "anterior"
+        prevBtn.addEventListener('click', () => {
+            const itemWidth = container.querySelector('.nosotros-proceso__item').offsetWidth;
+            const gap = parseInt(window.getComputedStyle(container).gap, 10);
+            container.scrollLeft -= itemWidth + gap;
+        });
 
-    // Actualizar los botones cuando el usuario haga scroll manualmente
-    container.addEventListener('scroll', updateButtons);
+        // Actualizar los botones cuando el usuario haga scroll manualmente
+        container.addEventListener('scroll', updateButtons);
 
-    // Actualizar los botones al cargar la página
-    updateButtons();
+        // Actualizar los botones al cargar la página
+        updateButtons();
+    }
+
+
+
+    /** CONTADORES ANIMADOS EN LA PAGINA DE INDEX Y NOSOTROS */
+    const itemsConContador = document.querySelectorAll(".index-resultados__item, .nosotros-contador__item");
+
+    if (itemsConContador.length > 0) {
+        const duracion = 750;
+
+        const iniciarContador = (contador) => {
+            const objetivo = +contador.dataset.target;
+            let inicio = 0;
+            const incremento = objetivo / (duracion / 16.67);
+
+            const actualizarContador = () => {
+                inicio += incremento;
+                if (inicio < objetivo) {
+                    contador.innerText = `${Math.floor(inicio)}`;
+                    requestAnimationFrame(actualizarContador);
+                } else {
+                    contador.innerText = `${objetivo}`;
+                }
+            };
+            actualizarContador();
+        };
+
+        const observarItems = new IntersectionObserver((entradas, observador) => {
+            entradas.forEach((entrada) => {
+                if (entrada.isIntersecting) {
+                    // 2. Cuando el CONTENEDOR es visible, buscamos el contador DENTRO de él.
+                    const contador = entrada.target.querySelector('.contador');
+                    if (contador) {
+                        iniciarContador(contador);
+                    }
+                    // 3. Dejamos de observar el CONTENEDOR una vez animado.
+                    observador.unobserve(entrada.target);
+                }
+            });
+        }, {
+            threshold: 0.5 // Un umbral de 50% suele ser muy confiable
+        });
+
+        // 4. Le decimos al observador que vigile cada CONTENEDOR.
+        itemsConContador.forEach(item => {
+            observarItems.observe(item);
+        });
+    }
 });

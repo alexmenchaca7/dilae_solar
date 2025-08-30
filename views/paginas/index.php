@@ -29,15 +29,15 @@
         
                 <div class="index-resultados__grid">
                     <div class="index-resultados__item">
-                        <h3>10+</h3>
+                        <h3><span class="contador" data-target="10">0</span>+</h3>
                         <p>años de experiencia que respaldan su inversión</p>
                     </div>
                     <div class="index-resultados__item">
-                        <h3>90%</h3>
+                        <h3><span class="contador" data-target="90">0</span>%</h3>
                         <p>de ahorro promedio en recibos de luz*</p>
                     </div>
                     <div class="index-resultados__item">
-                        <h3>100+</h3>
+                        <h3><span class="contador" data-target="100">0</span>+</h3>
                         <p>clientes satisfechos con DILAE</p>
                     </div>
                 </div>
