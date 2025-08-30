@@ -132,9 +132,106 @@
                 <picture>
                     <source srcset="/build/img/nosotros-socio.avif" type="image/avif">
                     <source srcset="/build/img/nosotros-socio.webp" type="image/webp">
+                    <source srcset="/build/img/nosotros-socio.jpg" type="image/jpeg">
                     <img loading="lazy" src="/build/img/nosotros-socio.jpg" alt="Imagen montando paneles solares">
                 </picture>
             </div>
+        </div>
+    </section>
+
+    <section class="nosotros-aliados contenedor">
+        <h2>Conozca Nuestros Aliados en Energía Solar</h2>
+        <p>En Dilae Solar integramos solo fabricantes reconocidos a nivel mundial, líderes en eficiencia, innovación y durabilidad. Cada proyecto está respaldado por marcas que garantizan rendimiento superior y tranquilidad a largo plazo.</p>
+
+        <div class="nosotros-aliados__marcas">
+            <a rel="noopener noreferrer" target="_blank" href="https://static.trinasolar.com/es">
+                <picture>
+                    <source srcset="/build/img/trinasolar.avif" type="image/avif">
+                    <source srcset="/build/img/trinasolar.webp" type="image/webp">
+                    <source srcset="/build/img/trinasolar.png" type="image/png">
+                    <img loading="lazy" src="/build/img/trinasolar.png" alt="Logo de Trinasolar">
+                </picture>
+            </a>
+            <a rel="noopener noreferrer" target="_blank" href="https://www.canadiansolar.com/la/">
+                <picture>
+                    <source srcset="/build/img/canadian-solar.avif" type="image/avif">
+                    <source srcset="/build/img/canadian-solar.webp" type="image/webp">
+                    <source srcset="/build/img/canadian-solar.png" type="image/png">
+                    <img loading="lazy" src="/build/img/canadian-solar.png" alt="Logo de Canadian Solar">
+                </picture>
+            </a>
+            <a rel="noopener noreferrer" target="_blank" href="https://es.renesola-energy.com/">
+                <picture>
+                    <source srcset="/build/img/renesola.avif" type="image/avif">
+                    <source srcset="/build/img/renesola.webp" type="image/webp">
+                    <source srcset="/build/img/renesola.png" type="image/png">
+                    <img loading="lazy" src="/build/img/renesola.png" alt="Logo de ReneSola">
+                </picture>
+            </a>
+            <a rel="noopener noreferrer" target="_blank" href="https://k2-systems.com/es-mx/">
+                <picture>
+                    <source srcset="/build/img/k2.avif" type="image/avif">
+                    <source srcset="/build/img/k2.webp" type="image/webp">
+                    <source srcset="/build/img/k2.png" type="image/png">
+                    <img loading="lazy" src="/build/img/k2.png" alt="Logo de K2">
+                </picture>
+            </a>
+            <a rel="noopener noreferrer" target="_blank" href="https://latam.growatt.com/">
+                <picture>
+                    <source srcset="/build/img/growatt.avif" type="image/avif">
+                    <source srcset="/build/img/growatt.webp" type="image/webp">
+                    <source srcset="/build/img/growatt.png" type="image/png">
+                    <img loading="lazy" src="/build/img/growatt.png" alt="Logo de Growatt">
+                </picture>
+            </a>
+            <a rel="noopener noreferrer" target="_blank" href="https://enphase.com/es-mx">
+                <picture>
+                    <source srcset="/build/img/enphase.avif" type="image/avif">
+                    <source srcset="/build/img/enphase.webp" type="image/webp">
+                    <source srcset="/build/img/enphase.png" type="image/png">
+                    <img loading="lazy" src="/build/img/enphase.png" alt="Logo de Enphase">
+                </picture>
+            </a>
+            <a rel="noopener noreferrer" target="_blank" href="https://solar.huawei.com/mx/">
+                <picture>
+                    <source srcset="/build/img/huawei.avif" type="image/avif">
+                    <source srcset="/build/img/huawei.webp" type="image/webp">
+                    <source srcset="/build/img/huawei.png" type="image/png">
+                    <img loading="lazy" src="/build/img/huawei.png" alt="Logo de Huawei">
+                </picture>
+            </a>
+            <a rel="noopener noreferrer" target="_blank" href="https://www.solisinverters.com/mx">
+                <picture>
+                    <source srcset="/build/img/solis.avif" type="image/avif">
+                    <source srcset="/build/img/solis.webp" type="image/webp">
+                    <source srcset="/build/img/solis.png" type="image/png">
+                    <img loading="lazy" src="/build/img/solis.png" alt="Logo de Solis">
+                </picture>
+            </a>
+            <a rel="noopener noreferrer" target="_blank" href="https://www.novotegra.com/es/">
+                <picture>
+                    <source srcset="/build/img/novotegra.avif" type="image/avif">
+                    <source srcset="/build/img/novotegra.webp" type="image/webp">
+                    <source srcset="/build/img/novotegra.png" type="image/png">
+                    <img loading="lazy" src="/build/img/novotegra.png" alt="Logo de Novotegra">
+                </picture>
+            </a>
+            <a rel="noopener noreferrer" target="_blank" href="https://www.jinkosolar.com/es">
+                <picture>
+                    <source srcset="/build/img/jinko.avif" type="image/avif">
+                    <source srcset="/build/img/jinko.webp" type="image/webp">
+                    <source srcset="/build/img/jinko.png" type="image/png">
+                    <img loading="lazy" src="/build/img/jinko.png" alt="Logo de Jinko">
+                </picture>
+            </a>
+            <a rel="noopener noreferrer" target="_blank" href="https://www.fronius.com/es-mx/mexico">
+                <picture>
+                    <source srcset="/build/img/fronius.avif" type="image/avif">
+                    <source srcset="/build/img/fronius.webp" type="image/webp">
+                    <source srcset="/build/img/fronius.png" type="image/png">
+                    <img loading="lazy" src="/build/img/fronius.png" alt="Logo de Fronius">
+                </picture>
+            </a>
         </div>
     </section>
 </main>
