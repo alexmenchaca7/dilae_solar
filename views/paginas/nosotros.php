@@ -234,4 +234,18 @@
             </a>
         </div>
     </section>
+
+    <section class="nosotros-contacto-bg">
+        <div class="nosotros-contacto">
+            <div class="contenedor">
+                <h2>El Futuro de su Inversión Comienza Aquí</h2>
+                <p>En Dilae Solar creemos que cada proyecto comienza con una conversación cercana y honesta. Estamos listos para escuchar sus necesidades y ofrecerle la solución solar exacta que su hogar o empresa merece.</p>
+    
+                <div class="nosotros-contacto__botones">
+                    <a href="/contacto" class="btn-nosotros-contacto">Hablemos de su Proyecto</a>
+                    <a href="/calculadora" class="btn-nosotros-calculadora">Estime su Ahorro Solar</a>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>

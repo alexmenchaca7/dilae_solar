@@ -1,0 +1,108 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+@use 'sass:color';
+
+.no-webp .nosotros-contacto-bg {
+    background-image: url(/build/img/nosotros-contacto-bg.jpg);
+}
+
+.webp .nosotros-contacto-bg {
+    background-image: url(/build/img/nosotros-contacto-bg.webp);
+}
+
+.nosotros-contacto-bg {
+    position: relative;
+    background-position: bottom center;
+    background-size: cover;
+}
+
+.nosotros-contacto {
+    width: 100%;
+    height: 100%;
+    padding-block: 14rem;
+    background-color: rgba(0, 16, 32, 0.30);
+
+    .contenedor {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    h2 {
+        color: v.$blanco;
+        text-align: center;
+        font-size: 3.6rem;
+        font-weight: 300;
+        line-height: normal;
+        margin-top: 0;
+        margin-bottom: 3.4rem;
+        max-width: 60rem;
+
+        @include m.tablet {
+            font-size: 4.8rem;
+            margin-bottom: 4rem;
+        }
+    }
+
+    p {
+        color: v.$base;
+        text-align: center;
+        font-size: 1.8rem;
+        font-family: v.$fuente-header;
+        font-weight: 300;
+        line-height: 116.667%;
+        margin-top: 0;
+        margin-bottom: 4rem;
+        max-width: 87rem;
+
+        @include m.tablet {
+            font-size: 2.4rem;
+        }
+    }
+
+    &__botones {
+        display: flex;
+        gap: 2.6rem;
+
+        .btn-nosotros-contacto,
+        .btn-nosotros-calculadora {
+            display: inline-block;
+            text-align: center;
+            border-radius: 5px;
+            font-family: v.$fuente-header;
+            font-size: 1.6rem;
+            padding-block: 0.8rem;
+            padding-inline: 1.2rem;
+            transition: 0.3s ease all;
+
+            @include m.tablet {
+                padding-inline: 0;
+                font-size: 2rem;
+                width: 30rem;
+            }
+        }
+
+        .btn-nosotros-contacto {
+            color: v.$negro;
+            background-color: v.$base;
+
+            &:hover {
+                color: v.$base;
+                background-color: v.$negro;
+            }
+        }
+
+        .btn-nosotros-calculadora {
+            color: v.$base;
+            background-color: transparent;
+            border: 1px solid v.$blanco;
+
+            &:hover {
+                color: v.$base;
+                background-color: v.$negro;
+                border: 1px solid v.$negro;
+            }
+        }
+    }
+}
