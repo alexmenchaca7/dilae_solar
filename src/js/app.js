@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-    // Seleccionar los elementos del DOM
+    /** LOGICA PARA EL GRID INTERACTIVO DEL FORMULARIO DE LA PAGINA DE CALCULADORA  */
     const checkbox = document.getElementById('montoPorBimestre');
     const gastoPromedioContainer = document.getElementById('gastoPromedioContainer');
     const bimestresContainer = document.getElementById('bimestresContainer');
@@ -258,4 +258,100 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Ejecutar la función una vez al cargar la página para establecer el estado inicial correcto
     toggleBimestreFields();
+
+
+
+
+    /** GRAFICA DE PRODUCCION MENSUAL VS CONSUMO DE LA CALCULADORA */
+    const ctx = document.getElementById('myBarChart');
+
+    if (ctx) { // Asegúrate de que el canvas existe
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Ene - Feb', 'Mar - Abr', 'May - Jun', 'Jul - Ago', 'Sep - Oct', 'Nov - Dic'],
+                datasets: [
+                    {
+                        label: 'Producción Bimestral Estimada',
+                        data: [2800, 3700, 3500, 3120, 2800, 2160], // Datos de producción de las barras
+                        backgroundColor: '#001F3F', // v.$primario
+                        borderColor: '#001F3F',
+                        borderWidth: 1,
+                        categoryPercentage: 0.8, // Ancho de la barra
+                        barPercentage: 0.8, // Espacio entre barras
+                        yAxisID: 'y'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, // Permite que la altura del contenedor controle el canvas
+                plugins: {
+                    legend: {
+                        display: false // Deshabilita la leyenda por defecto de Chart.js, usaremos nuestra leyenda personalizada
+                    },
+                    tooltip: {
+                        enabled: true // Habilita los tooltips al pasar el ratón
+                    },
+                    annotation: {
+                        annotations: {
+                            consumoPromedio: { // Un nombre único para tu anotación
+                                type: 'line',
+                                yMin: 2500, // El valor en el eje Y donde se dibujará la línea
+                                yMax: 2500, // Debe ser el mismo que yMin para una línea horizontal
+                                borderColor: '#C7922A',
+                                borderWidth: 3,
+                                borderDash: [7, 7],
+                                // La siguiente línea hace que la etiqueta de la anotación no se muestre
+                                label: {
+                                    display: false
+                                }
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false // Oculta las líneas de la cuadrícula vertical
+                        },
+                        ticks: {
+                            color: '#B1BAC4', // Color de las etiquetas del eje X
+                            font: {
+                                size: 12,
+                                family: "'Inter', sans-serif", // Asegúrate de que esta fuente esté cargada
+                                weight: '500'
+                            }
+                        },
+                    },
+                    y: {
+                        beginAtZero: true,
+                        max: 4000, // Máximo del eje Y
+                        border: {
+                            display: false // <-- ¡ESTA ES LA LÍNEA MÁGICA! Desactiva el borde del eje.
+                        },
+
+                        ticks: {
+                            stepSize: 2000, // Pasos de 2000
+                            color: '#B1BAC4', // Color de las etiquetas del eje Y
+                            font: {
+                                size: 12,
+                                family: "'Inter', sans-serif",
+                                weight: '500'
+                            },
+                            callback: function(value, index, values) {
+                                return value; // Muestra el valor tal cual
+                            }
+                        },
+                        grid: {
+                            color: '#B1BAC4',
+                            lineWidth: 2,
+                            drawBorder: false, 
+                            drawTicks: false
+                        }
+                    }
+                }
+            }
+        });
+    }
 });

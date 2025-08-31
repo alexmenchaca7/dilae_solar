@@ -188,6 +188,8 @@
     <script defer="defer" type="text/javascript" src="https://dashboard.dilaesolar.com/im_livechat/loader/1"></script>
     <script defer="defer" type="text/javascript" src="https://dashboard.dilaesolar.com/im_livechat/assets_embed.js"></script>
     <script defer data-domain="dilaesolar.com" src="https://analytics.dilaesolar.com/js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/3.0.1/chartjs-plugin-annotation.min.js"></script>
     <script src="<?php echo get_asset('app.js'); ?>" defer></script>
 </body>
 </html>

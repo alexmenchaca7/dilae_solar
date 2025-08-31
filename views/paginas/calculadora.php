@@ -137,4 +137,54 @@
             </div>
         </div>
     </section>
+
+    <section class="calculadora-widgets contenedor">
+        <h2>La Anatomía de su<br><span>Independencia Energética</span></h2>
+
+        <div class="calculadora-widgets__grid">
+            <div class="calculadora-widgets__item">
+                <h3>Cantidad de Paneles Solares</h3>
+                <p>18 Paneles</p>
+                <small>Tier 1 seleccionados por su eficiencia y durabilidad.</small>
+            </div>
+            <div class="calculadora-widgets__item">
+                <h3>Potencia Nominal</h3>
+                <p>610 Watts</p>
+                <small>Tecnología de vanguardia para máxima captación solar.</small>
+            </div>
+            <div class="calculadora-widgets__item">
+                <h3>Potencia Total Instalada</h3>
+                <p>10.98 kWp</p>
+                <small>Diseño optimizado para cubrir sus necesidades energéticas.</small>
+            </div>
+            <div class="calculadora-widgets__item">
+                <h3>Generación Anual Estimada</h3>
+                <p>18.61 MWh</p>
+                <small>Energía limpia que reduce drásticamente su factura de CFE.</small>
+            </div>
+            <div class="calculadora-widgets__item">
+                <h3>Impacto Ambiental Anual</h3>
+                <p>~12.17 Ton</p>
+                <small>de CO₂ evitadas. Equivalente a haber plantado ~553 árboles.</small>
+            </div>
+            <div class="calculadora-widgets__chart-container">
+                <div class="chart-header">
+                    <h3>Producción Mensual vs. Su Consumo</h3>
+                    <div class="chart-legend-custom">
+                        <div class="legend-item">
+                            <span class="legend-line--dashed"></span>
+                            <p>Consumo Bimestral Promedio</p>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-box"></span>
+                            <p>Producción Bimestral Estimada</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="myBarChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>
