@@ -202,4 +202,60 @@ document.addEventListener('DOMContentLoaded', function() {
             observarItems.observe(item);
         });
     }
+
+
+
+    // Seleccionar los elementos del DOM
+    const checkbox = document.getElementById('montoPorBimestre');
+    const gastoPromedioContainer = document.getElementById('gastoPromedioContainer');
+    const bimestresContainer = document.getElementById('bimestresContainer');
+    const infoConsumoHistorico = document.getElementById('infoConsumoHistorico');
+
+    // Obtenemos el contenedor del checkbox
+    const opcionGridContainer = document.querySelector('.formulario__opcion-bimestre-grid');
+
+    if (!checkbox || !opcionGridContainer) {
+        console.error('Faltan elementos del checkbox.');
+        return; // Detiene la ejecución si falta algo
+    }
+
+    const inputPromedio = document.getElementById('gasto_bimestral');
+    const inputsBimestre = bimestresContainer.querySelectorAll('input');
+
+    function toggleBimestreFields() {
+        if (checkbox.checked) {
+            // Escenario 1: Checkbox ACTIVADO
+                
+            opcionGridContainer.classList.add('grid-activo');
+            
+            // Ocultar el campo de promedio
+            gastoPromedioContainer.classList.add('hidden');
+            if (inputPromedio) inputPromedio.required = false;
+
+            // Mostrar los campos bimestrales
+            bimestresContainer.classList.add('visible');
+            infoConsumoHistorico.classList.remove('hidden');
+            inputsBimestre.forEach(input => input.required = true);
+
+        } else {
+            // Escenario 2: Checkbox DESACTIVADO
+
+            opcionGridContainer.classList.remove('grid-activo');
+
+            // Mostrar el campo de promedio
+            gastoPromedioContainer.classList.remove('hidden');
+            if (inputPromedio) inputPromedio.required = true;
+
+            // Ocultar los campos bimestrales
+            bimestresContainer.classList.remove('visible');
+            infoConsumoHistorico.classList.add('hidden');
+            inputsBimestre.forEach(input => input.required = false);
+        }
+    }
+
+    // Añadir el listener al checkbox
+    checkbox.addEventListener('change', toggleBimestreFields);
+
+    // Ejecutar la función una vez al cargar la página para establecer el estado inicial correcto
+    toggleBimestreFields();
 });
