@@ -23,6 +23,7 @@ $router->get('/soluciones', [PaginasController::class, 'soluciones']);
 $router->get('/contacto', [PaginasController::class, 'contacto']);
 $router->post('/contacto', [PaginasController::class, 'contacto']);
 $router->get('/calculadora', [PaginasController::class, 'calculadora']);
+$router->post('/calculadora', [PaginasController::class, 'calculadora']);
 
 
 

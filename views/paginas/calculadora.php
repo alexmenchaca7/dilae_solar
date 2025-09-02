@@ -9,7 +9,7 @@
                         <div class="formulario__campo">
                             <label for="tipo_tarifa" class="formulario__label">Tipo de Tarifa <span class="opcional"><span class="asterisco">*</span> Opcional</span></label>
                             <select class="formulario__input" id="tipo_tarifa" name="tipo_tarifa" required>
-                                <option value="" disabled <?php echo empty($datos['tipo_tarifa']) ? 'selected' : ''; ?>>Default</option>
+                                <option value="Tarifa 1" <?php echo empty($datos['tipo_tarifa']) ? 'selected' : ''; ?>>Default</option>
                                 
                                 <option value="Tarifa 1" <?php echo ($datos['tipo_tarifa'] ?? '') === 'Tarifa 1' ? 'selected' : ''; ?>>
                                     Tarifa 1
@@ -51,7 +51,7 @@
                                     Tarifa GDBT
                                 </option>
                             </select>
-                            <small>ⓘ Dónde encontrar tu tipo de tarifa</small>
+                            <small id="info-tarifa-trigger">ⓘ Dónde encontrar tu tipo de tarifa</small>
                         </div>
     
                         <div class="formulario__campo">
@@ -59,7 +59,13 @@
                             
                             <div class="formulario__opcion-bimestre-grid">
                                 <div class="formulario__opcion-bimestre">
-                                    <input type="checkbox" id="montoPorBimestre" class="formulario__checkbox-input">
+                                    <input 
+                                        type="checkbox" 
+                                        id="montoPorBimestre" 
+                                        name="montoPorBimestre"
+                                        class="formulario__checkbox-input"
+                                        <?php echo ($datos['montoPorBimestre'] ?? false) ? 'checked' : ''; ?>
+                                    >
                                     <label for="montoPorBimestre" class="formulario__label--checkbox">Monto por Bimestre</label>
                                 </div>
                                 
@@ -67,16 +73,30 @@
                             </div>
 
                             <div id="gastoPromedioContainer">
-                                <input type="text" class="formulario__input" id="gasto_bimestral" name="gasto_bimestral" placeholder="Ingrese su gasto promedio" required value="<?php echo htmlspecialchars($datos['gasto_bimestral'] ?? ''); ?>">
+                                <input 
+                                    type="text" 
+                                    class="formulario__input" 
+                                    id="gasto_bimestral" 
+                                    name="gasto_bimestral" 
+                                    placeholder="$2,500.00" 
+                                    required 
+                                    value="<?php echo htmlspecialchars($datos['gasto_bimestral'] ?? ''); ?>"
+                                >
                             </div>
 
                             <div id="bimestresContainer" class="formulario__bimestres-grid">
-                                <input type="text" class="formulario__input" name="gasto_bimestre[]" placeholder="Ene - Feb">
-                                <input type="text" class="formulario__input" name="gasto_bimestre[]" placeholder="Jul - Ago">
-                                <input type="text" class="formulario__input" name="gasto_bimestre[]" placeholder="Mar - Abr">
-                                <input type="text" class="formulario__input" name="gasto_bimestre[]" placeholder="Sep - Oct">
-                                <input type="text" class="formulario__input" name="gasto_bimestre[]" placeholder="May - Jun">
-                                <input type="text" class="formulario__input" name="gasto_bimestre[]" placeholder="Nov - Dic">
+                                <?php 
+                                $placeholders = ["Ene - Feb", "Mar - Abr", "May - Jun", "Jul - Ago", "Sep - Oct", "Nov - Dic"];
+                                for ($i = 0; $i < 6; $i++): 
+                                ?>
+                                    <input 
+                                        type="text" 
+                                        class="formulario__input" 
+                                        name="gasto_bimestre[]" 
+                                        placeholder="<?php echo $placeholders[$i]; ?>" 
+                                        value="<?php echo htmlspecialchars($datos['gastos_bimestrales'][$i] ?? ''); ?>"
+                                    >
+                                <?php endfor; ?>
                             </div>
                         </div>
     
@@ -88,7 +108,7 @@
                     <div class="widget">
                         <div class="widget__contenido">
                             <h3>Ahorro Anual Estimado</h3>
-                            <p>$72,169 MXN</p>
+                            <p><?php echo $resultados['ahorroAnual'] ?? '...'; ?></p>
                         </div>
                         
                         <svg xmlns="http://www.w3.org/2000/svg" width="54" height="60" viewBox="0 0 54 60" fill="none">
@@ -103,7 +123,7 @@
                     <div class="widget">
                         <div class="widget__contenido">
                             <h3>Retorno de Inversión</h3>
-                            <p>2 Años 7 Meses</p>
+                            <p><?php echo $resultados['retornoInversion'] ?? '...'; ?></p>
                         </div>
 
                         <svg xmlns="http://www.w3.org/2000/svg" width="73" height="60" viewBox="0 0 73 60" fill="none">
@@ -119,7 +139,7 @@
                     <div class="widget">
                         <div class="widget__contenido">
                             <h3>Ganancia Neta en Vida Útil</h3>
-                            <p>$1,620,215 MXN</p>
+                            <p><?php echo $resultados['gananciaNeta'] ?? '...'; ?></p>
                         </div>
 
                         <svg xmlns="http://www.w3.org/2000/svg" width="73" height="60" viewBox="0 0 73 60" fill="none">
@@ -137,54 +157,104 @@
             </div>
         </div>
     </section>
+    
+    <?php if (isset($mostrarResultados) && $mostrarResultados): ?>
+        <section class="calculadora-widgets contenedor">
+            <h2>La Anatomía de su<br><span>Independencia Energética</span></h2>
 
-    <section class="calculadora-widgets contenedor">
-        <h2>La Anatomía de su<br><span>Independencia Energética</span></h2>
-
-        <div class="calculadora-widgets__grid">
-            <div class="calculadora-widgets__item">
-                <h3>Cantidad de Paneles Solares</h3>
-                <p>18 Paneles</p>
-                <small>Tier 1 seleccionados por su eficiencia y durabilidad.</small>
-            </div>
-            <div class="calculadora-widgets__item">
-                <h3>Potencia Nominal</h3>
-                <p>610 Watts</p>
-                <small>Tecnología de vanguardia para máxima captación solar.</small>
-            </div>
-            <div class="calculadora-widgets__item">
-                <h3>Potencia Total Instalada</h3>
-                <p>10.98 kWp</p>
-                <small>Diseño optimizado para cubrir sus necesidades energéticas.</small>
-            </div>
-            <div class="calculadora-widgets__item">
-                <h3>Generación Anual Estimada</h3>
-                <p>18.61 MWh</p>
-                <small>Energía limpia que reduce drásticamente su factura de CFE.</small>
-            </div>
-            <div class="calculadora-widgets__item">
-                <h3>Impacto Ambiental Anual</h3>
-                <p>~12.17 Ton</p>
-                <small>de CO₂ evitadas. Equivalente a haber plantado ~553 árboles.</small>
-            </div>
-            <div class="calculadora-widgets__chart-container">
-                <div class="chart-header">
-                    <h3>Producción Mensual vs. Su Consumo</h3>
-                    <div class="chart-legend-custom">
-                        <div class="legend-item">
-                            <span class="legend-line--dashed"></span>
-                            <p>Consumo Bimestral Promedio</p>
-                        </div>
-                        <div class="legend-item">
-                            <span class="legend-box"></span>
-                            <p>Producción Bimestral Estimada</p>
+            <div class="calculadora-widgets__grid">
+                <div class="calculadora-widgets__item">
+                    <h3>Cantidad de Paneles Solares</h3>
+                    <p><?php echo $resultados['cantidadPaneles'] ?? '...';?></p>
+                    <small>Tier 1 seleccionados por su eficiencia y durabilidad.</small>
+                </div>
+                <div class="calculadora-widgets__item">
+                    <h3>Potencia Nominal</h3>
+                    <p><?php echo $resultados['potenciaNominal'] ?? '...'; ?></p>
+                    <small>Tecnología de vanguardia para máxima captación solar.</small>
+                </div>
+                <div class="calculadora-widgets__item">
+                    <h3>Potencia Total Instalada</h3>
+                    <p><?php echo $resultados['potenciaTotalInstalada'] ?? '...'; ?></p>
+                    <small>Diseño optimizado para cubrir sus necesidades energéticas.</small>
+                </div>
+                <div class="calculadora-widgets__item">
+                    <h3>Generación Anual Estimada</h3>
+                    <p><?php echo $resultados['generacionAnual'] ?? '...'; ?></p>
+                    <small>Energía limpia que reduce drásticamente su factura de CFE.</small>
+                </div>
+                <div class="calculadora-widgets__item">
+                    <h3>Impacto Ambiental Anual</h3>
+                    <p><?php echo $resultados['impactoAmbiental'] ?? '...'; ?></p>
+                    <small>de CO₂ evitadas. Equivalente a haber plantado <?php echo $resultados['equivalenciaArboles'] ?? '~0'; ?> árboles.</small>
+                </div>
+                <div class="calculadora-widgets__chart-container">
+                    <div class="chart-header">
+                        <h3>Producción Mensual vs. Su Consumo</h3>
+                        <div class="chart-legend-custom">
+                            <div class="legend-item">
+                                <span class="legend-line--dashed"></span>
+                                <p>Consumo Bimestral Promedio</p>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-box"></span>
+                                <p>Producción Bimestral Estimada</p>
+                            </div>
                         </div>
                     </div>
+                    <div class="chart-wrapper">
+                        <canvas id="myBarChart"></canvas>
+                    </div>
                 </div>
-                <div class="chart-wrapper">
-                    <canvas id="myBarChart"></canvas>
-                </div>
+
+                <?php if (!empty($resultados['datosGrafica'])): ?>
+                    <script>
+                        const datosGrafica = <?php echo json_encode($resultados['datosGrafica']); ?>;
+                    </script>
+                <?php endif; ?>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <section class="calculadora-grafica contenedor">
+            <h3>Vea Crecer su Inversión:</h3>
+            <h2>Su Rendimiento Solar a 25 Años</h2>
+
+            <div class="calculadora-grafica__chart">
+                <canvas id="calculadoraChart"></canvas>
+            </div>
+        </section>
+
+        <?php if (!empty($resultados['datosGraficaLinea'])): ?>
+            <script>
+                const datosGraficaLinea = <?php echo json_encode($resultados['datosGraficaLinea']); ?>;
+            </script>
+        <?php endif; ?>
+
+        <section class="calculadora-contacto-bg">
+            <div class="calculadora-contacto contenedor">
+                <div class="calculadora-contacto__contenido">
+                    <h3>Deje de Imaginar su Ahorro</h3>
+                    <h2>Comience a Vivirlo</h2>
+                    <p>Dé el paso final hacia su ahorro energético. En DILAE Solar, nuestro equipo está listo para tomar su caso. Permítanos realizar el análisis técnico final para convertir estas proyecciones en su nueva realidad financiera.</p>
+                    <a href="/contacto">Solicitar Análisis Técnico</a>
+                </div>
+
+                <small>ⓘ Los resultados mostrados en esta calculadora son únicamente estimaciones de carácter informativo. No constituyen una oferta, compromiso contractual ni garantizan ahorros o rendimientos específicos. Los valores de ahorro, retorno de inversión, número de paneles, costos o cualquier otro dato pueden variar en función de factores técnicos, condiciones particulares de cada instalación, tarifas aplicables, regulaciones vigentes y/o cotización final emitida por Dilae Solar. Para obtener información precisa y vinculante, es necesario solicitar un análisis técnico y una propuesta formal de cotización.</small>
+            </div>
+        </section>
+    <?php endif; ?>
 </main>
+
+<div id="recibo-modal" class="modal-overlay">
+    <div class="modal-contenido">
+        <span class="modal-cerrar">&times;</span>
+        <img src="/build/img/recibo-cfe.webp" alt="Tutorial para encontrar tipo de tarifa">
+    </div>
+</div>
+
+<div id="consumo-modal" class="modal-overlay">
+    <div class="modal-contenido">
+        <span class="modal-cerrar">&times;</span>
+        <img src="/build/img/consumo-cfe.webp" alt="Tutorial para encontrar el consumo histórico">
+    </div>
+</div>

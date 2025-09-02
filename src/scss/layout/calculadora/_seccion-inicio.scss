@@ -204,6 +204,13 @@
             transition: all 0.3s ease; 
         }
 
+        .formulario__checkbox-input:disabled + .formulario__label--checkbox {
+            // El cursor cambia a "no permitido" para indicar que no es clickeable.
+            cursor: not-allowed;
+            // La opacidad se reduce para que se vea visualmente "apagado" o inactivo.
+            opacity: 0.6;
+        }
+
         .formulario__label--checkbox::before {
             content: '';
             position: absolute;
@@ -348,5 +355,77 @@
             max-height: 6rem;
             width: auto;
         }
+    }
+}
+
+
+
+/* =================================
+   ESTILOS PARA EL MODAL TUTORIAL
+   ================================= */
+#info-tarifa-trigger,
+#infoConsumoHistorico {
+    cursor: pointer;
+    transition: 0.2s ease all;
+    &:hover {
+        color: v.$naranja; // Cambia a tu color de hover preferido
+    }
+}
+
+.modal-overlay {
+    position: fixed; /* Se posiciona sobre toda la pantalla */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75); /* Fondo negro semi-transparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000; /* Se asegura de que esté por encima de todo */
+    
+    /* Oculto por defecto con una transición suave */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+
+    /* Clase que lo hará visible */
+    &.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.modal-contenido {
+    position: relative;
+    background-color: #fff; /* Fondo blanco para el contenedor de la imagen */
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    max-width: 90%;
+    max-height: 90vh; /* Ocupa máximo el 90% de la altura de la pantalla */
+
+    img {
+        display: block; /* Elimina espacios extra debajo de la imagen */
+        max-width: 100%;
+        max-height: calc(90vh - 4rem); /* Ajusta la altura máxima para que quepa el padding */
+        height: auto;
+    }
+}
+
+.modal-cerrar {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    color: #333;
+    font-size: 3rem;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+
+    &:hover,
+    &:focus {
+        color: v.$naranja; // Tu color de hover
+        text-decoration: none;
     }
 }

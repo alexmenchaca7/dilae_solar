@@ -206,58 +206,155 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     /** LOGICA PARA EL GRID INTERACTIVO DEL FORMULARIO DE LA PAGINA DE CALCULADORA  */
+    const selectTarifa = document.getElementById('tipo_tarifa');
     const checkbox = document.getElementById('montoPorBimestre');
     const gastoPromedioContainer = document.getElementById('gastoPromedioContainer');
     const bimestresContainer = document.getElementById('bimestresContainer');
     const infoConsumoHistorico = document.getElementById('infoConsumoHistorico');
-
-    // Obtenemos el contenedor del checkbox
     const opcionGridContainer = document.querySelector('.formulario__opcion-bimestre-grid');
 
-    if (!checkbox || !opcionGridContainer) {
-        console.error('Faltan elementos del checkbox.');
+    if (!selectTarifa || !checkbox || !opcionGridContainer) {
+        console.error('Faltan elementos críticos del formulario.');
         return; // Detiene la ejecución si falta algo
     }
 
     const inputPromedio = document.getElementById('gasto_bimestral');
-    const inputsBimestre = bimestresContainer.querySelectorAll('input');
+    const inputsBimestre = Array.from(bimestresContainer.querySelectorAll('input'));
+    const form = document.querySelector('.formulario');
+    const allCurrencyInputs = [inputPromedio, ...inputsBimestre];
+
+    function formatCurrency(value) {
+        if (value === '' || value === null) return '';
+        const number = parseFloat(value);
+        if (isNaN(number)) return '';
+        
+        return '$' + number.toLocaleString('es-MX', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+    }
+
+    function getNumericValue(formattedValue) {
+        if (!formattedValue) return '';
+        // Permite solo números y un punto decimal
+        return formattedValue.replace(/[^0-9.]/g, '');
+    }
 
     function toggleBimestreFields() {
         if (checkbox.checked) {
-            // Escenario 1: Checkbox ACTIVADO
-                
             opcionGridContainer.classList.add('grid-activo');
-            
-            // Ocultar el campo de promedio
             gastoPromedioContainer.classList.add('hidden');
             if (inputPromedio) inputPromedio.required = false;
 
-            // Mostrar los campos bimestrales
             bimestresContainer.classList.add('visible');
             infoConsumoHistorico.classList.remove('hidden');
             inputsBimestre.forEach(input => input.required = true);
-
         } else {
-            // Escenario 2: Checkbox DESACTIVADO
-
             opcionGridContainer.classList.remove('grid-activo');
-
-            // Mostrar el campo de promedio
             gastoPromedioContainer.classList.remove('hidden');
             if (inputPromedio) inputPromedio.required = true;
 
-            // Ocultar los campos bimestrales
             bimestresContainer.classList.remove('visible');
             infoConsumoHistorico.classList.add('hidden');
             inputsBimestre.forEach(input => input.required = false);
         }
     }
 
-    // Añadir el listener al checkbox
+    // --- Listeners y Ejecución Inicial ---
+
+    allCurrencyInputs.forEach(input => {
+        if (!input) return;
+
+        // Al cargar la página, formatea los valores que PHP haya repoblado.
+        if(input.value) {
+            input.value = formatCurrency(getNumericValue(input.value));
+        }
+
+        // CADA VEZ que el usuario escribe (input), aplicamos el formato.
+        input.addEventListener('input', (e) => {
+            // <-- INICIA LA SECCIÓN CORREGIDA
+            const input = e.target;
+            
+            // 1. Obtenemos solo los dígitos, ignorando todo lo demás.
+            let numericValue = input.value.replace(/[^0-9]/g, '');
+
+            // Si no hay números, dejamos el campo vacío.
+            if (numericValue === '') {
+                input.value = '';
+                return;
+            }
+
+            // 2. Convertimos a número y formateamos a moneda local (esto añade las comas).
+            const number = parseInt(numericValue, 10);
+            const formattedValue = number.toLocaleString('es-MX');
+
+            // 3. Asignamos el valor con el signo de pesos.
+            // Al hacer esto, el cursor se va al final por defecto, lo cual es correcto.
+            input.value = '$' + formattedValue;
+            // <-- TERMINA LA SECCIÓN CORREGIDA. No hay más lógica de cursor.
+        });
+
+        // Cuando el usuario SALE del campo (blur), aseguramos que tenga 2 decimales.
+        input.addEventListener('blur', () => {
+            const numericValue = getNumericValue(input.value);
+            input.value = formatCurrency(numericValue);
+        });
+    });
+
+    // Limpiar los campos antes de enviar el formulario ---
+    if (form) {
+        form.addEventListener('submit', () => {
+            if(checkbox.disabled) {
+                checkbox.disabled = false;
+            }
+            allCurrencyInputs.forEach(input => {
+                if (input) {
+                    input.value = getNumericValue(input.value);
+                }
+            });
+        });
+    }
+
+    // Listeners para los eventos de cambio
     checkbox.addEventListener('change', toggleBimestreFields);
 
-    // Ejecutar la función una vez al cargar la página para establecer el estado inicial correcto
+    // Ejecutar al cargar la página para establecer el estado inicial correcto
     toggleBimestreFields();
+
+
+
+
+
+    /** TUTORIAL PARA ENCONTRAR EL TIPO DE TARIFA DE CFE Y EL CONSUMO HISTORICO */
+    function inicializarModal(triggerId, modalId) {
+        const trigger = document.getElementById(triggerId);
+        const modal = document.getElementById(modalId);
+
+        if (trigger && modal) {
+            const cerrarBtn = modal.querySelector('.modal-cerrar');
+
+            // Abrir el modal
+            trigger.addEventListener('click', () => {
+                modal.classList.add('visible');
+            });
+
+            // Cerrar con el botón 'X'
+            cerrarBtn.addEventListener('click', () => {
+                modal.classList.remove('visible');
+            });
+
+            // Cerrar haciendo clic en el fondo
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('visible');
+                }
+            });
+        }
+    }
+
+    // Inicializar cada modal
+    inicializarModal('info-tarifa-trigger', 'recibo-modal');
+    inicializarModal('infoConsumoHistorico', 'consumo-modal');
 
 
 
@@ -265,7 +362,15 @@ document.addEventListener('DOMContentLoaded', function() {
     /** GRAFICA DE PRODUCCION MENSUAL VS CONSUMO DE LA CALCULADORA */
     const ctx = document.getElementById('myBarChart');
 
-    if (ctx) { // Asegúrate de que el canvas existe
+    // Verificamos si el canvas y los datos de la gráfica existen antes de dibujarla
+    if (ctx && typeof datosGrafica !== 'undefined') {
+
+        // 1. Encontrar el valor más alto entre todos los datos para ajustar la escala
+        const maximoValor = Math.max(...datosGrafica.produccionBimestral, datosGrafica.consumoPromedio);
+        
+        // 2. Calcular el límite superior del eje Y, redondeado al siguiente millar para que se vea limpio
+        const limiteEjeY = Math.ceil((maximoValor * 1.20) / 1000) * 1000; 
+
         new Chart(ctx, {
             type: 'bar',
             data: {
@@ -273,8 +378,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 datasets: [
                     {
                         label: 'Producción Bimestral Estimada',
-                        data: [2800, 3700, 3500, 3120, 2800, 2160], // Datos de producción de las barras
-                        backgroundColor: '#001F3F', // v.$primario
+                        data: datosGrafica.produccionBimestral, // Usamos los datos de producción que vienen de PHP
+                        backgroundColor: '#001F3F', 
                         borderColor: '#001F3F',
                         borderWidth: 1,
                         categoryPercentage: 0.8, // Ancho de la barra
@@ -297,8 +402,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         annotations: {
                             consumoPromedio: { // Un nombre único para tu anotación
                                 type: 'line',
-                                yMin: 2500, // El valor en el eje Y donde se dibujará la línea
-                                yMax: 2500, // Debe ser el mismo que yMin para una línea horizontal
+                                yMin: datosGrafica.consumoPromedio,
+                                yMax: datosGrafica.consumoPromedio,
                                 borderColor: '#C7922A',
                                 borderWidth: 3,
                                 borderDash: [7, 7],
@@ -326,13 +431,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     },
                     y: {
                         beginAtZero: true,
-                        max: 4000, // Máximo del eje Y
+                        max: limiteEjeY, // Máximo del eje Y
                         border: {
                             display: false // <-- ¡ESTA ES LA LÍNEA MÁGICA! Desactiva el borde del eje.
                         },
 
                         ticks: {
-                            stepSize: 2000, // Pasos de 2000
+                            maxTicksLimit: 5,
                             color: '#B1BAC4', // Color de las etiquetas del eje Y
                             font: {
                                 size: 12,
@@ -348,6 +453,140 @@ document.addEventListener('DOMContentLoaded', function() {
                             lineWidth: 2,
                             drawBorder: false, 
                             drawTicks: false
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+
+
+    /** GRAFICA DE RENDIMIENTO SOLAR A 25 AÑOS */
+    const ctxLinea = document.getElementById('calculadoraChart');
+
+    if (ctxLinea && typeof datosGraficaLinea !== 'undefined') {
+
+        const { inversionInicial, gananciaNetaFinal, aniosROI, roiTexto } = datosGraficaLinea;
+        const ahorroAnual = (gananciaNetaFinal - inversionInicial) / 25;
+        const labels = Array.from({ length: 26 }, (_, i) => i);
+        const datosAcumulados = labels.map(i => inversionInicial + (ahorroAnual * i));
+
+        // Calcular el índice del ROI con redondeo ---
+        const roiIndex = Math.round(aniosROI)
+
+        const inversionData = [inversionInicial, ...Array(25).fill(null)];
+        const roiData = [...Array(roiIndex).fill(null), 0, ...Array(25 - roiIndex).fill(null)];
+        const gananciaData = [...Array(25).fill(null), gananciaNetaFinal];
+
+        new Chart(ctxLinea, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Ganancia Acumulada',
+                        data: datosAcumulados,
+                        borderWidth: 0,
+                        fill: true,
+                        tension: 0,
+                        pointRadius: 0,
+                        backgroundColor: function(context) {
+                            const chart = context.chart;
+                            const { ctx, chartArea } = chart;
+                            if (!chartArea) { return null; }
+                            const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+                            const yAxis = chart.scales.y;
+                            const zeroPixel = yAxis.getPixelForValue(0);
+                            if (yAxis.min >= 0) return '#E4BC34';
+                            if (yAxis.max <= 0) return '#001F3F';
+                            const zeroPosition = (zeroPixel - chartArea.top) / chartArea.height;
+                            gradient.addColorStop(0, '#E4BC34');
+                            gradient.addColorStop(zeroPosition, '#E4BC34');
+                            gradient.addColorStop(zeroPosition, '#001F3F');
+                            gradient.addColorStop(1, '#001F3F');
+                            return gradient;
+                        }
+                    },
+                    {
+                        label: `Inversión Inicial: $${new Intl.NumberFormat('es-MX').format(Math.abs(inversionInicial))} MXN`,
+                        data: inversionData,
+                        pointBackgroundColor: '#001F3F',
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    },
+                    {
+                        label: `Retorno de Inversión: ${roiTexto}`,
+                        data: roiData,
+                        pointBackgroundColor: '#333333',
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    },
+                    {
+                        label: `Ganancia Neta: $${new Intl.NumberFormat('es-MX').format(gananciaNetaFinal)} MXN`,
+                        data: gananciaData,
+                        pointBackgroundColor: '#C5A434',
+                        pointBorderColor: '#FFF',
+                        pointBorderWidth: 2,
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        align: 'center',
+                        labels: {
+                            boxWidth: 15,
+                            padding: 20,
+                            font: {
+                                size: 12,
+                                family: "'Inter', sans-serif"
+                            }
+                        }
+                    },
+                    tooltip: {
+                        intersect: false,
+                        mode: 'index',
+                        callbacks: {
+                            title: function() {
+                                return '';
+                            },
+                            label: function(context) {
+                                // Solo muestra el tooltip para los puntos clave, no para la línea
+                                if (context.datasetIndex > 0) {
+                                    return context.dataset.label;
+                                }
+                                return null;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + new Intl.NumberFormat('es-MX').format(value);
+                            }
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Años',
+                            font: { size: 12, family: "'Inter', sans-serif" }
+                        },
+                        ticks: {
+                            callback: function(value, index) {
+                                return labels[index] % 5 === 0 ? labels[index] : '';
+                            },
+                            maxRotation: 0,
+                            minRotation: 0
                         }
                     }
                 }

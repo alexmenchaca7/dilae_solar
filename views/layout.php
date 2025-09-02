@@ -9,8 +9,8 @@
 
     // Estructura de datos SEO
     $seo = [
-        'title' => $titulo ?? 'Soluciones en Iluminación',
-        'meta_description' => $meta_description ?? 'Empresa mexicana especialista en proyección, diseño y consultoría en iluminación y ahorro de energía. Soluciones para proyectos de cualquier magnitud.',
+        'title' => $titulo ?? 'Paneles Solares en Guadalajara',
+        'meta_description' => $meta_description ?? 'Instalación profesional de energía solar en Guadalajara. Invierta en paneles solares para su hogar o negocio y reduzca su factura de CFE hasta un 90%',
         'canonical' => $base_url . strtok($_SERVER['REQUEST_URI'], '?'),
         'og_type' => $og_type ?? 'website',
         'og_image' => $og_image ?? $base_url . '/build/img/logo.png', // Crea una imagen para redes sociales
@@ -18,7 +18,7 @@
     ];
 
     // Generar el título final de la página
-    $final_title = $inicio ? $site_name . ' | Soluciones Integrales de Iluminación' : $seo['title'] . ' | ' . $site_name;
+    $final_title = $inicio ? $site_name . ' | Paneles Solares en Guadalajara' : $seo['title'] . ' | ' . $site_name;
 ?>
 
 <!DOCTYPE html>
@@ -81,7 +81,6 @@
                                 <li><a href="/nosotros">Nosotros</a></li>
                                 <li><a href="/soluciones">Soluciones</a></li>
                                 <li><a href="/calculadora">Calculadora</a></li>
-                                <li><a href="/blog">Blog</a></li>
                                 <li><a href="/contacto">Contacto</a></li>
                             </ul>
                         </div>
@@ -140,7 +139,6 @@
                         <div class="logo-container"><a href="/nosotros">Nosotros</a></div>
                         <div class="logo-container"><a href="/soluciones">Soluciones</a></div>
                         <div class="logo-container"><a href="/calculadora">Calculadora</a></div>
-                        <div class="logo-container"><a href="/blog">Blog</a></div>
                         <div class="logo-container"><a href="/contacto">Contacto</a></div>
                     </div>
                 </div>
