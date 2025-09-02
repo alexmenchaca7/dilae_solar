@@ -16,7 +16,11 @@
     background-size: cover;
     margin-top: 3rem;
     margin-bottom: 7.5rem;
-    background-attachment: fixed;
+    background-attachment: scroll;
+
+    @include m.tablet {
+        background-attachment: fixed;
+    }
 }
 
 .index-garantia {

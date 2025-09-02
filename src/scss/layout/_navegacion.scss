@@ -16,6 +16,8 @@
 
     .logo {
         height: 5rem;
+        width: auto;      
+        max-width: 100%;  
 
         @include m.tablet {
             height: 8rem;
