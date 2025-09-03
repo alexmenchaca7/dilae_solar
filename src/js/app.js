@@ -468,7 +468,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const COLOR_GANANCIA = '#C7922A'; 
         const COLOR_INVERSION = '#001F3F'; 
-        const COLOR_ROI = '#dc3545';      
+        const COLOR_ROI = '#6E6E6E';      
 
         const ahorroAnual = (gananciaNetaFinal - inversionInicial) / 25;
         const labels = Array.from({ length: 26 }, (_, i) => i);
