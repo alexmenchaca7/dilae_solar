@@ -11,27 +11,23 @@ echo "✅ Iniciando despliegue..."
 PROJECT_DIR="/home/u387411157/domains/dilaesolar.com/public_html"
 cd "$PROJECT_DIR" || { echo "❌ Error: No se pudo acceder al directorio del proyecto."; exit 1; }
 
-# Limpia cualquier cambio local no guardado para evitar conflictos.
-echo "🔄 Limpiando repositorio local..."
-git reset --hard HEAD
-git fetch origin master
-git checkout master
-git pull origin master
+# Limpia y actualiza el repositorio para que coincida con la rama master remota.
+echo "🔄 Sincronizando repositorio con origin/master..."
+git fetch origin
+git reset --hard origin/master
 
 echo "✅ Repositorio actualizado."
 
-# --- INICIA LA CORRECCIÓN ---
-# Define la variable HOME antes de ejecutar Composer.
+# Define la variable HOME para que la usen los siguientes comandos (especialmente NVM).
 export HOME="/home/u387411157"
-# --- TERMINA LA CORRECCIÓN ---
 
-# Instala/actualiza las dependencias de PHP.
+# Instala dependencias de PHP, pasando la variable HOME directamente al comando.
 echo "📦 Instalando dependencias de Composer..."
-composer install --no-dev --optimize-autoloader
+HOME="/home/u387411157" composer install --no-dev --optimize-autoloader
 
 echo "✅ Dependencias de Composer instaladas."
 
-# Carga NVM para que los comandos de Node y NPM estén disponibles.
+# Carga NVM. NVM_DIR ahora usará la variable HOME exportada arriba.
 echo "📦 Configurando entorno de Node.js..."
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
