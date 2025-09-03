@@ -365,11 +365,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Verificamos si el canvas y los datos de la gráfica existen antes de dibujarla
     if (ctx && typeof datosGrafica !== 'undefined') {
 
-        // 1. Encontrar el valor más alto entre todos los datos para ajustar la escala
+        // Encontrar el valor más alto entre todos los datos para ajustar la escala
         const maximoValor = Math.max(...datosGrafica.produccionBimestral, datosGrafica.consumoPromedio);
-        
-        // 2. Calcular el límite superior del eje Y, redondeado al siguiente millar para que se vea limpio
-        const limiteEjeY = Math.ceil((maximoValor * 1.20) / 1000) * 1000; 
+        const limiteSugerido = maximoValor * 1.25;
 
         new Chart(ctx, {
             type: 'bar',
@@ -378,36 +376,35 @@ document.addEventListener('DOMContentLoaded', function() {
                 datasets: [
                     {
                         label: 'Producción Bimestral Estimada',
-                        data: datosGrafica.produccionBimestral, // Usamos los datos de producción que vienen de PHP
+                        data: datosGrafica.produccionBimestral, 
                         backgroundColor: '#001F3F', 
                         borderColor: '#001F3F',
                         borderWidth: 1,
-                        categoryPercentage: 0.8, // Ancho de la barra
-                        barPercentage: 0.8, // Espacio entre barras
+                        categoryPercentage: 0.8, 
+                        barPercentage: 0.8, 
                         yAxisID: 'y'
                     }
                 ]
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false, // Permite que la altura del contenedor controle el canvas
+                maintainAspectRatio: false,
                 plugins: {
                     legend: {
-                        display: false // Deshabilita la leyenda por defecto de Chart.js, usaremos nuestra leyenda personalizada
+                        display: false 
                     },
                     tooltip: {
-                        enabled: true // Habilita los tooltips al pasar el ratón
+                        enabled: true 
                     },
                     annotation: {
                         annotations: {
-                            consumoPromedio: { // Un nombre único para tu anotación
+                            consumoPromedio: { 
                                 type: 'line',
                                 yMin: datosGrafica.consumoPromedio,
                                 yMax: datosGrafica.consumoPromedio,
                                 borderColor: '#C7922A',
                                 borderWidth: 3,
                                 borderDash: [7, 7],
-                                // La siguiente línea hace que la etiqueta de la anotación no se muestre
                                 label: {
                                     display: false
                                 }
@@ -418,34 +415,34 @@ document.addEventListener('DOMContentLoaded', function() {
                 scales: {
                     x: {
                         grid: {
-                            display: false // Oculta las líneas de la cuadrícula vertical
+                            display: false 
                         },
                         ticks: {
-                            color: '#B1BAC4', // Color de las etiquetas del eje X
+                            color: '#B1BAC4', 
                             font: {
                                 size: 12,
-                                family: "'Inter', sans-serif", // Asegúrate de que esta fuente esté cargada
+                                family: "'Inter', sans-serif", 
                                 weight: '500'
                             }
                         },
                     },
                     y: {
                         beginAtZero: true,
-                        max: limiteEjeY, // Máximo del eje Y
+                        suggestedMax: limiteSugerido, 
                         border: {
-                            display: false // <-- ¡ESTA ES LA LÍNEA MÁGICA! Desactiva el borde del eje.
+                            display: false 
                         },
 
                         ticks: {
-                            maxTicksLimit: 5,
-                            color: '#B1BAC4', // Color de las etiquetas del eje Y
+                            maxTicksLimit: 6,
+                            color: '#B1BAC4', 
                             font: {
                                 size: 12,
                                 family: "'Inter', sans-serif",
                                 weight: '500'
                             },
                             callback: function(value, index, values) {
-                                return value; // Muestra el valor tal cual
+                                return value; 
                             }
                         },
                         grid: {
@@ -468,11 +465,14 @@ document.addEventListener('DOMContentLoaded', function() {
     if (ctxLinea && typeof datosGraficaLinea !== 'undefined') {
 
         const { inversionInicial, gananciaNetaFinal, aniosROI, roiTexto } = datosGraficaLinea;
+
+        const COLOR_GANANCIA = '#C7922A'; 
+        const COLOR_INVERSION = '#001F3F'; 
+        const COLOR_ROI = '#dc3545';      
+
         const ahorroAnual = (gananciaNetaFinal - inversionInicial) / 25;
         const labels = Array.from({ length: 26 }, (_, i) => i);
         const datosAcumulados = labels.map(i => inversionInicial + (ahorroAnual * i));
-
-        // Calcular el índice del ROI con redondeo ---
         const roiIndex = Math.round(aniosROI)
 
         const inversionData = [inversionInicial, ...Array(25).fill(null)];
@@ -487,6 +487,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     {
                         label: 'Ganancia Acumulada',
                         data: datosAcumulados,
+                        order: 1,
                         borderWidth: 0,
                         fill: true,
                         tension: 0,
@@ -498,38 +499,48 @@ document.addEventListener('DOMContentLoaded', function() {
                             const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
                             const yAxis = chart.scales.y;
                             const zeroPixel = yAxis.getPixelForValue(0);
-                            if (yAxis.min >= 0) return '#E4BC34';
-                            if (yAxis.max <= 0) return '#001F3F';
+                            if (yAxis.min >= 0) return COLOR_GANANCIA;
+                            if (yAxis.max <= 0) return COLOR_INVERSION;
                             const zeroPosition = (zeroPixel - chartArea.top) / chartArea.height;
-                            gradient.addColorStop(0, '#E4BC34');
-                            gradient.addColorStop(zeroPosition, '#E4BC34');
-                            gradient.addColorStop(zeroPosition, '#001F3F');
-                            gradient.addColorStop(1, '#001F3F');
+                            gradient.addColorStop(0, COLOR_GANANCIA);
+                            gradient.addColorStop(zeroPosition, COLOR_GANANCIA);
+                            gradient.addColorStop(zeroPosition, COLOR_INVERSION);
+                            gradient.addColorStop(1, COLOR_INVERSION);
                             return gradient;
                         }
                     },
                     {
                         label: `Inversión Inicial: $${new Intl.NumberFormat('es-MX').format(Math.abs(inversionInicial))} MXN`,
                         data: inversionData,
-                        pointBackgroundColor: '#001F3F',
-                        pointRadius: 6,
-                        pointHoverRadius: 8
+                        order: 2,
+                        pointBackgroundColor: COLOR_INVERSION,
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 8, 
+                        pointHoverRadius: 10,
+                        pointStyle: 'circle'
                     },
                     {
                         label: `Retorno de Inversión: ${roiTexto}`,
                         data: roiData,
-                        pointBackgroundColor: '#333333',
-                        pointRadius: 6,
-                        pointHoverRadius: 8
+                        order: 2,
+                        pointBackgroundColor: COLOR_ROI,
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 8, 
+                        pointHoverRadius: 10,
+                        pointStyle: 'circle'
                     },
                     {
                         label: `Ganancia Neta: $${new Intl.NumberFormat('es-MX').format(gananciaNetaFinal)} MXN`,
                         data: gananciaData,
-                        pointBackgroundColor: '#C5A434',
-                        pointBorderColor: '#FFF',
+                        order: 2,
+                        pointBackgroundColor: COLOR_GANANCIA,
+                        pointBorderColor: '#fff',
                         pointBorderWidth: 2,
-                        pointRadius: 6,
-                        pointHoverRadius: 8
+                        pointRadius: 8, 
+                        pointHoverRadius: 10,
+                        pointStyle: 'circle'
                     }
                 ]
             },
@@ -544,6 +555,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         labels: {
                             boxWidth: 15,
                             padding: 20,
+                            usePointStyle: true,
+                            filter: (item) => {
+                                // Oculta la leyenda para el primer dataset ('Ganancia Acumulada')
+                                return item.datasetIndex !== 0;
+                            },
                             font: {
                                 size: 12,
                                 family: "'Inter', sans-serif"
@@ -552,17 +568,47 @@ document.addEventListener('DOMContentLoaded', function() {
                     },
                     tooltip: {
                         intersect: false,
-                        mode: 'index',
+                        mode: 'nearest',
                         callbacks: {
-                            title: function() {
-                                return '';
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                if (item.datasetIndex > 0) {
+                                    return item.dataset.label;
+                                }
+                                return `Año ${item.label}`;
                             },
                             label: function(context) {
-                                // Solo muestra el tooltip para los puntos clave, no para la línea
-                                if (context.datasetIndex > 0) {
-                                    return context.dataset.label;
+                                // Muestra el valor solo para la línea de área.
+                                if (context.datasetIndex === 0) {
+                                    let value = context.parsed.y;
+                                    let label = value >= 0 ? 'Ganancia Acumulada: ' : 'Inversión: ';
+                                    return label + '$' + new Intl.NumberFormat('es-MX').format(value);
                                 }
-                                return null;
+                                return ''; 
+                            }
+                        }
+                    }
+                },
+                annotation: {
+                    drawTime: 'beforeDatasetsDraw',
+                    annotations: {
+                        line1: {
+                            type: 'line',
+                            xMin: aniosROI,
+                            xMax: aniosROI,
+                            borderColor: COLOR_ROI,
+                            borderWidth: 2,
+                            borderDash: [6, 6], 
+                            label: {
+                                content: `ROI: ${roiTexto}`,
+                                enabled: true,
+                                position: 'start',
+                                backgroundColor: '#dc3545',
+                                font: {
+                                    size: 10,
+                                    weight: 'bold'
+                                },
+                                yAdjust: -15
                             }
                         }
                     }

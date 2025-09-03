@@ -40,7 +40,7 @@
     background-size: cover;
     background-attachment: scroll;
 
-    @include m.tablet {
+    @include m.desktopS {
         background-attachment: fixed;
     }
 

@@ -41,6 +41,7 @@
         h2 {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 1rem;
             margin-top: 0;
             font-family: v.$fuente_principal;
@@ -137,7 +138,7 @@
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25) inset;
     padding: 8rem 0;
 
-    @include m.tablet {
+    @include m.desktopS {
         background-attachment: fixed;
     }
 }

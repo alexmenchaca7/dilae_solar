@@ -16,7 +16,7 @@
     background-attachment: scroll;
     padding: 10rem 0 3rem 0;
 
-    @include m.tablet {
+    @include m.desktopS {
         background-attachment: fixed;
     }
 }

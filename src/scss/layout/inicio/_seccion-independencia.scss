@@ -16,7 +16,7 @@
     margin-top: 15rem;
     background-attachment: scroll;
 
-    @include m.tablet {
+    @include m.desktopS {
         background-attachment: fixed;
     }
 }

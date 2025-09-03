@@ -115,12 +115,12 @@
                     <p>Todos los derechos reservados</p>
                     <div class="footer-social">
                         <div class="logo-container">
-                            <a rel="noopener noreferrer" target="_blank" href="https://www.instagram.com">
+                            <a rel="noopener noreferrer" target="_blank" href="https://www.instagram.com/dilae.solar/">
                                 <i class="fa-brands fa-instagram"></i>
                             </a>
                         </div>
                         <div class="logo-container">
-                            <a rel="noopener noreferrer" target="_blank" href="https://www.facebook.com/p/DILAE-100063075438310/">
+                            <a rel="noopener noreferrer" target="_blank" href="https://www.facebook.com/profile.php?id=61576200926732">
                                 <i class="fa-brands fa-facebook"></i>
                             </a>
                         </div>
@@ -144,7 +144,7 @@
                 </div>
 
                 <div class="footer-info">
-                    <h3>Oficinas</h3>
+                    <h3>Oficina</h3>
                     <a class="logo-container" rel="noopener noreferrer" target="_blank" href="https://maps.app.goo.gl/Nz3JU3Pzct4UUZea8">
                         Calzada de las Flores #1111-L4, Zapopan, Jalisco, México
                     </a>
