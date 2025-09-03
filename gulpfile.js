@@ -220,16 +220,21 @@ function watchFiles() {
     watch('src/img/**/*.{png,jpg,jpeg,svg}', series(cleanImg, imagenes));
 }
 
-// Tarea que compila todos los assets una vez
-const buildAssets = parallel(css, js, imagenes);
+// Tarea que compila SOLO CSS y JS (ligera, para el servidor)
+const buildServerAssets = parallel(css, js);
 
-// TAREA 'build' EXPORTADA: Limpia todo y luego compila los assets.
-// Esto es lo que usará tu script de despliegue. No se queda "escuchando".
-export const build = series(cleanAll, buildAssets);
+// Tarea que compila TODO (para uso local)
+const buildLocalAssets = parallel(css, js, imagenes);
+
+// TAREA 'build:server' EXPORTADA: Limpia solo CSS/JS y compila solo CSS/JS.
+// Esto es lo que usará tu script de despliegue.
+export const build_server = series(parallel(cleanCss, cleanJs), buildServerAssets);
+
+// TAREA 'build' EXPORTADA: Limpia TODO y compila TODO (para uso local).
+export const build = series(cleanAll, buildLocalAssets);
 
 // TAREA 'dev' EXPORTADA: Limpia, compila y luego se queda observando cambios.
-// Esta es la que debes usar localmente con `npm run dev`.
-export const dev = series(cleanAll, buildAssets, watchFiles);
+export const dev = series(cleanAll, buildLocalAssets, watchFiles);
 
-// 5. TAREA 'default' (cuando solo corres 'gulp'): Ahora apunta a la tarea de desarrollo.
+// TAREA 'default' (cuando solo corres 'gulp'): Ahora apunta a la tarea de desarrollo.
 export default dev;

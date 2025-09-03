@@ -46,8 +46,8 @@ npm install
 echo "✅ Dependencias de NPM instaladas."
 
 # Ejecuta el script de compilación de producción.
-echo "🚀 Compilando assets..."
-npm run build
+echo "🚀 Compilando assets del servidor (CSS & JS)..."
+npm run build:server
 
-echo "✅ Assets compilados con 'npm run build'."
+echo "✅ Assets compilados"
 echo "🎉 ¡Despliegue finalizado con éxito!"
