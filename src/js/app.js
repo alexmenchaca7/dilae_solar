@@ -207,119 +207,116 @@ document.addEventListener('DOMContentLoaded', function() {
 
     /** LOGICA PARA EL GRID INTERACTIVO DEL FORMULARIO DE LA PAGINA DE CALCULADORA  */
     const selectTarifa = document.getElementById('tipo_tarifa');
-    const checkbox = document.getElementById('montoPorBimestre');
-    const gastoPromedioContainer = document.getElementById('gastoPromedioContainer');
-    const bimestresContainer = document.getElementById('bimestresContainer');
-    const infoConsumoHistorico = document.getElementById('infoConsumoHistorico');
-    const opcionGridContainer = document.querySelector('.formulario__opcion-bimestre-grid');
 
-    if (!selectTarifa || !checkbox || !opcionGridContainer) {
-        console.error('Faltan elementos críticos del formulario.');
-        return; // Detiene la ejecución si falta algo
-    }
-
-    const inputPromedio = document.getElementById('gasto_bimestral');
-    const inputsBimestre = Array.from(bimestresContainer.querySelectorAll('input'));
-    const form = document.querySelector('.formulario');
-    const allCurrencyInputs = [inputPromedio, ...inputsBimestre];
-
-    function formatCurrency(value) {
-        if (value === '' || value === null) return '';
-        const number = parseFloat(value);
-        if (isNaN(number)) return '';
-        
-        return '$' + number.toLocaleString('es-MX', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        });
-    }
-
-    function getNumericValue(formattedValue) {
-        if (!formattedValue) return '';
-        // Permite solo números y un punto decimal
-        return formattedValue.replace(/[^0-9.]/g, '');
-    }
-
-    function toggleBimestreFields() {
-        if (checkbox.checked) {
-            opcionGridContainer.classList.add('grid-activo');
-            gastoPromedioContainer.classList.add('hidden');
-            if (inputPromedio) inputPromedio.required = false;
-
-            bimestresContainer.classList.add('visible');
-            infoConsumoHistorico.classList.remove('hidden');
-            inputsBimestre.forEach(input => input.required = true);
-        } else {
-            opcionGridContainer.classList.remove('grid-activo');
-            gastoPromedioContainer.classList.remove('hidden');
-            if (inputPromedio) inputPromedio.required = true;
-
-            bimestresContainer.classList.remove('visible');
-            infoConsumoHistorico.classList.add('hidden');
-            inputsBimestre.forEach(input => input.required = false);
-        }
-    }
-
-    // --- Listeners y Ejecución Inicial ---
-
-    allCurrencyInputs.forEach(input => {
-        if (!input) return;
-
-        // Al cargar la página, formatea los valores que PHP haya repoblado.
-        if(input.value) {
-            input.value = formatCurrency(getNumericValue(input.value));
-        }
-
-        // CADA VEZ que el usuario escribe (input), aplicamos el formato.
-        input.addEventListener('input', (e) => {
-            // <-- INICIA LA SECCIÓN CORREGIDA
-            const input = e.target;
+    if (selectTarifa) {
+        const checkbox = document.getElementById('montoPorBimestre');
+        const gastoPromedioContainer = document.getElementById('gastoPromedioContainer');
+        const bimestresContainer = document.getElementById('bimestresContainer');
+        const infoConsumoHistorico = document.getElementById('infoConsumoHistorico');
+        const opcionGridContainer = document.querySelector('.formulario__opcion-bimestre-grid');
+    
+        const inputPromedio = document.getElementById('gasto_bimestral');
+        const inputsBimestre = Array.from(bimestresContainer.querySelectorAll('input'));
+        const form = document.querySelector('.formulario');
+        const allCurrencyInputs = [inputPromedio, ...inputsBimestre];
+    
+        function formatCurrency(value) {
+            if (value === '' || value === null) return '';
+            const number = parseFloat(value);
+            if (isNaN(number)) return '';
             
-            // 1. Obtenemos solo los dígitos, ignorando todo lo demás.
-            let numericValue = input.value.replace(/[^0-9]/g, '');
-
-            // Si no hay números, dejamos el campo vacío.
-            if (numericValue === '') {
-                input.value = '';
-                return;
+            return '$' + number.toLocaleString('es-MX', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+    
+        function getNumericValue(formattedValue) {
+            if (!formattedValue) return '';
+            // Permite solo números y un punto decimal
+            return formattedValue.replace(/[^0-9.]/g, '');
+        }
+    
+        function toggleBimestreFields() {
+            if (checkbox.checked) {
+                opcionGridContainer.classList.add('grid-activo');
+                gastoPromedioContainer.classList.add('hidden');
+                if (inputPromedio) inputPromedio.required = false;
+    
+                bimestresContainer.classList.add('visible');
+                infoConsumoHistorico.classList.remove('hidden');
+                inputsBimestre.forEach(input => input.required = true);
+            } else {
+                opcionGridContainer.classList.remove('grid-activo');
+                gastoPromedioContainer.classList.remove('hidden');
+                if (inputPromedio) inputPromedio.required = true;
+    
+                bimestresContainer.classList.remove('visible');
+                infoConsumoHistorico.classList.add('hidden');
+                inputsBimestre.forEach(input => input.required = false);
             }
-
-            // 2. Convertimos a número y formateamos a moneda local (esto añade las comas).
-            const number = parseInt(numericValue, 10);
-            const formattedValue = number.toLocaleString('es-MX');
-
-            // 3. Asignamos el valor con el signo de pesos.
-            // Al hacer esto, el cursor se va al final por defecto, lo cual es correcto.
-            input.value = '$' + formattedValue;
-            // <-- TERMINA LA SECCIÓN CORREGIDA. No hay más lógica de cursor.
-        });
-
-        // Cuando el usuario SALE del campo (blur), aseguramos que tenga 2 decimales.
-        input.addEventListener('blur', () => {
-            const numericValue = getNumericValue(input.value);
-            input.value = formatCurrency(numericValue);
-        });
-    });
-
-    // Limpiar los campos antes de enviar el formulario ---
-    if (form) {
-        form.addEventListener('submit', () => {
-            if(checkbox.disabled) {
-                checkbox.disabled = false;
+        }
+    
+        // --- Listeners y Ejecución Inicial ---
+        allCurrencyInputs.forEach(input => {
+            if (!input) return;
+    
+            // Al cargar la página, formatea los valores que PHP haya repoblado.
+            if(input.value) {
+                input.value = formatCurrency(getNumericValue(input.value));
             }
-            allCurrencyInputs.forEach(input => {
-                if (input) {
-                    input.value = getNumericValue(input.value);
+    
+            // CADA VEZ que el usuario escribe (input), aplicamos el formato.
+            input.addEventListener('input', (e) => {
+                // <-- INICIA LA SECCIÓN CORREGIDA
+                const input = e.target;
+                
+                // 1. Obtenemos solo los dígitos, ignorando todo lo demás.
+                let numericValue = input.value.replace(/[^0-9]/g, '');
+    
+                // Si no hay números, dejamos el campo vacío.
+                if (numericValue === '') {
+                    input.value = '';
+                    return;
                 }
+    
+                // 2. Convertimos a número y formateamos a moneda local (esto añade las comas).
+                const number = parseInt(numericValue, 10);
+                const formattedValue = number.toLocaleString('es-MX');
+    
+                // 3. Asignamos el valor con el signo de pesos.
+                // Al hacer esto, el cursor se va al final por defecto, lo cual es correcto.
+                input.value = '$' + formattedValue;
+                // <-- TERMINA LA SECCIÓN CORREGIDA. No hay más lógica de cursor.
+            });
+    
+            // Cuando el usuario SALE del campo (blur), aseguramos que tenga 2 decimales.
+            input.addEventListener('blur', () => {
+                const numericValue = getNumericValue(input.value);
+                input.value = formatCurrency(numericValue);
             });
         });
+    
+        // Limpiar los campos antes de enviar el formulario ---
+        if (form) {
+            form.addEventListener('submit', () => {
+                if(checkbox.disabled) {
+                    checkbox.disabled = false;
+                }
+                allCurrencyInputs.forEach(input => {
+                    if (input) {
+                        input.value = getNumericValue(input.value);
+                    }
+                });
+            });
+        }
+    
+        // Listeners para los eventos de cambio
+        checkbox.addEventListener('change', toggleBimestreFields);
+    
+        // Ejecutar al cargar la página para establecer el estado inicial correcto
+        toggleBimestreFields();
     }
-
-    // Listeners para los eventos de cambio
-    checkbox.addEventListener('change', toggleBimestreFields);
-
-    // Ejecutar al cargar la página para establecer el estado inicial correcto
-    toggleBimestreFields();
 
 
 
