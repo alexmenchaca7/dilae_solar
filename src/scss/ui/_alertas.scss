@@ -16,3 +16,30 @@
         color: v.$success;
     }
 }
+
+.alerta-popup {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    padding: 1.5rem 2.5rem;
+    border-radius: .5rem;
+    color: v.$blanco;
+    font-weight: v.$bold;
+    z-index: 9999;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    
+    /* Nueva lógica de animación con transición */
+    opacity: 0;
+    transform: translateY(20px);
+    visibility: hidden;
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out, visibility 0.5s;
+}
+
+.alerta-popup.visible {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+}
+
+.alerta-popup.alerta--exito { background-color: v.$success; }
+.alerta-popup.alerta--error { background-color: v.$error; }

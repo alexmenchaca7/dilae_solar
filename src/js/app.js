@@ -688,20 +688,13 @@ document.addEventListener('DOMContentLoaded', function() {
         alerta.textContent = mensaje;
         document.body.appendChild(alerta);
 
-        const whatsappWidget = document.querySelector('.whatsapp-widget');
-        const tidioChatIframe = document.getElementById('tidio-chat-iframe');
-
-        // Ocultar widgets inmediatamente
-        if (whatsappWidget) whatsappWidget.style.visibility = 'hidden';
-        if (tidioChatIframe && window.innerWidth < 768) tidioChatIframe.style.visibility = 'hidden';
-
         // Forzar al navegador a registrar el estado inicial (oculto)
         getComputedStyle(alerta).opacity;
 
         // Hacer visible la alerta para activar la transición de entrada
         alerta.classList.add('visible');
 
-        // Programar la desaparición de la alerta y la reaparición de los widgets
+        // Programar la desaparición de la alerta
         setTimeout(() => {
             // Quitar la clase 'visible' para activar la transición de salida
             alerta.classList.remove('visible');
@@ -709,12 +702,79 @@ document.addEventListener('DOMContentLoaded', function() {
             // Esperar a que la transición de salida termine antes de eliminar el elemento
             alerta.addEventListener('transitionend', () => {
                 alerta.remove();
-                
-                // Reaparecer los widgets solo después de que la alerta se haya eliminado
-                if (whatsappWidget) whatsappWidget.style.visibility = 'visible';
-                if (tidioChatIframe && window.innerWidth < 768) tidioChatIframe.style.visibility = 'visible';
             }, { once: true });
 
         }, 4000); // 4 segundos de visibilidad
     }
+
+
+
+    // --- CÓDIGO PARA EL DASHBOARD RESPONSIVE ---
+    const mobileMenuBtn = document.querySelector('.dashboard__mobile-menu');
+    const sidebar = document.querySelector('.dashboard__sidebar');
+
+    if (mobileMenuBtn && sidebar) {
+        mobileMenuBtn.addEventListener('click', function() {
+            sidebar.classList.toggle('sidebar--mostrar');
+        });
+
+        // Opcional: Cerrar el menú haciendo clic fuera del sidebar
+        document.body.addEventListener('click', function(e) {
+            // Si el clic NO fue en el sidebar Y NO fue en el botón del menú
+            if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                sidebar.classList.remove('sidebar--mostrar');
+            }
+        });
+    }
+
+
+
+
+    /** SEO COUNTERS **/
+    function setupSeoCounters() {
+        const seoFields = [
+            { inputId: 'meta_title', counterId: 'meta_title_counter', indicatorId: 'meta_title_indicator', optimalMin: 40, max: 60 },
+            { inputId: 'meta_description', counterId: 'meta_description_counter', indicatorId: 'meta_description_indicator', optimalMin: 120, max: 155 }
+        ];
+
+        seoFields.forEach(fieldConfig => {
+            const input = document.getElementById(fieldConfig.inputId);
+            const counterElement = document.getElementById(fieldConfig.counterId);
+            const indicatorElement = document.getElementById(fieldConfig.indicatorId);
+
+            if (input && counterElement && indicatorElement) {
+                const indicatorBar = indicatorElement.querySelector('.indicator-bar-fill');
+                if (!indicatorBar) return;
+
+                const updateSeoCounter = () => {
+                    const length = input.value.length;
+                    counterElement.textContent = `${length}/${fieldConfig.max}`;
+
+                    let status = 'error'; // Default to error (too short or too long)
+                    if (length >= fieldConfig.optimalMin && length <= fieldConfig.max) {
+                        status = 'good';
+                    } else if (length > 0 && length < fieldConfig.optimalMin) {
+                        status = 'warn'; // It has content, but it's too short
+                    } else if (length > fieldConfig.max) {
+                        status = 'error'; // Too long
+                    } else if (length === 0) {
+                        status = 'empty'; // Special state for no content
+                    }
+                    
+                    indicatorBar.className = 'indicator-bar-fill'; // Reset classes
+                    if(status !== 'empty') {
+                        indicatorBar.classList.add(status);
+                    }
+                    
+                    const widthPercentage = Math.min((length / fieldConfig.max) * 100, 100);
+                    indicatorBar.style.width = `${widthPercentage}%`;
+                };
+
+                input.addEventListener('input', updateSeoCounter);
+                updateSeoCounter(); // Initial check on page load
+            }
+        });
+    }
+
+    setupSeoCounters();
 });
