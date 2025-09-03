@@ -7,8 +7,7 @@ set -e
 
 echo "✅ Iniciando despliegue..."
 
-# Navega al directorio raíz de tu proyecto en el servidor
-# Usamos una ruta absoluta para mayor seguridad.
+# Define la ruta del proyecto para mayor seguridad.
 PROJECT_DIR="/home/u387411157/domains/dilaesolar.com/public_html"
 cd "$PROJECT_DIR" || { echo "❌ Error: No se pudo acceder al directorio del proyecto."; exit 1; }
 
@@ -21,15 +20,20 @@ git pull origin master
 
 echo "✅ Repositorio actualizado."
 
+# --- INICIA LA CORRECCIÓN ---
+# Define la variable HOME antes de ejecutar Composer.
+export HOME="/home/u387411157"
+# --- TERMINA LA CORRECCIÓN ---
+
 # Instala/actualiza las dependencias de PHP.
 echo "📦 Instalando dependencias de Composer..."
 composer install --no-dev --optimize-autoloader
 
 echo "✅ Dependencias de Composer instaladas."
 
-# Carga NVM. Es crucial definir NVM_DIR explícitamente.
+# Carga NVM para que los comandos de Node y NPM estén disponibles.
 echo "📦 Configurando entorno de Node.js..."
-export NVM_DIR="/home/u387411157/.nvm"
+export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
 # Verificar que node y npm están disponibles
