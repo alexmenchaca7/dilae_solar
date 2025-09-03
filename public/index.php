@@ -1,5 +1,12 @@
 <?php
 
+// INTERCEPCIÓN PARA EL SCRIPT DE DESPLIEGUE
+// Si la solicitud es para desplegar.php, lo ejecutamos directamente y detenemos todo lo demás.
+if (strtok($_SERVER['REQUEST_URI'], '?') === '/desplegar.php') {
+    require_once __DIR__ . '/desplegar.php';
+    exit;
+}
+
 // Cargar todas las dependencias y configuraciones iniciales.
 require_once __DIR__ . '/../includes/app.php'; 
 
