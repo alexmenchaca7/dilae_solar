@@ -183,8 +183,17 @@
         </footer>
     </div>
 
-    <script defer="defer" type="text/javascript" src="https://dashboard.dilaesolar.com/im_livechat/loader/1"></script>
-    <script defer="defer" type="text/javascript" src="https://dashboard.dilaesolar.com/im_livechat/assets_embed.js"></script>
+    <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/68b8802d46ae59192624737c/1j48b9d1c';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+        })();
+    </script>
     <script defer data-domain="dilaesolar.com" src="https://analytics.dilaesolar.com/js/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/3.0.1/chartjs-plugin-annotation.min.js"></script>
