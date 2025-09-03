@@ -6,8 +6,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "gulp",
-    "build": "gulp build",
-    "build:server": "gulp build_server"
+    "build": "gulp build"
   },
   "author": "Alejandro Menchaca V.",
   "license": "ISC",
