@@ -1,16 +1,10 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # --- EXCEPCIÓN PARA EL SCRIPT DE DESPLIEGUE ---
-    # Si la URL solicitada es 'desplegar.php', no apliques las siguientes reglas.
-    # El script se ejecutará directamente.
-    RewriteRule ^desplegar\.php$ - [L]
-
-    # --- REGLAS NORMALES PARA EL ROUTER DE TU APLICACIÓN ---
-    # Si la solicitud no es para un archivo o directorio que ya existe...
+    # Si la solicitud no es para un archivo o directorio que existe...
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    # ...entonces redirígela a index.php para que el router la maneje.
+    # ...redirígela a index.php para que el router de PHP la maneje.
     RewriteRule ^ index.php [L]
 </IfModule>
 

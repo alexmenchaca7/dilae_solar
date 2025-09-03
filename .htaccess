@@ -1,16 +1,18 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # 1. Si la solicitud es para desplegar.php, la reescribe a su ubicación real y se detiene.
-    RewriteRule ^desplegar\.php$ public/desplegar.php [L]
-
-    # 2. Para todas las demás solicitudes, las envía a la carpeta /public para que el router las maneje.
+    # Reenvía todas las solicitudes que no apuntan directamente a la carpeta /public
+    # a esa carpeta para que sea procesada.
     RewriteCond %{REQUEST_URI} !^/public/
     RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>
 
-# --- Reglas de seguridad ---
+# --- Mantenemos tus excelentes reglas de seguridad ---
+
+# Prevenir el listado de directorios
 Options -Indexes
+
+# Denegar acceso a archivos sensibles
 <Files ".env">
     Require all denied
 </Files>
@@ -29,6 +31,8 @@ Options -Indexes
 <Files "package-lock.json">
     Require all denied
 </Files>
+
+# Denegar acceso directo a las carpetas de la aplicación
 <IfModule mod_authz_core.c>
     <DirectoryMatch "^/(includes|models|controllers|classes|vendor|src|views)/">
         Require all denied
