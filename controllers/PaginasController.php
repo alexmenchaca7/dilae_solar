@@ -204,7 +204,7 @@ class PaginasController {
                 $esTarifaEscalonada = true;
             }
     
-            define('POTENCIA_PANEL_W', 610);
+            define('POTENCIA_PANEL_W', 620);
             define('FACTOR_RENDIMIENTO', 0.8);
             define('VIDA_UTIL_PANELES', 25);
             define('FACTOR_CO2', 0.6538);
