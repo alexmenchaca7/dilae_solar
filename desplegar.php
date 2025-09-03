@@ -2,7 +2,7 @@
 // Cargar el autoloader de Composer para tener acceso a las librerías
 require_once __DIR__ . '/vendor/autoload.php';
 
-// Cargar Dotenv apuntando al directorio raíz del proyecto
+// Cargar Dotenv 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/includes');
 $dotenv->safeLoad();
 
