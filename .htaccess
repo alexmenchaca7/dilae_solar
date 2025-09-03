@@ -1,8 +1,10 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # Reenvía todas las solicitudes que no apuntan directamente a la carpeta /public
-    # a esa carpeta para que sea procesada.
+    # EXCEPCIÓN: No redirigir el script de despliegue.
+    RewriteRule ^desplegar\.php$ - [L]
+
+    # Reenvía todas las demás solicitudes a la carpeta /public.
     RewriteCond %{REQUEST_URI} !^/public/
     RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>
