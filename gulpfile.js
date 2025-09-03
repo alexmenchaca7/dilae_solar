@@ -213,23 +213,23 @@ function procesarImagenes(file, outputSubDir) {
 }
 
 
-// ===== TAREA WATCH =====
-export function dev() {
-    // Para CSS: Primero limpia la carpeta de CSS y LUEGO compila.
-    watch('src/scss/**/*.scss', series(cleanCss, css)); 
-    
-    // Para JS: Primero limpia la carpeta de JS y LUEGO compila.
+// ===== TAREA WATCH (PARA DESARROLLO LOCAL)=====
+function watchFiles() {
+    watch('src/scss/**/*.scss', series(cleanCss, css));
     watch('src/js/**/*.js', series(cleanJs, js));
-    
-    // Para Imágenes: Es buena práctica limpiar también antes de procesar.
-    watch('src/img/**/*.{png,jpg,jpeg,svg}', series(cleanImg, imagenes)); 
+    watch('src/img/**/*.{png,jpg,jpeg,svg}', series(cleanImg, imagenes));
 }
 
-const build = parallel(series(js, css), imagenes);
+// Tarea que compila todos los assets una vez
+const buildAssets = parallel(css, js, imagenes);
 
-// ===== FLUJO DE TRABAJO FINAL =====
-export default series(
-    cleanAll, // 1. Primero, limpia todo.
-    build,    // 2. Luego, ejecuta la compilación en el orden correcto.
-    dev       // 3. Finalmente, empieza a observar los cambios.
-);
+// TAREA 'build' EXPORTADA: Limpia todo y luego compila los assets.
+// Esto es lo que usará tu script de despliegue. No se queda "escuchando".
+export const build = series(cleanAll, buildAssets);
+
+// TAREA 'dev' EXPORTADA: Limpia, compila y luego se queda observando cambios.
+// Esta es la que debes usar localmente con `npm run dev`.
+export const dev = series(cleanAll, buildAssets, watchFiles);
+
+// 5. TAREA 'default' (cuando solo corres 'gulp'): Ahora apunta a la tarea de desarrollo.
+export default dev;
