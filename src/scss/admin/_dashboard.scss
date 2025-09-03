@@ -1,0 +1,316 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+@use 'sass:color';
+
+// --- Overlay ---
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    display: none; // Oculto por defecto
+    
+    &.activo {
+        display: block; // Mostrar cuando el menú esté activo
+    }
+}
+
+// --- Botón de Menú Móvil ---
+.dashboard__mobile-menu {
+    display: none; // Oculto en desktop
+    background-color: transparent;
+    border: none;
+    color: v.$blanco;
+    font-size: 2.5rem;
+    cursor: pointer;
+
+    @media (max-width: #{v.$tablet - 1px}) {
+        display: block; // Visible en móvil
+    }
+}
+
+.dashboard {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    &__header {
+        background-color: v.$dashboard;
+        padding: 2rem;
+    }
+
+    &__header-grid {
+        display: flex;
+        flex-direction: row; // Siempre será fila
+        justify-content: space-between; // Esto alinea logo a la izq. y nav/botón a la der.
+        align-items: center;
+    }
+
+    &__nav {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        
+        @media (max-width: #{v.$tablet - 1px}) {
+            display: none; // Ocultar la navegación de usuario en móvil
+        }
+    }
+
+    &__logo {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        height: 5rem;
+        
+        @include m.tablet {
+            height: 8rem; // Ajuste para tablet
+        }
+
+        img {
+            height: 100%; // La imagen ocupa el 100% de la altura de su padre (el enlace)
+            width: auto;  // El ancho se ajusta automáticamente para mantener la proporción
+        }
+
+        h2 {
+            color: v.$blanco;
+            text-transform: uppercase;
+            margin: 0;
+            font-size: 2rem; // Tamaño de fuente ajustado
+            text-align: left;
+
+            @include m.tablet {
+                font-size: 3rem; // Ajuste para tablet
+            }
+        }
+    }
+
+    &__usuario {
+        color: v.$blanco;
+        font-weight: v.$bold;
+    }
+
+    &__form {
+        display: flex;
+        justify-content: center;
+    }
+
+    &__submit-logout {
+        @include m.enlace();
+    }
+
+    &__grid {
+        display: flex;
+        flex: 1;
+        overflow: hidden;
+    }
+
+    &__sidebar {
+        background-color: color.adjust(v.$dashboard, $lightness: 10%);
+        width: 12rem;
+        transition: transform 0.3s ease-in-out;
+        overflow-y: auto;
+
+        @media (max-width: #{v.$tablet - 1px}) {
+            position: fixed; // Se superpone al contenido
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 25rem; // Ancho del menú desplegado
+            transform: translateX(-100%); // Oculto por defecto
+            z-index: 1000; // Por encima de todo
+
+            &.sidebar--mostrar {
+                transform: translateX(0); // Se muestra al añadir la clase
+            }
+
+            .dashboard__menu {
+                height: 100%; // 1. Hace que el <nav> ocupe toda la altura
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between; // 2. Empuja los hijos a los extremos
+                padding: 3rem 0; // Añade un poco de padding vertical
+            }
+
+            .dashboard__enlace {
+                padding: 1.2rem; // Reduce el espaciado interno de cada enlace
+            }
+
+            .dashboard__icono {
+                font-size: 1.8rem; // Reduce el tamaño del ícono
+            }
+
+            .dashboard__menu-texto {
+                font-size: 1rem;   // Reduce el tamaño del texto
+                margin-top: .4rem; // Ajusta el margen superior del texto
+            }
+        }
+    }
+
+    &__menu{
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    &__enlace {
+        color: color.adjust(v.$dashboard, $lightness: 40%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem;
+        transition: 0.3s all ease;
+        cursor: pointer;
+
+        &:hover,
+        &--actual {
+            background-color: color.adjust(v.$dashboard, $lightness: 20%);
+            color: v.$blanco;
+            border-radius: 1rem;
+        }
+
+        &--logout {
+            width: 100%;
+            cursor: pointer;
+
+            .dashboard__menu-texto {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                background: none;
+                border: none;
+                color: inherit; // Hereda el color del padre (.dashboard__enlace)
+                padding: 0;
+                cursor: pointer;
+            }
+        }
+    }
+
+    &__icono {
+        font-size: 2rem;
+    }
+
+    &__menu-texto {
+        font-size: 1.2rem;
+        text-transform: uppercase;
+        font-weight: v.$bold;
+        margin-top: .5rem;
+    }
+
+    &__contenido {
+        padding: 1rem 1rem 3rem 1rem;
+        flex: 1;      // Ocupa el espacio disponible.
+        min-width: 0; // Buena práctica para evitar que el contenido interno cause desbordamientos.
+        overflow-y: auto; 
+
+        @include m.tablet {
+            padding: 1rem 5rem 3rem 5rem;
+        }
+
+        h2 {
+            font-size: 3rem;
+            text-align: center;
+            font-weight: 700;
+        }
+    }
+
+    &__contenedor-boton {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+
+        @include m.tablet {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5rem;
+            flex-wrap: nowrap;
+        }
+    }
+
+    &__busqueda {
+        display: flex;
+        position: relative;
+        width: 100%;
+        max-width: 100%;
+        background-color: v.$blanco;
+        border: 1px solid v.$gris-claro;
+        overflow: hidden;
+
+        @include m.tablet {
+            flex: 1;
+        }
+    }
+
+    .campo-busqueda {
+        display: flex;
+        width: 100%;
+        min-width: 0; // Permite que el input se reduzca
+    }
+
+    .input-busqueda {
+        flex: 1;
+        min-width: 0; // Importante para que funcione el text-overflow
+        padding: 1.4rem 1rem;
+        border: none;
+        outline: none;
+        background: transparent;
+        color: v.$negro;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+
+        &::placeholder {
+            color: v.$gris;
+        }
+    }
+
+    .boton-busqueda {
+        background-color: v.$primario;
+        color: v.$blanco;
+        border: none;
+        padding: 0 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0; // Evita que el botón se reduzca
+        cursor: pointer;
+
+        i {
+            font-size: 1.6rem;
+        }
+    }
+
+    &__boton {
+        @include m.boton(v.$primario, block);
+
+        @include m.tablet {
+            @include m.boton(v.$primario, inline-block);
+        }
+    }
+
+    &__contenedor {
+        @include m.shadow();
+        padding: 2rem;
+        border-radius: 1rem;
+
+        @media (max-width: #{v.$desktopS - 1px}) {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch; // Mejora el scroll en iOS
+        }
+    }
+
+    &__formulario {
+        @extend .dashboard__contenedor; // Hereda todos los estilos
+
+        @include m.contenedor-md(); 
+    }
+}
+

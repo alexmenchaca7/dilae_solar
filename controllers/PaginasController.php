@@ -4,6 +4,7 @@ namespace Controllers;
 
 use MVC\Router;
 use Classes\Email;
+use Model\Suscripcion;
 use Classes\Paginacion;
 
 // Función auxiliar para calcular el consumo en kWh y el precio promedio a partir de un gasto bimestral en una tarifa escalonada
@@ -491,5 +492,68 @@ class PaginasController {
         
         // Si hay algún error en la petición, asumimos que no es válido.
         return false;
+    }
+
+    public static function subscribe(Router $router) {
+        // Establecer el tipo de contenido a JSON para la respuesta
+        header('Content-Type: application/json');
+
+        $email_address = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+        $response = [];
+
+        if (!$email_address) {
+            $response = ['status' => 'error', 'message' => 'Por favor, introduce un correo electrónico válido.'];
+        } else {
+            $suscripcion = Suscripcion::where('email', $email_address);
+
+            if ($suscripcion && $suscripcion->confirmado == "1") {
+                $response = ['status' => 'error', 'message' => 'Este correo electrónico ya está suscrito.'];
+            } else {
+                if (!$suscripcion) {
+                    $suscripcion = new Suscripcion(['email' => $email_address]);
+                }
+                
+                $suscripcion->crearToken();
+                $suscripcion->confirmado = 0; // Asegurarse de que esté como no confirmado
+                $resultado = $suscripcion->guardar();
+
+                if ($resultado) {
+                    $email = new Email($suscripcion->email, 'Nuevo Suscriptor', $suscripcion->token);
+                    $email->enviarConfirmacionSuscripcion(); // Nuevo método de email
+                    $response = ['status' => 'exito', 'message' => '¡Excelente! Revisa tu correo para confirmar tu suscripción.'];
+                } else {
+                    $response = ['status' => 'error', 'message' => 'No se pudo procesar tu solicitud en este momento.'];
+                }
+            }
+        }
+
+        // Devolver la respuesta en formato JSON y terminar la ejecución
+        echo json_encode($response);
+        exit;
+    }
+
+
+    public static function confirmarSuscripcion(Router $router) {
+        $token = s($_GET['token'] ?? '');
+        if (!$token) {
+            header('Location: /');
+            exit;
+        }
+
+        $suscripcion = Suscripcion::where('token', $token);
+
+        if ($suscripcion) {
+            $suscripcion->confirmado = 1;
+            $suscripcion->token = null;
+            $suscripcion->guardar();
+            // Puedes crear una vista simple que diga "Suscripción confirmada"
+            $router->render('paginas/suscripcion-confirmada', [
+                'titulo' => 'Suscripción Confirmada'
+            ]);
+        } else {
+            // O una vista de token inválido
+            header('Location: /');
+            exit;
+        }
     }
 }

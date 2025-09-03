@@ -639,4 +639,82 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+
+    // --- LÓGICA PARA TODOS LOS FORMULARIOS DE SUSCRIPCIÓN (CON AJAX) ---
+    const formsSuscripcion = document.querySelectorAll('.form-suscripcion-ajax');
+
+    if (formsSuscripcion.length > 0) {
+        formsSuscripcion.forEach(form => {
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault(); // ¡CLAVE! Prevenir la recarga de la página
+
+                // Funciona para <button> y <input type="submit">
+                const submitButton = this.querySelector('button[type="submit"], input[type="submit"]');
+                const emailInput = this.querySelector('input[type="email"]');
+                const formData = new FormData(this);
+
+                if (submitButton) submitButton.disabled = true;
+
+                try {
+                    const response = await fetch('/subscribe', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const result = await response.json();
+
+                    // La función que ya tenemos se encarga del resto
+                    mostrarAlertaPopup(result.message, result.status);
+
+                } catch (error) {
+                    console.error('Error al enviar el formulario:', error);
+                    mostrarAlertaPopup('Ocurrió un error de conexión. Inténtalo de nuevo.', 'error');
+                } finally {
+                    if (submitButton) submitButton.disabled = false;
+                    if (emailInput) emailInput.value = '';
+                }
+            });
+        });
+    }
+
+    function mostrarAlertaPopup(mensaje, tipo) {
+        const alertaExistente = document.querySelector('.alerta-popup');
+        if (alertaExistente) {
+            alertaExistente.remove();
+        }
+
+        const alerta = document.createElement('div');
+        alerta.className = `alerta-popup alerta--${tipo}`;
+        alerta.textContent = mensaje;
+        document.body.appendChild(alerta);
+
+        const whatsappWidget = document.querySelector('.whatsapp-widget');
+        const tidioChatIframe = document.getElementById('tidio-chat-iframe');
+
+        // Ocultar widgets inmediatamente
+        if (whatsappWidget) whatsappWidget.style.visibility = 'hidden';
+        if (tidioChatIframe && window.innerWidth < 768) tidioChatIframe.style.visibility = 'hidden';
+
+        // Forzar al navegador a registrar el estado inicial (oculto)
+        getComputedStyle(alerta).opacity;
+
+        // Hacer visible la alerta para activar la transición de entrada
+        alerta.classList.add('visible');
+
+        // Programar la desaparición de la alerta y la reaparición de los widgets
+        setTimeout(() => {
+            // Quitar la clase 'visible' para activar la transición de salida
+            alerta.classList.remove('visible');
+            
+            // Esperar a que la transición de salida termine antes de eliminar el elemento
+            alerta.addEventListener('transitionend', () => {
+                alerta.remove();
+                
+                // Reaparecer los widgets solo después de que la alerta se haya eliminado
+                if (whatsappWidget) whatsappWidget.style.visibility = 'visible';
+                if (tidioChatIframe && window.innerWidth < 768) tidioChatIframe.style.visibility = 'visible';
+            }, { once: true });
+
+        }, 4000); // 4 segundos de visibilidad
+    }
 });

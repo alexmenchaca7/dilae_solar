@@ -1,0 +1,374 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+.dashboard-grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1fr; // Forzar una sola columna en móvil
+
+    @include m.tablet {
+        // En tablet y superior, permitimos que se ajuste automáticamente
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+}
+
+.widget {
+    background-color: v.$blanco;
+    border-radius: 1rem;
+    padding: 2.5rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    min-width: 0; // Previene que el widget se desborde
+
+    &__titulo {
+        font-size: 1.6rem;
+        color: v.$gris;
+        text-transform: uppercase;
+        margin: 0 0 1.5rem 0;
+        font-weight: v.$bold;
+    }
+
+    &--full-width {
+        @include m.tablet {
+            grid-column: 1 / -1;
+        }
+    }
+
+    &__chart-container {
+        position: relative;
+        height: 350px;
+        width: 100%;
+    }
+}
+
+// Estilos para los widgets de estadísticas (contadores)
+.widget-stat {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+
+    &__icono {
+        font-size: 3rem;
+        padding: 1.5rem;
+        border-radius: 50%;
+        color: v.$blanco;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        &--productos { background-color: #3498db; }
+        &--categorias { background-color: #9b59b6; }
+        &--blogs { background-color: #f1c40f; }
+        &--usuarios { background-color: #e74c3c; }
+    }
+
+    &__info {
+        .valor {
+            font-size: 3.5rem;
+            font-weight: v.$black;
+            margin: 0;
+            line-height: 1;
+        }
+        .label {
+            font-size: 1.4rem;
+            color: v.$gris;
+            margin: 0;
+        }
+    }
+}
+
+// Estilos para el widget de acciones rápidas
+.widget-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    .dashboard__boton {
+        width: 100%;
+        text-align: center;
+        display: block; 
+    }
+}
+
+// Estilos para el widget de actividad reciente
+.widget-activity {
+    &__lista {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    &__item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.2rem 0;
+        border-bottom: 1px solid v.$fondo;
+        font-size: 1.4rem;
+
+        &:last-child { border-bottom: none; }
+
+        .nombre { color: v.$gris-oscuro; }
+        .tipo {
+            font-size: 1.2rem;
+            font-weight: v.$bold;
+            padding: 0.3rem 0.8rem;
+            border-radius: 2rem;
+            color: v.$blanco;
+
+            &--producto { background-color: v.$primario; }
+            &--blog { background-color: #e67e22; }
+        }
+    }
+}
+
+// Estilos para las listas de páginas más visitadas
+.widget__lista--paginas {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+
+    .lista-item {
+        display: flex;
+        flex-direction: column; // Apilar URL y barra de progreso en móvil
+        align-items: flex-start;
+        gap: 0.5rem;
+        padding: .5rem 0;
+        border: none;
+        font-size: 1.4rem;
+
+        @include m.tablet {
+            flex-direction: row; // Volver a layout horizontal en tablet
+            align-items: center;
+            gap: 2rem;
+        }
+    }
+
+    .url {
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: #333;
+        text-align: left;
+        width: 100%;
+    }
+    
+    .visits-container {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        width: 100%; // Ocupar todo el ancho en móvil
+        justify-content: space-between;
+
+        @include m.tablet {
+            width: auto; // Ancho automático en tablet
+            flex-basis: 50%;
+            justify-content: flex-end;
+            gap: 1.5rem;
+        }
+    }
+
+    .visitas {
+        font-weight: v.$bold;
+        color: v.$gris-oscuro;
+        text-align: right;
+    }
+
+    .progress-bar {
+        flex-grow: 1;
+        height: 10px;
+        background-color: #e9ecef;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    .progress-bar-fill {
+        height: 100%;
+        background-color: v.$primario;
+        border-radius: 5px;
+        transition: width 0.5s ease-in-out;
+        display: block;
+    }
+}
+
+// Widget especial para Google Analytics
+.widget-ga {
+    background-color: #4285F4;
+    color: v.$blanco;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 1.5rem;
+    grid-column: 1 / -1;
+
+    @include m.tablet {
+        grid-column: span 2;
+    }
+    @include m.desktop {
+       grid-column: span 2;
+    }
+
+    h3, p {
+        color: v.$blanco;
+        margin: 0;
+    }
+
+    &__enlace {
+        background-color: v.$blanco;
+        color: #4285F4;
+        padding: 1rem 2.5rem;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: v.$bold;
+        transition: transform 0.2s ease;
+
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+}
+
+// Estilos para el widget de fuentes de tráfico
+.widget__lista--trafico {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.traffic-source-item {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    transition: box-shadow 0.2s ease;
+
+    &:hover {
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    &[open] {
+        .traffic-source-summary {
+            background-color: #f8f9fa;
+        }
+        .summary-arrow {
+            transform: rotate(180deg);
+        }
+    }
+}
+
+.traffic-source-summary {
+    display: flex;
+    flex-direction: column; // Apilar en móvil
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.2rem 1.5rem;
+    cursor: pointer;
+    list-style: none;
+
+    &::-webkit-details-marker { display: none; }
+
+    @include m.tablet {
+        flex-direction: row; // Volver a layout horizontal
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+.source-main {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    padding-right: 0;
+    min-width: 0;
+
+    @include m.tablet {
+        padding-right: 1.5rem;
+    }
+}
+
+.source-name {
+    font-weight: v.$bold;
+    color: v.$gris-oscuro;
+    font-size: 1.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.source-bar {
+    height: 8px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    width: 100%;
+}
+
+.source-bar-fill {
+    height: 100%;
+    background-color: #3498db;
+    border-radius: 4px;
+}
+
+.source-stats {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1.5rem;
+    color: #555;
+    flex-shrink: 0;
+
+    @include m.tablet {
+        width: auto;
+        justify-content: flex-start;
+    }
+}
+
+.source-visits { 
+    font-weight: v.$bold;
+    font-size: 1.6rem;
+}
+.source-percent { 
+    color: v.$gris; 
+    font-size: 1.4rem;
+}
+.summary-arrow {
+    color: v.$gris;
+    transition: transform 0.2s ease;
+}
+
+.landing-page-list {
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    padding: 1rem 1.5rem 1rem 3rem;
+    list-style: none;
+    margin: 0;
+
+    li {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.8rem 0;
+        font-size: 1.3rem;
+        color: #555;
+
+        &:not(:last-child) {
+            border-bottom: 1px dashed #e0e0e0;
+        }
+
+        .url {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-right: 1rem;
+        }
+        .visitas { 
+            font-weight: v.$bold; 
+            flex-shrink: 0;
+        }
+    }
+}

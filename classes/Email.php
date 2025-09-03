@@ -113,7 +113,7 @@ class Email {
     public function enviarConfirmacionSuscripcion() {
         $mail = $this->getMailerInstance();
         $mail->addAddress($this->email, 'Nuevo Suscriptor');
-        $mail->Subject = 'Confirma tu suscripción a Dilae';
+        $mail->Subject = 'Confirma tu suscripción a Dilae Solar';
 
         $buttonURL = $_ENV['HOST'] . "/confirmar-suscripcion?token=" . $this->token;
         $buttonHTML = $this->generateStyledButton($buttonURL, 'Confirmar mi Suscripción');

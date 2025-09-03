@@ -167,6 +167,13 @@ class ActiveRecord {
         return array_shift($resultado);
     }
 
+    // Busca todos los registros que coinciden con un valor en una columna específica.
+    public static function whereAll($columna, $valor) {
+        $query = "SELECT * FROM " . static::$tabla . " WHERE {$columna} = '{$valor}'";
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
+
     // Método whereField que devuelve TODOS los objetos que cumplen la condición
     public static function whereField($campo, $valor) {
         $valor = self::$conexion->escape_string($valor);

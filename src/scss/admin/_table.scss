@@ -1,0 +1,201 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+@use 'sass:color';
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 80rem; // Ancho mínimo para forzar el scroll en el contenedor
+
+    &__thead {
+        background-color: v.$primario;
+        color: v.$blanco;
+    }
+
+    &__th {
+        padding: 1rem;
+        text-align: left;
+        vertical-align: bottom; // Alinear texto de encabezados abajo
+
+        &--imagen {
+            text-align: center;
+            width: 10rem;
+        }
+    }
+
+    &__tr {
+        &:nth-child(even) {
+            background-color: color.adjust(v.$dashboard, $lightness: 70%);
+        }
+    }
+
+    &__td {
+        padding: 1.5rem 1rem;
+        vertical-align: middle; // IMPORTANTE: Centra verticalmente todo en la celda
+
+        ul.subcategorias-lista {
+            li {
+                position: relative;
+                padding: 0.8rem 0;
+                border-bottom: 1px solid color.adjust(v.$gris, $lightness: 30%);
+                
+                &:last-child {
+                    border-bottom: none;
+                }
+            }
+        }
+
+        &--imagen {
+            width: 10rem;
+            text-align: center;
+            padding: 0.5rem; // Un padding pequeño dentro de la celda de imagen
+
+        }
+
+        &--acciones {
+            @extend .table__td;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 2rem;
+
+            &-subcategorias {
+                @extend .table__td--acciones;
+                padding: 0;
+            }
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+
+            li {
+                display: flex;  // Cambiado para alinear los elementos dentro de cada li
+                justify-content: space-between;
+                align-items: center;  // Centra verticalmente el contenido
+                gap: 1rem;  // Añade espacio entre los enlaces de editar y eliminar
+            }
+        }
+    }
+
+    &__imagen {
+        display: block;       // Trata la imagen como bloque
+        width: 100%;          // Intenta llenar el ancho de la celda (que es 10rem)
+        height: 8rem;         // Define una ALTURA FIJA (ajusta este valor)
+        max-width: 100%;      // Asegura que no exceda el ancho de la celda
+        object-fit: contain;  // Mantiene el aspect ratio dentro del alto/ancho definido
+        margin: 0 auto;       // Centra horizontalmente si object-fit deja espacio
+        mix-blend-mode: multiply;
+    }
+
+    // Estilo opcional para el texto "S/I" ---
+    &__no-imagen {
+        display: inline-block;
+        font-size: 1.2rem;
+        color: v.$gris; // O el color que prefieras
+        font-style: italic;
+    }
+
+    &__accion {
+        all: unset;
+        text-transform: uppercase;
+        font-size: 1.4rem;
+        font-weight: v.$bold;
+
+        &--editar {
+            color: v.$primario;
+        }
+
+        &--eliminar {
+            color: v.$rojo;
+        }
+
+        &--ver {
+            color: v.$primario; 
+            font-weight: normal;
+            text-decoration: underline;
+            font-weight: v.$bold;
+
+            &:hover {
+                color: color.adjust(v.$primario, $lightness: -10%); // Un azul un poco más oscuro al pasar el mouse
+            }
+        }
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
+
+.acciones-mover {
+    display: inline-flex;
+    gap: 0.5rem;
+    margin-right: 1.5rem;
+    
+    form {
+        display: inline-block;
+    }
+}
+
+.boton-mover {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: v.$gris;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.3rem;
+    transition: all 0.2s ease;
+    
+    &:hover {
+        color: v.$gris-oscuro;
+        background-color: color.adjust(v.$gris, $lightness: 40%);
+    }
+    
+    i {
+        font-size: 1.4rem;
+        vertical-align: middle;
+    }
+}
+
+.table__td--acciones-subcategorias {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    margin-left: auto;
+    
+    .table__accion {
+        font-size: 1.3rem;
+        padding: 0.4rem 0.8rem;
+        
+        &--editar {
+            color: color.adjust(v.$primario, $lightness: -10%);
+        }
+        
+        &--eliminar {
+            color: color.adjust(v.$rojo, $lightness: -10%);
+        }
+    }
+}
+
+// Ajustes específicos para las subcategorías
+.subcategorias-lista {
+    li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        
+        > :first-child {
+            flex-grow: 1;
+            padding-right: 1rem;
+        }
+        
+        .acciones-mover {
+            order: -1;
+        }
+        
+        &:hover {
+            background-color: color.adjust(v.$blanco, $lightness: -2%);
+        }
+    }
+}

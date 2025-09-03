@@ -1,0 +1,17 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+.auth {
+    margin-block: 5rem !important;
+
+    @include m.contenedor-sm();
+
+    h1 {
+        text-align: center;
+        margin: 0;
+        color: v.$primario;
+        font-size: 4.8rem;
+        font-weight: 700;
+        margin-bottom: 5rem;
+    }
+}

@@ -1,0 +1,20 @@
+<header class="dashboard__header">
+    <div class="dashboard__header-grid">
+        <a class="dashboard__logo" href="/admin/dashboard">
+            <img src="/build/img/logo-white.webp" alt="">
+        </a>
+
+        <button type="button" class="dashboard__mobile-menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <nav class="dashboard__nav">
+            <span class="dashboard__usuario">
+                <?php echo $_SESSION['nombre'] . ' ' . $_SESSION['apellido']; ?>
+            </span>
+            <form class="dashboard__form" method="POST" action="/logout">
+                <input type="submit" value="Cerrar Sesión" class="dashboard__submit-logout">
+            </form>
+        </nav>
+    </div>
+</header>
