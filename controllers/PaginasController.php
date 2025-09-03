@@ -53,19 +53,42 @@ class PaginasController {
         ]); 
     }
 
+    public static function privacy(Router $router) {
+        $titulo = 'Politica de Privacidad';
+
+        $router->render('paginas/privacy', [
+            'titulo' => $titulo,
+        ]);
+    }
+
+    public static function terminos(Router $router) {
+        $titulo = 'Términos y Condiciones del Servicio';
+
+        $router->render('paginas/terminos-servicio', [
+            'titulo' => $titulo,
+        ]);
+    }
+
     public static function nosotros(Router $router) {
+        $titulo = 'Nosotros';
+
         $router->render('paginas/nosotros', [
+            'titulo' => $titulo,
             'hero' => 'templates/hero-nosotros'
         ]); 
     }
 
     public static function soluciones(Router $router) {
+        $titulo = 'Soluciones';
+
         $router->render('paginas/soluciones', [
+            'titulo' => $titulo,
             'hero' => 'templates/hero-soluciones'
         ]); 
     }
 
     public static function calculadora(Router $router) {
+        $titulo = 'Calculadora';
         $datos = [];
         $resultados = [];
         $mostrarResultados = false;
@@ -350,6 +373,7 @@ class PaginasController {
         }
     
         $router->render('paginas/calculadora', [
+            'titulo' => $titulo,
             'datos' => $datos,
             'resultados' => $resultados,
             'mostrarResultados' => $mostrarResultados
@@ -357,7 +381,7 @@ class PaginasController {
     }
 
     public static function contacto(Router $router) {
-
+        $titulo = 'Contacto';
         $alertas = [];
         $datos = [ // Para repoblar el formulario en caso de error o para limpiarlo
             'nombre' => '',
@@ -436,6 +460,7 @@ class PaginasController {
         }
 
         $router->render('paginas/contacto', [
+            'titulo' => $titulo,
             'hero' => 'templates/hero-contacto',
             'alertas' => $alertas,
             'datos' => $datos

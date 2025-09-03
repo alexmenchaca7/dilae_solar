@@ -176,7 +176,7 @@
                     <div class="footer-soporte">
                         <h3>Soporte</h3>
                         <div class="logo-container"><a href="/terminos">Términos de Servicio</a></div>
-                        <div class="logo-container"><a href="/privacidad">Aviso de Privacidad</a></div>
+                        <div class="logo-container"><a href="/privacy">Aviso de Privacidad</a></div>
                     </div>
                 </div>
             </div>
