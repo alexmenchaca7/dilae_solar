@@ -381,6 +381,20 @@ class PaginasController {
         ]);
     }
 
+    public static function blogs(Router $router) {
+
+        $router->render('paginas/blogs', [
+            'hero' => 'templates/hero-blogs'
+            
+        ]);
+    }
+
+    public static function blog(Router $router, $slug = null) {
+        
+        $router->render('paginas/blog-entrada', [
+        ]);
+    }
+
     public static function contacto(Router $router) {
         $titulo = 'Contacto';
         $alertas = [];

@@ -44,6 +44,8 @@ $router->get('/contacto', [PaginasController::class, 'contacto']);
 $router->post('/contacto', [PaginasController::class, 'contacto']);
 $router->get('/calculadora', [PaginasController::class, 'calculadora']);
 $router->post('/calculadora', [PaginasController::class, 'calculadora']);
+$router->get('/blogs', [PaginasController::class, 'blogs']);
+$router->get('/blog/{slug}', [PaginasController::class, 'blog']);
 $router->post('/subscribe', [PaginasController::class, 'subscribe']);
 
 
