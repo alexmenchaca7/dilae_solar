@@ -113,6 +113,18 @@
             font-weight: 300;
         }
 
+        a {
+            display: flex;
+            flex-direction: column;
+            gap: 1.4rem;
+
+            &:hover {
+                h2, p {
+                    color: v.$primario;
+                }
+            }
+        }
+
         h2 {
             font-size: 2.4rem;
             line-height: normal;
