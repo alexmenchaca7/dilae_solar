@@ -6,6 +6,29 @@
     $title = urlencode($blog->titulo);
 ?>
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "<?php echo htmlspecialchars($blog->titulo); ?>",
+  "image": "<?php echo $_ENV['HOST'] . '/img/blogs/' . htmlspecialchars($blog->imagen); ?>",
+  "author": {
+    "@type": "Person",
+    "name": "<?php echo htmlspecialchars($blog->autor_nombre); ?>"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Dilae Solar",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.dilaesolar.com/build/img/logo.png"
+    }
+  },
+  "datePublished": "<?php echo date('Y-m-d', strtotime($blog->fecha_creacion)); ?>",
+  "dateModified": "<?php echo date('Y-m-d', strtotime($blog->fecha_actualizacion)); ?>"
+}
+</script>
+
 <main class="seccion">
     <div class="entrada-blog contenedor-blog" data-blog-id="<?php echo $blog->id; ?>"> 
         <div class="entrada-blog__header">

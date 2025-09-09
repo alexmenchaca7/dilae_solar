@@ -1,6 +1,9 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
+    # Redirigir sitemap.xml a sitemap.php
+    RewriteRule ^sitemap\.xml$ sitemap.php [L]
+
     # Si la solicitud no es para un archivo o directorio que existe...
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d

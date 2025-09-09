@@ -41,6 +41,21 @@
     <meta property="og:site_name" content="<?php echo htmlspecialchars($site_name); ?>" />
     <meta property="og:locale" content="es_MX" />
 
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Dilae Solar",
+        "url": "https://www.dilaesolar.com/",
+        "logo": "https://www.dilaesolar.com/build/img/logo.png",
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+52-33-4632-3029",
+            "contactType": "Customer Service"
+        }
+    }
+    </script>
+
     <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
     <link rel="shortcut icon" href="/favicon/favicon.ico" />
