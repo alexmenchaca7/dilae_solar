@@ -11,7 +11,7 @@
                             <small><?php echo date('d M Y', strtotime($blog->fecha_creacion)); ?>  -  <?php echo $blog->lectura_estimada; ?> Min. de lectura</small>
                             <a href="/blog/<?php echo htmlspecialchars($blog->slug); ?>">
                                 <h2><?php echo $blog->titulo; ?></h2>
-                                <p><?php echo substr(strip_tags($blog->contenido), 0, 100) . '...'; ?></p>
+                                <p><?php echo mb_substr(strip_tags(html_entity_decode($blog->contenido)), 0, 100) . '...'; ?></p>
                             </a>
                         </div>
                         <hr class="blog__division">
