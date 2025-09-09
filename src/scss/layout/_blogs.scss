@@ -225,24 +225,33 @@
         }
     }
 
-    .btn-favorito {
-        background-color: transparent;
-        border: none;
-        cursor: pointer;
-        padding: 0;
-        width: 2rem;
-        height: auto;
+    &__btn-favorito {
+        display: flex;
+        gap: 0.6rem;
+        align-items: center;
+        justify-content: center ;
 
-        svg {
+        button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
             width: 2rem;
             height: auto;
-
-            @include m.telefono {
-                width: 1.6rem;
-            }
+            display: flex;
+            align-items: center;
     
-            @include m.tablet {
+            svg {
                 width: 2rem;
+                height: auto;
+    
+                @include m.telefono {
+                    width: 1.6rem;
+                }
+        
+                @include m.tablet {
+                    width: 2rem;
+                }
             }
         }
     }

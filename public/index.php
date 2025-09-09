@@ -4,6 +4,7 @@
 require_once __DIR__ . '/../includes/app.php'; 
 
 use MVC\Router;
+use Controllers\ApiController;
 use Controllers\AuthController;
 use Controllers\BlogsController;
 use Controllers\PaginasController;
@@ -31,7 +32,8 @@ $router->post('/establecer-password', [AuthController::class, 'establecerPasswor
 
 
 // RUTAS API
-
+$router->post('/api/like', [ApiController::class, 'update_likes']);
+$router->post('/api/view', [ApiController::class, 'add_view']);
 
 
 // PAGINA DE INICIO
@@ -45,7 +47,7 @@ $router->post('/contacto', [PaginasController::class, 'contacto']);
 $router->get('/calculadora', [PaginasController::class, 'calculadora']);
 $router->post('/calculadora', [PaginasController::class, 'calculadora']);
 $router->get('/blogs', [PaginasController::class, 'blogs']);
-$router->get('/blog', [PaginasController::class, 'blog']);
+$router->get('/blog/{slug}', [PaginasController::class, 'blog']);
 $router->post('/subscribe', [PaginasController::class, 'subscribe']);
 
 

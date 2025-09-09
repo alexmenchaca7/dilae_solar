@@ -7,7 +7,8 @@ class Blog extends ActiveRecord {
     protected static $tabla = 'blogs';
     protected static $columnasDB = [
         'id', 'titulo', 'slug', 'contenido', 'imagen', 'autor_id', 
-        'estado', 'fecha_creacion', 'fecha_actualizacion', 'meta_title', 'meta_description' 
+        'estado', 'fecha_creacion', 'fecha_actualizacion', 'meta_title', 'meta_description',
+        'lectura_estimada', 'likes', 'views'
     ];
 
     // Columnas para la función de búsqueda 
@@ -24,6 +25,10 @@ class Blog extends ActiveRecord {
     public $fecha_actualizacion;
     public $meta_title;
     public $meta_description; 
+    public $lectura_estimada;
+    public $likes;
+    public $views;
+
 
     public $imagen_actual; // Para mantener la referencia en la edición si no se cambia
 
@@ -38,7 +43,10 @@ class Blog extends ActiveRecord {
         $this->fecha_creacion = $args['fecha_creacion'] ?? date('Y-m-d');
         $this->fecha_actualizacion = $args['fecha_actualizacion'] ?? date('Y-m-d');
         $this->meta_title = $args['meta_title'] ?? ''; 
-        $this->meta_description = $args['meta_description'] ?? ''; 
+        $this->meta_description = $args['meta_description'] ?? '';
+        $this->lectura_estimada = $args['lectura_estimada'] ?? 0;
+        $this->likes = $args['likes'] ?? 0;
+        $this->views = $args['views'] ?? 0;
         
         // Para el formulario de edición
         $this->imagen_actual = $args['imagen'] ?? '';
@@ -91,12 +99,22 @@ class Blog extends ActiveRecord {
             self::$alertas['error'][] = 'El contenido del blog es obligatorio.';
         }
 
+        // Calcular tiempo de lectura
+        $this->calcularTiempoLectura();
+
         $estadosValidos = ['borrador', 'publicado', 'archivado']; // Ajusta según tus estados
         if(!in_array($this->estado, $estadosValidos)) {
             self::$alertas['error'][] = 'El estado seleccionado no es válido.';
         }
         
         return self::$alertas;
+    }
+
+    public function calcularTiempoLectura() {
+        $palabras_por_minuto = 200;
+        $contenido_texto_plano = strip_tags($this->contenido);
+        $numero_palabras = str_word_count($contenido_texto_plano);
+        $this->lectura_estimada = ceil($numero_palabras / $palabras_por_minuto);
     }
 
     // Método para crear slugs (tomado de tu modelo Producto y adaptado)
@@ -148,17 +166,17 @@ class Blog extends ActiveRecord {
         // Si el slug está vacío pero el título no, intentar generarlo una última vez
         if (empty($this->slug) && !empty($this->titulo)) {
             $this->slug = self::crearSlug($this->titulo);
-            // Aquí no se valida unicidad de nuevo, se asume que ya se hizo en $this->validar()
-            // o que el controlador lo gestionó.
         }
+
+        $this->calcularTiempoLectura();
 
         return parent::guardar();
     }
 
-    // Para obtener el autor (si tienes un modelo Usuario)
+    // Para obtener el autor
     public function autor() {
         if($this->autor_id) {
-            return Usuario::find($this->autor_id); // Asumiendo que tienes un modelo Usuario
+            return Usuario::find($this->autor_id); 
         }
         return null;
     }
@@ -185,12 +203,12 @@ class Blog extends ActiveRecord {
             'limite' => $limit,
             'offset' => $offset
         ];
-        return self::metodoSQL($params); // Asumiendo que metodoSQL existe y funciona como en Producto
+        return self::metodoSQL($params); 
     }
 
     // Cuenta el total de blogs publicados.
     public static function totalPublicados() {
-        return self::totalCondiciones(["estado = 'publicado'"]); // Asumiendo que totalCondiciones existe
+        return self::totalCondiciones(["estado = 'publicado'"]); 
     }
 
     // Obtiene un blog publicado por su slug.
@@ -228,12 +246,10 @@ class Blog extends ActiveRecord {
             $palabraLower = mb_strtolower($palabraEscapada, 'UTF-8');
             $condicionesParaEstaPalabra = [];
 
-            // Búsqueda en las columnas directas del blog (título, contenido)
             foreach (static::$buscarColumnasDirectas as $columna) {
                 $condicionesParaEstaPalabra[] = "LOWER(blogs.{$columna}) LIKE '%{$palabraLower}%'";
             }
 
-            // Búsqueda en la tabla de usuarios por nombre o apellido
             $condicionesParaEstaPalabra[] = "EXISTS (
                 SELECT 1 FROM usuarios u 
                 WHERE u.id = blogs.autor_id AND (

@@ -2,8 +2,10 @@
 
 namespace Controllers;
 
+use Model\Blog;
 use MVC\Router;
 use Classes\Email;
+use Model\Usuario;
 use Model\Suscripcion;
 use Classes\Paginacion;
 
@@ -382,16 +384,58 @@ class PaginasController {
     }
 
     public static function blogs(Router $router) {
+        $condiciones = ["estado = 'publicado'"]; 
+
+        $pagina_actual = filter_var($_GET['page'] ?? 1, FILTER_VALIDATE_INT) ?: 1;
+        if($pagina_actual < 1) {
+            header('Location: /blogs?page=1'); 
+            exit();
+        }
+
+        $registros_por_pagina = 9;
+        
+        $total_blogs = Blog::totalCondiciones($condiciones);
+        
+        $paginacion = new Paginacion($pagina_actual, $registros_por_pagina, $total_blogs);
+        
+        if ($paginacion->total_paginas() < $pagina_actual && $pagina_actual > 1) {
+            header('Location: /blogs?page=' . $paginacion->total_paginas());
+            exit();
+        }
+
+        $blogs = Blog::obtenerBlogsPublicadosPaginados($registros_por_pagina, $paginacion->offset());
 
         $router->render('paginas/blogs', [
-            'hero' => 'templates/hero-blogs'
-            
+            'hero' => 'templates/hero-blogs',
+            'titulo' => 'Nuestro Blog',
+            'blogs' => $blogs,
+            'paginacion' => $paginacion->paginacion()
         ]);
     }
 
-    public static function blog(Router $router, $slug = null) {
+    public static function blog(Router $router, $slug) {
+        if(!$slug) {
+            header('Location: /blogs');
+            exit;
+        }
+
+        // Usamos el slug directamente en lugar de $_GET
+        $blog = Blog::findBySlugPublicado($slug);
+
+        if(!$blog) {
+            header('Location: /blogs'); 
+            exit;
+        }
+        
+        $autor = Usuario::find($blog->autor_id);
+        $blog->autor_nombre = $autor ? ($autor->nombre . ' ' . $autor->apellido) : 'Anónimo';
+        
+        $blogs_relacionados = Blog::obtenerBlogsRelacionados($blog->id, 3);
         
         $router->render('paginas/blog-entrada', [
+            'titulo' => $blog->titulo,
+            'blog' => $blog,
+            'blogs_relacionados' => $blogs_relacionados 
         ]);
     }
 

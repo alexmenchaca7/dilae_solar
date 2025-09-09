@@ -302,7 +302,10 @@
 .hero-blogs {
     min-height: 70rem;
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-    background-attachment: scroll;
+
+    @include m.desktopS {
+        min-height: 100rem;
+    }
 
     .contenido-header {
         justify-content: flex-start;

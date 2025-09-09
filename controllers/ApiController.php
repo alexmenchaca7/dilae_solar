@@ -1,0 +1,94 @@
+<?php
+
+namespace Controllers;
+
+use Model\Blog;
+use Model\BlogView;
+use Model\ActiveRecord;
+
+class ApiController {
+
+    public static function update_likes() {
+        header('Content-Type: application/json');
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        $blog_id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+
+        if (!$blog_id) {
+            echo json_encode(['status' => 'error', 'message' => 'ID no válido']);
+            return;
+        }
+
+        $blog = Blog::find($blog_id);
+        if (!$blog) {
+            echo json_encode(['status' => 'error', 'message' => 'Blog no encontrado']);
+            return;
+        }
+
+        $liked_blogs = $_SESSION['liked_blogs'] ?? [];
+        if (in_array($blog_id, $liked_blogs)) {
+            $blog->likes = max(0, $blog->likes - 1); // Evita likes negativos
+            $index = array_search($blog_id, $liked_blogs);
+            unset($liked_blogs[$index]);
+            $liked = false;
+        } else {
+            $blog->likes++;
+            $liked_blogs[] = $blog_id;
+            $liked = true;
+        }
+        
+        $_SESSION['liked_blogs'] = array_values($liked_blogs);
+        $blog->guardar();
+
+        echo json_encode(['status' => 'success', 'likes' => $blog->likes, 'liked' => $liked]);
+    }
+
+    public static function add_view() {
+        header('Content-Type: application/json');
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        $blog_id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+        $ip_address = $_SERVER['REMOTE_ADDR'];
+
+        if (!$blog_id) {
+            echo json_encode(['status' => 'error', 'message' => 'ID no válido']);
+            return;
+        }
+        
+        $blog = Blog::find($blog_id);
+        if (!$blog) {
+             echo json_encode(['status' => 'error', 'message' => 'Blog no encontrado']);
+            return;
+        }
+        
+        // Evitar que el autor del blog cuente sus propias vistas
+        if(isset($_SESSION['id']) && $blog->autor_id == $_SESSION['id']) {
+            echo json_encode(['status' => 'is_author']);
+            return;
+        }
+
+        $view_exists = BlogView::whereArray([
+            'blog_id' => $blog_id,
+            'ip_address' => $ip_address,
+            'view_date' => date('Y-m-d')
+        ]);
+
+        if (empty($view_exists)) {
+            $view = new BlogView([
+                'blog_id' => $blog_id,
+                'ip_address' => $ip_address,
+                'view_date' => date('Y-m-d')
+            ]);
+            $view->guardar();
+            
+            $blog->views = ($blog->views ?? 0) + 1;
+            $blog->guardar();
+        }
+
+        echo json_encode(['status' => 'success', 'views' => $blog->views]);
+    }
+}
