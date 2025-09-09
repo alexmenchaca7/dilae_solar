@@ -1,0 +1,26 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+@use 'sass:color';
+
+// Estilos para la notificación de "Enlace Copiado"
+.notificacion-copiado {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: v.$primario; // Usamos tu color primario
+    color: v.$blanco;
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease, bottom 0.5s ease;
+
+    &.visible {
+        opacity: 1;
+        visibility: visible;
+        bottom: 3rem;
+    }
+}

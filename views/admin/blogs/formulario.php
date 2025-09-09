@@ -7,7 +7,7 @@
             type="text"
             class="formulario__input"
             id="titulo"
-            name="titulo" <?php /* Cambiado de blog[titulo] a solo titulo, como en tu form de productos */ ?>
+            name="titulo" 
             placeholder="Título de la Entrada del Blog"
             value="<?php echo s($blog->titulo ?? ''); ?>"
         >
@@ -29,13 +29,12 @@
     <div class="formulario__campo">
         <label for="contenido" class="formulario__label">Contenido:</label>
         <textarea 
-            class="formulario__input" <?php /* Para el editor WYSIWYG, puede que necesites otra clase o el ID */ ?>
-            id="contenido_blog" <?php /* ID Único para el editor */ ?>
+            class="formulario__input" 
+            id="contenido_blog" 
             name="contenido" 
             rows="15"
             placeholder="Escribe aquí el contenido de tu blog..."
         ><?php echo s($blog->contenido ?? ''); ?></textarea>
-        <!-- Aquí se inicializará el editor WYSIWYG -->
     </div>
 
     <div class="formulario__campo">
@@ -46,22 +45,6 @@
             <option value="archivado" <?php echo (($blog->estado ?? '') === 'archivado') ? 'selected' : ''; ?>>Archivado</option>
         </select>
     </div>
-
-    <?php /* Opcional: Si quieres permitir seleccionar el autor desde el admin (necesitarás cargar $usuarios en el controlador)
-    if(isset($usuarios) && !empty($usuarios)): ?>
-    <div class="formulario__campo">
-        <label for="autor_id" class="formulario__label">Autor:</label>
-        <select class="formulario__input" id="autor_id" name="autor_id">
-            <option value="">-- Seleccionar Autor (Opcional) --</option>
-            <?php foreach($usuarios as $usuario_autor): ?>
-                <option value="<?php echo $usuario_autor->id; ?>" <?php echo ($blog->autor_id == $usuario_autor->id) ? 'selected' : ''; ?>>
-                    <?php echo s($usuario_autor->nombre . " " . $usuario_autor->apellido); ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
-    </div>
-    <?php endif; */?>
-
 </fieldset>
 
 <fieldset class="formulario__fieldset">
@@ -107,32 +90,24 @@
 <fieldset class="formulario__fieldset">
     <legend class="formulario__legend">Imagen Destacada</legend>
 
-    <!-- Contenedor general del campo, similar a como envuelves cada imagen en productos -->
     <div class="formulario__campo contenedor-imagen" id="slot-imagen-destacada-blog"> 
         <label for="imagen_input_blog" class="formulario__label">
             <?php echo (isset($blog->imagen) && $blog->imagen) ? 'Cambiar Imagen:' : 'Seleccionar Imagen:'; ?>
         </label>
 
-        <!-- Este div actúa como el .contenedor-imagen-preview de tus productos,
-             pero sin el botón de eliminar individual, ya que es una sola imagen. -->
         <div class="contenedor-imagen-preview"> 
-            <!-- Esta es el área clickeable y donde se muestra la imagen/placeholder.
-                 Le damos la clase .imagen-preview que ya tienes estilada. -->
             <div class="imagen-preview" id="preview-area-clickable-blog" 
                  data-hover-text="<?php echo (isset($blog->imagen) && $blog->imagen) ? 'Cambiar Imagen' : 'Seleccionar Imagen'; ?>">
                 
-                <img src="<?php echo (isset($blog->imagen) && $blog->imagen) ? '/img/blogs/' . s($blog->imagen) . '.png' : '#'; ?>" 
+                <img src="/img/blogs/<?php echo htmlspecialchars($blog->imagen); ?>" 
                      alt="Imagen destacada" 
                      class="imagen-cargada <?php echo (isset($blog->imagen) && $blog->imagen) ? '' : 'hidden'; ?>"
                      id="img-element-blog">
 
                 <span class="imagen-placeholder <?php echo (isset($blog->imagen) && $blog->imagen) ? 'hidden' : ''; ?>" id="placeholder-blog">
-                    <i class="fas fa-plus"></i> <!-- Asumiendo que usas FontAwesome para el "+" -->
+                    <i class="fas fa-plus"></i> 
                 </span>
-                
-                <!-- El input file real. El JS lo activará.
-                     Lo mantenemos con style="display: none;" como en tu script de productos.
-                     La clase "imagen-input" es la que usas en productos para el JS. -->
+
                 <input 
                     type="file" 
                     class="imagen-input" 
@@ -146,7 +121,7 @@
     </div>
 
     <?php if (isset($blog->imagen) && $blog->imagen): ?>
-        <div class="formulario__campo formulario__campo--checkbox" style="margin-top: 1rem;"> <!-- Ajuste de margen -->
+        <div class="formulario__campo formulario__campo--checkbox" style="margin-top: 1rem;"> 
             <input type="checkbox" class="formulario__checkbox-input" id="eliminar_imagen_actual" name="eliminar_imagen_actual" value="1">
             <label for="eliminar_imagen_actual" class="formulario__label--checkbox">Eliminar imagen actual</label>
         </div>

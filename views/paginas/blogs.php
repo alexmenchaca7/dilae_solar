@@ -5,11 +5,7 @@
                 <?php foreach ($blogs as $blog) : ?>
                     <div class="blog">
                         <a href="/blog/<?php echo htmlspecialchars($blog->slug); ?>" class="blog__imagen">
-                            <picture>
-                                <source srcset="/img/blogs/<?php echo $blog->imagen; ?>.webp" type="image/webp">
-                                <source srcset="/img/blogs/<?php echo $blog->imagen; ?>.png" type="image/png">
-                                <img loading="lazy" src="/img/blogs/<?php echo $blog->imagen; ?>.png" alt="Imagen de Entrada de Blog">
-                            </picture>
+                            <img loading="lazy" src="/img/blogs/<?php echo $blog->imagen; ?>" alt="Imagen de Entrada de Blog">
                         </a>
                         <div class="blog__contenido">
                             <small><?php echo date('d M Y', strtotime($blog->fecha_creacion)); ?>  -  <?php echo $blog->lectura_estimada; ?> Min. de lectura</small>
