@@ -12,11 +12,11 @@ use Intervention\Image\Drivers\Gd\Driver;
 
 // Definir la carpeta de imágenes si no está definida
 if (!defined('CARPETA_IMAGENES_BLOGS')) {
-    define('CARPETA_IMAGENES_BLOGS', $_SERVER['DOCUMENT_ROOT'] . '/img/blogs/'); // Ajusta la ruta
+    define('CARPETA_IMAGENES_BLOGS', $_SERVER['DOCUMENT_ROOT'] . '/public/img/blogs/'); // Ajusta la ruta
 }
 // Carpeta para imágenes del contenido del editor
 if (!defined('CARPETA_IMAGENES_CONTENIDO_BLOGS')) {
-    define('CARPETA_IMAGENES_CONTENIDO_BLOGS', $_SERVER['DOCUMENT_ROOT'] . '/img/blogs/contenido/');
+    define('CARPETA_IMAGENES_CONTENIDO_BLOGS', $_SERVER['DOCUMENT_ROOT'] . '/public/img/blogs/contenido/');
 }
 
 class BlogsController
