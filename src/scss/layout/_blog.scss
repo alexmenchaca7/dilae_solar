@@ -1,0 +1,134 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+@use 'sass:color';
+
+.entrada-blog {
+    margin-bottom: 10rem;
+    &__header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+
+        img {
+            height: 3.2rem;
+            width: auto;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        small {
+            font-size: 1.4rem;
+        }
+    }
+
+    &__contenido {
+        h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: normal;
+            margin-top: 0;
+            margin-bottom: 2rem;
+        }
+    }
+
+    &__footer {
+        .social {
+            padding: 1.8rem 0;
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+
+            a {
+                font-size: 2.2rem;
+            }
+
+            button {
+                all: unset;
+                cursor: pointer;
+            }
+        }
+    }
+
+    &__acciones {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 1.8rem;
+
+        small {
+            font-size: 1.4rem;
+        }
+    }
+
+    &__btn-favorito {
+        display: flex;
+        gap: 0.6rem;
+        align-items: center;
+        justify-content: center ;
+
+        button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            width: 2rem;
+            height: auto;
+            display: flex;
+            align-items: center;
+    
+            svg {
+                width: 2rem;
+                height: auto;
+    
+                @include m.telefono {
+                    width: 1.6rem;
+                }
+        
+                @include m.tablet {
+                    width: 2rem;
+                }
+
+                path {
+                    stroke: v.$negro;      // Color del borde para el corazón sin like
+                    stroke-width: 1.5;    // Ancho del borde
+                    fill: transparent;    // Sin relleno cuando no tiene like
+                    transition: all 0.3s ease;
+                }
+
+                &.liked {
+                    path {
+                        stroke: #FF0000;  // Borde rojo (para que no se vea el borde gris)
+                        fill: #FF0000;    // Relleno rojo cuando tiene like
+                    }
+                }
+            }
+        }
+    }
+}
+
+.blogs-relacionados {
+    margin-bottom: 12rem;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 400;
+            margin: 0;
+        }
+
+        a {
+            font-size: 1.6rem;
+
+            &:hover {
+                color: v.$primario;
+                font-weight: 500;
+            }
+        }
+    }
+}
