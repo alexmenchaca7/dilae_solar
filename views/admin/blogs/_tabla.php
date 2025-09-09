@@ -16,11 +16,7 @@
                 <tr class="table__tr">
                     <td class="table__td table__td--imagen">
                         <?php if($blog->imagen): ?>
-                            <picture>
-                                <source srcset="/img/blogs/<?php echo htmlspecialchars($blog->imagen); ?>.webp" type="image/webp">
-                                <source srcset="/img/blogs/<?php echo htmlspecialchars($blog->imagen); ?>.png" type="image/png">
-                                <img loading="lazy" src="/img/blogs/<?php echo htmlspecialchars($blog->imagen); ?>.png" alt="Imagen Blog: <?php echo htmlspecialchars($blog->titulo); ?>" width="100" height="auto">
-                            </picture>  
+                            <img loading="lazy" src="/img/blogs/<?php echo htmlspecialchars($blog->imagen); ?>" alt="Imagen Blog: <?php echo htmlspecialchars($blog->titulo); ?>" width="100" height="auto">
                         <?php else: ?>
                             <span class="table__td--placeholder">Sin Imagen</span>
                         <?php endif; ?>

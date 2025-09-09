@@ -1,3 +1,11 @@
+<?php
+    // Obtener la URL completa de la entrada del blog
+    $url = "http" . (isset($_SERVER['HTTPS']) ? "s" : "") . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    
+    // Obtener el título del blog y codificarlo para la URL
+    $title = urlencode($blog->titulo);
+?>
+
 <main class="seccion">
     <div class="entrada-blog contenedor-blog" data-blog-id="<?php echo $blog->id; ?>"> 
         <div class="entrada-blog__header">
@@ -7,11 +15,7 @@
 
         <article class="entrada-blog__contenido">
             <h1><?php echo $blog->titulo; ?></h1>
-            <picture>
-                <source srcset="/img/blogs/<?php echo $blog->imagen; ?>.webp" type="image/webp">
-                <source srcset="/img/blogs/<?php echo $blog->imagen; ?>.png" type="image/png">
-                <img loading="lazy" src="/img/blogs/<?php echo $blog->imagen; ?>.png" alt="Imagen de Entrada de Blog">
-            </picture>
+            <img loading="lazy" src="/img/blogs/<?php echo $blog->imagen; ?>" alt="Imagen de Entrada de Blog">
             <?php echo $blog->contenido; ?>
         </article>
 
@@ -19,19 +23,29 @@
             <hr class="entrada-blog__division">
             <div class="social">
                 <div class="logo-container">
-                    <a rel="noopener noreferrer" target="_blank" href="https://www.instagram.com">
-                        <i class="fa-brands fa-instagram"></i>
+                    <a rel="noopener noreferrer" target="_blank" href="https://api.whatsapp.com/send?text=<?php echo $title; ?>%20<?php echo urlencode($url); ?>" title="Compartir en WhatsApp">
+                        <i class="fa-brands fa-whatsapp"></i>
                     </a>
                 </div>
                 <div class="logo-container">
-                    <a rel="noopener noreferrer" target="_blank" href="https://www.facebook.com">
+                    <a rel="noopener noreferrer" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode($url); ?>" title="Compartir en Facebook">
                         <i class="fa-brands fa-facebook"></i>
                     </a>
                 </div>
                 <div class="logo-container">
-                    <a rel="noopener noreferrer" target="_blank" href="https://x.com">
+                    <a rel="noopener noreferrer" target="_blank" href="https://x.com/intent/tweet?url=<?php echo urlencode($url); ?>&text=<?php echo $title; ?>" title="Compartir en X">
                         <i class="fa-brands fa-twitter"></i>
                     </a>
+                </div>
+                <div class="logo-container">
+                    <a rel="noopener noreferrer" target="_blank" href="https://www.linkedin.com/sharing/share-offsite/?url=<?php echo urlencode($url); ?>" title="Compartir en LinkedIn">
+                        <i class="fa-brands fa-linkedin"></i>
+                    </a>
+                </div>
+                <div class="logo-container">
+                    <button id="copiar-enlace" class="btn-copiar" title="Copiar enlace">
+                        <i class="fa-solid fa-link"></i>
+                    </button>
                 </div>
             </div>
             <hr class="entrada-blog__division">
@@ -65,11 +79,7 @@
                 <?php foreach ($blogs_relacionados as $blog_relacionado) : ?>
                     <div class="blog">
                         <a href="/blog/<?php echo htmlspecialchars($blog->slug); ?>" class="blog__imagen">
-                            <picture>
-                                <source srcset="/img/blogs/<?php echo $blog_relacionado->imagen; ?>.webp" type="image/webp">
-                                <source srcset="/img/blogs/<?php echo $blog_relacionado->imagen; ?>.png" type="image/png">
-                                <img loading="lazy" src="/img/blogs/<?php echo $blog_relacionado->imagen; ?>.png" alt="Imagen de Entrada de Blog">
-                            </picture>
+                            <img loading="lazy" src="/img/blogs/<?php echo $blog->imagen; ?>" alt="Imagen de Entrada de Blog">
                         </a>
                         <div class="blog__contenido">
                             <small><?php echo date('d M Y', strtotime($blog->fecha_creacion)); ?>  -  <?php echo $blog->lectura_estimada; ?> Min. de lectura</small>

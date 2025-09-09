@@ -839,4 +839,38 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error registrando la vista:', error);
         }
     }
+
+
+
+    // --- CODIGO PARA COPIAR ENLACE EN ENTRADA DE BLOGS ---
+    const btnCopiarEnlace = document.querySelector('#copiar-enlace');
+    if (btnCopiarEnlace) {
+        btnCopiarEnlace.addEventListener('click', function() {
+            const url = window.location.href;
+            navigator.clipboard.writeText(url).then(() => {
+                mostrarNotificacion('¡Enlace copiado!');
+            }).catch(err => {
+                console.error('Error al intentar copiar el enlace: ', err);
+            });
+        });
+    }
 });
+
+// Función para mostrar la notificación
+function mostrarNotificacion(mensaje) {
+    const notificacion = document.createElement('DIV');
+    notificacion.textContent = mensaje;
+    notificacion.classList.add('notificacion-copiado');
+    document.body.appendChild(notificacion);
+
+    setTimeout(() => {
+        notificacion.classList.add('visible');
+    }, 100);
+
+    setTimeout(() => {
+        notificacion.classList.remove('visible');
+        setTimeout(() => {
+            notificacion.remove();
+        }, 500);
+    }, 2000);
+}
