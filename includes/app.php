@@ -12,7 +12,8 @@ $dotenv->safeLoad();
 if (isset($_ENV['APP_ENV']) && $_ENV['APP_ENV'] === 'development') {
     // Modo Desarrollo: Muestra todos los errores en pantalla (excepto los "Deprecated")
     ini_set('display_errors', 1);
-    error_reporting(E_ALL & ~E_DEPRECATED);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
 } else {
     // Modo Producción (o si APP_ENV no está definida): No muestra errores, solo los registra.
     ini_set('display_errors', 0);

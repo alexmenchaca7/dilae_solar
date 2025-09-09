@@ -3,7 +3,7 @@
 @use 'sass:color';
 
 .no-webp .hero-index {
-    background-image: url(/build/img/hero-index.png);
+    background-image: url(/build/img/hero-index.jpg);
 }
 
 .webp .hero-index {
@@ -27,11 +27,19 @@
 }
 
 .no-webp .hero-nosotros {
-    background-image: url(/build/img/hero-nosotros.png);
+    background-image: url(/build/img/hero-nosotros.jpg);
 }
 
 .webp .hero-nosotros {
     background-image: url(/build/img/hero-nosotros.webp);
+}
+
+.no-webp .hero-blogs {
+    background-image: url(/build/img/hero-blogs.jpg);
+}
+
+.webp .hero-blogs {
+    background-image: url(/build/img/hero-blogs.webp);
 }
 
 .hero {
@@ -74,6 +82,7 @@
 
 .hero-index {
     min-height: 90rem;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
 
     .contenido-header {
         background-color: rgba(0, 16, 32, 0.58);
@@ -152,6 +161,7 @@
 
 .hero-soluciones {
     min-height: 60rem;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
 
     .contenido-header {
         background: rgba(0, 0, 0, 0.50);
@@ -187,6 +197,7 @@
 
 .hero-contacto {
     min-height: 27rem;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
     position: relative;
 
     .contenido-header {
@@ -232,6 +243,7 @@
 
 .hero-nosotros {
     min-height: 64rem;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
     position: relative;
 
     .contenido-header {
@@ -283,6 +295,75 @@
             @include m.tablet {
                 font-size: 2rem;
             }
+        }
+    }
+}
+
+.hero-blogs {
+    min-height: 70rem;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+
+    @include m.desktopS {
+        min-height: 100rem;
+    }
+
+    .contenido-header {
+        justify-content: flex-start;
+        padding-top: 13rem;
+
+        .contenido {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 {
+            font-weight: 300;
+            font-size: 2.6rem;
+            color: v.$blanco;
+            margin: 0;
+            margin-bottom: 1.5rem;
+
+            @include m.tablet {
+                font-size: 3.2rem;
+                margin-bottom: 2.5rem;
+            }
+        }
+
+        h1 {
+            font-size: 5rem;
+            font-weight: 700;
+            color: v.$blanco;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            text-align: center;
+
+            @include m.tablet {
+                font-size: 9.6rem;
+                margin-bottom: 3rem;
+            }
+        }
+
+        p {
+            font-size: 1.6rem;
+            color: v.$blanco;
+            line-height: 100%;
+            margin: 0;
+            margin-bottom: 1rem;
+            text-align: center;
+
+            @include m.tablet {
+                font-size: 2.4rem;
+            }
+        }
+
+        small {
+            color: v.$blanco;
+            font-size: 1.2rem;
+
+            @include m.tablet {
+                font-size: 1.5rem;
+            }        
         }
     }
 }

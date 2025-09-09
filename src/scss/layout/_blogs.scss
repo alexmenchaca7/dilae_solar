@@ -1,0 +1,272 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+@use 'sass:color';
+
+.blogs {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    margin-bottom: 12rem;
+
+    &__grid {
+        @include m.grid(1, 5rem);
+
+        @include m.telefono {
+            @include m.grid(2, 3rem);
+        }
+
+        @include m.desktop {
+            @include m.grid(3, 5rem);
+        }
+    }
+}
+
+.blogs__paginacion {
+    position: relative; 
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+
+    @include m.desktopS {
+        justify-content: flex-end; 
+    }
+
+    p {
+        position: absolute;
+        display: none;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 2rem;
+        font-weight: 300;
+        color: v.$gris-oscuro;
+        margin: 0;
+        line-height: normal;
+
+        @include m.desktopS {
+            display: block;
+        }
+    }
+
+    .paginacion__botones {
+        display: flex;
+        gap: 2.2rem;
+    }
+
+    .boton {
+        display: inline-block;
+        padding: 0.8rem 3.6rem;
+        border: 1px solid v.$negro;
+        font-weight: 500;
+        font-size: 2rem;
+        text-align: center;
+        transition: background-color 0.3s ease, color 0.3s ease;
+
+        &--anterior {
+            background-color: v.$base; 
+            color: v.$negro; 
+
+            &:hover {
+                background-color: color.adjust(v.$base, $lightness: -5%);
+            }
+        }
+
+        &--siguiente {
+            background-color: v.$footer; 
+            color: v.$base; 
+
+            &:hover {
+                background-color: color.adjust(v.$footer, $lightness: 5%);
+            }
+        }
+    }
+}
+
+.blog {
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px;
+    border-radius: 0.5rem;
+
+    &__imagen {
+        picture, img {
+            border-radius: 0.5rem 0.5rem 0 0;
+            width: 100%;
+            height: 18rem;
+            object-fit: cover;
+        }
+    }
+
+    &__contenido {
+        padding: 2rem 2.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.4rem;
+
+        @include m.telefono {
+            padding: 1rem 1.5rem;
+        }
+
+        @include m.tablet {
+            padding: 2rem 2.5rem;
+        }
+
+        small {
+            font-size: 1.2rem;
+            font-weight: 300;
+        }
+
+        a {
+            display: flex;
+            flex-direction: column;
+            gap: 1.4rem;
+
+            &:hover {
+                h2, p {
+                    color: v.$primario;
+                }
+            }
+        }
+
+        h2 {
+            font-size: 2.4rem;
+            line-height: normal;
+            margin: 0;
+
+            @include m.telefono {
+                font-size: 2rem;
+            }
+
+            @include m.tablet {
+                font-size: 2.4rem;
+            }
+        }
+
+        p {
+            font-weight: 300;
+            text-align: justify;
+            margin: 0;
+
+            @include m.telefono {
+                font-size: 1.2rem;
+            }
+
+            @include m.tablet {
+                font-size: 1.6rem;
+            }
+        }
+    }
+
+    &__division {
+        border: none;
+        border-top: 1px solid v.$gris-claro;
+        margin: 0 4rem;
+
+        @include m.telefono {
+            margin: 0 2rem;
+        }
+
+        @include m.tablet {
+            margin: 0 4rem;
+        }
+    }
+
+    &__acciones {
+        padding: 2rem 2.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        @include m.telefono {
+            padding: 1rem 1.5rem;
+        }
+
+        @include m.tablet {
+            padding: 2rem 2.5rem;
+        }
+    }
+
+    &__meta {
+        display: flex;
+        align-items: center;
+        gap: 2.5rem;
+
+        @include m.telefono {
+            gap: 1.5rem;
+        }
+
+        @include m.tablet {
+            gap: 2.5rem;
+        }
+
+        span {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            line-height: normal;
+
+            @include m.telefono {
+                font-size: 1.4rem;
+            }
+
+            @include m.tablet {
+                font-size: 1.6rem;
+            }
+
+            svg {
+                width: 2rem;
+                height: auto;
+
+                @include m.telefono {
+                    width: 1.6rem;
+                }
+
+                @include m.tablet {
+                    width: 2rem;
+                }
+            }
+        }
+    }
+
+    &__btn-favorito {
+        display: flex;
+        gap: 0.6rem;
+        align-items: center;
+        justify-content: center ;
+
+        button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            width: 2rem;
+            height: auto;
+            display: flex;
+            align-items: center;
+    
+            svg {
+                width: 2rem;
+                height: auto;
+    
+                @include m.telefono {
+                    width: 1.6rem;
+                }
+        
+                @include m.tablet {
+                    width: 2rem;
+                }
+
+                path {
+                    stroke: v.$negro;      // Color del borde para el corazón sin like
+                    stroke-width: 1.5;    // Ancho del borde
+                    fill: transparent;    // Sin relleno cuando no tiene like
+                    transition: all 0.3s ease;
+                }
+
+                &.liked {
+                    path {
+                        stroke: #FF0000;  // Borde rojo (para que no se vea el borde gris)
+                        fill: #FF0000;    // Relleno rojo cuando tiene like
+                    }
+                }
+            }
+        }
+    }
+}
