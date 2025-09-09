@@ -10,9 +10,6 @@ class ApiController {
 
     public static function update_likes() {
         header('Content-Type: application/json');
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
         
         $blog_id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
 
@@ -27,19 +24,30 @@ class ApiController {
             return;
         }
 
-        $liked_blogs = $_SESSION['liked_blogs'] ?? [];
+        $liked_blogs = isset($_COOKIE['liked_blogs']) ? json_decode($_COOKIE['liked_blogs'], true) : [];
+
+        if (!is_array($liked_blogs)) { // Verificación por si la cookie está corrupta
+            $liked_blogs = [];
+        }
+
         if (in_array($blog_id, $liked_blogs)) {
-            $blog->likes = max(0, $blog->likes - 1); // Evita likes negativos
+            // Quitar like
+            $blog->likes = max(0, $blog->likes - 1);
             $index = array_search($blog_id, $liked_blogs);
             unset($liked_blogs[$index]);
             $liked = false;
         } else {
+            // Añadir like
             $blog->likes++;
             $liked_blogs[] = $blog_id;
             $liked = true;
         }
         
-        $_SESSION['liked_blogs'] = array_values($liked_blogs);
+        // 3. Guardamos el array actualizado de vuelta en la cookie
+        // El array se convierte a string JSON para poder guardarlo
+        // time() + 31536000 = 1 año de duración
+        // "/" significa que la cookie estará disponible en todo el sitio web
+        setcookie('liked_blogs', json_encode(array_values($liked_blogs)), time() + 31536000, "/");
         $blog->guardar();
 
         echo json_encode(['status' => 'success', 'likes' => $blog->likes, 'liked' => $liked]);
