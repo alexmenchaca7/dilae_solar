@@ -112,8 +112,8 @@
                 <picture>
                     <source srcset="/build/img/solucion-almacenamiento.avif" type="image/avif">
                     <source srcset="/build/img/solucion-almacenamiento.webp" type="image/webp">
-                    <source srcset="/build/img/solucion-almacenamiento.png" type="image/png">
-                    <img loading="lazy" src="/build/img/solucion-almacenamiento.png" alt="Sistemas de Almacenamiento">
+                    <source srcset="/build/img/solucion-almacenamiento.jpg" type="image/jpg">
+                    <img loading="lazy" src="/build/img/solucion-almacenamiento.jpg" alt="Sistemas de Almacenamiento">
                 </picture>
             </div>
         </section>

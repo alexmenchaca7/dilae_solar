@@ -774,4 +774,103 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     setupSeoCounters();
+
+
+
+    /** LOGICA PARA LOS LIKES DE LOS BLOGS */
+    const likeButtons = document.querySelectorAll('.btn-favorito');
+    likeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const blogId = this.dataset.id;
+            toggleLike(blogId, this);
+        });
+    });
+
+    async function toggleLike(id, button) {
+        const formData = new FormData();
+        formData.append('id', id);
+
+        try {
+            const url = '/api/like';
+            const response = await fetch(url, {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (result.status === 'success') {
+                const likesCountSpan = button.parentElement.querySelector('.likes-count');
+                likesCountSpan.textContent = result.likes;
+                
+                const svg = button.querySelector('svg');
+                if(result.liked) {
+                    svg.classList.add('liked');
+                } else {
+                    svg.classList.remove('liked');
+                }
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+
+
+    /** LOGICA PARA REGISTRAR LAS VISTAS DE UN BLOG */
+    const blogPost = document.querySelector('.entrada-blog[data-blog-id]');
+    if(blogPost) {
+        const blogId = blogPost.dataset.blogId;
+        registerView(blogId);
+    }
+
+    async function registerView(id) {
+        const formData = new FormData();
+        formData.append('id', id);
+        
+        try {
+            const url = '/api/view';
+            await fetch(url, {
+                method: 'POST',
+                body: formData
+            });
+        } catch (error) {
+            console.error('Error registrando la vista:', error);
+        }
+    }
+
+
+
+    // --- CODIGO PARA COPIAR ENLACE EN ENTRADA DE BLOGS ---
+    const btnCopiarEnlace = document.querySelector('#copiar-enlace');
+    if (btnCopiarEnlace) {
+        btnCopiarEnlace.addEventListener('click', function() {
+            const url = window.location.href;
+            navigator.clipboard.writeText(url).then(() => {
+                mostrarNotificacion('¡Enlace copiado!');
+            }).catch(err => {
+                console.error('Error al intentar copiar el enlace: ', err);
+            });
+        });
+    }
 });
+
+// Función para mostrar la notificación
+function mostrarNotificacion(mensaje) {
+    const notificacion = document.createElement('DIV');
+    notificacion.textContent = mensaje;
+    notificacion.classList.add('notificacion-copiado');
+    document.body.appendChild(notificacion);
+
+    setTimeout(() => {
+        notificacion.classList.add('visible');
+    }, 100);
+
+    setTimeout(() => {
+        notificacion.classList.remove('visible');
+        setTimeout(() => {
+            notificacion.remove();
+        }, 500);
+    }, 2000);
+}

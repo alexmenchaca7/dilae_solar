@@ -81,6 +81,7 @@
                                 <li><a href="/nosotros">Nosotros</a></li>
                                 <li><a href="/soluciones">Soluciones</a></li>
                                 <li><a href="/calculadora">Calculadora</a></li>
+                                <li><a href="/blogs">Blogs</a></li>
                                 <li><a href="/contacto">Contacto</a></li>
                             </ul>
                         </div>
@@ -139,6 +140,7 @@
                         <div class="logo-container"><a href="/nosotros">Nosotros</a></div>
                         <div class="logo-container"><a href="/soluciones">Soluciones</a></div>
                         <div class="logo-container"><a href="/calculadora">Calculadora</a></div>
+                        <div class="logo-container"><a href="/blogs">Blogs</a></div>
                         <div class="logo-container"><a href="/contacto">Contacto</a></div>
                     </div>
                 </div>

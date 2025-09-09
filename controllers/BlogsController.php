@@ -117,7 +117,7 @@ class BlogsController
         $alertas = Blog::getAlertas(); // Limpiar/obtener alertas iniciales
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!is_auth()) { // Doble verificación por si acaso
+            if (!is_auth()) { 
                 header('Location: /login');
                 exit;
             }
@@ -125,74 +125,51 @@ class BlogsController
             $blog->sincronizar($_POST);
 
             if (empty($_SESSION['id'])) {
-                @session_start(); // Asegurar que la sesión esté iniciada para obtener el ID del usuario (@ suprime warning si la sesion ya estaba iniciada)
+                @session_start(); 
             }
             $blog->autor_id = $_SESSION['id'] ?? null;
 
-            // Validación y manejo de la imagen destacada
-            $nombreImagen = null; // Nombre base del archivo que se generará
-
-            if (isset($_FILES['imagen']['name']) && !empty($_FILES['imagen']['name'])) {
-                if (isset($_FILES['imagen']['tmp_name']) && is_uploaded_file($_FILES['imagen']['tmp_name']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
-                    $nombreImagenDestacada = md5(uniqid(rand(), true));
-                    if (!is_dir(CARPETA_IMAGENES_BLOGS)) {
-                       if (!mkdir(CARPETA_IMAGENES_BLOGS, 0755, true)) { /*...*/ }
-                    }
-                    $blog->setImagen($nombreImagenDestacada); // Esto setea $blog->imagen
-                } else { /* ... manejo de errores de subida ... */ 
-                    if(isset($_FILES['imagen']['error']) && $_FILES['imagen']['error'] !== UPLOAD_ERR_OK) {
-                        $upload_errors = [ /* ... */ ]; $error_message = $upload_errors[$_FILES['imagen']['error']] ?? "Error desconocido";
-                        Blog::setAlerta('error', 'Error al subir la imagen destacada: ' . $error_message);
-                    }
-                }
-            } else {
-                if (isset($_FILES['imagen']['error']) && $_FILES['imagen']['error'] === UPLOAD_ERR_NO_FILE) {
-                    error_log("Confirmado: UPLOAD_ERR_NO_FILE (Ningún archivo fue subido), esto es normal si el campo se dejó vacío.");
-                }
+            // Gestión de la imagen destacada
+            $nombreImagenDestacada = null;
+            if (isset($_FILES['imagen']['tmp_name']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
+                $nombreImagenDestacada = md5(uniqid(rand(), true)) . ".webp";
+                $blog->setImagen($nombreImagenDestacada);
             }
             
             $alertas = $blog->validar();
 
             if (empty($alertas['error'])) {
-                // Procesamiento físico de la imagen DESTACADA
-                if ($nombreImagenDestacada && isset($_FILES['imagen']['tmp_name']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
+                // Si hay una imagen para subir, la procesamos
+                if ($nombreImagenDestacada) {
                     try {
+                        if (!is_dir(CARPETA_IMAGENES_BLOGS)) {
+                            mkdir(CARPETA_IMAGENES_BLOGS, 0755, true);
+                        }
+
                         $manager = new ImageManager(new Driver());
                         $imagenProcesada = $manager->read($_FILES['imagen']['tmp_name']);
-                        
-                        $maxWidthDestacada = 800; 
-                        $maxHeightDestacada = 600; 
-                        $imagenProcesada->scaleDown(width: $maxWidthDestacada, height: $maxHeightDestacada); // CAMBIO: Usar scaleDown
+                        $imagenProcesada->scaleDown(width: 800, height: 600);
 
-                        $rutaWebp = CARPETA_IMAGENES_BLOGS . $nombreImagenDestacada . '.webp';
-                        $rutaPng = CARPETA_IMAGENES_BLOGS . $nombreImagenDestacada . '.png';
+                        // Guardar como WebP
+                        $rutaWebp = CARPETA_IMAGENES_BLOGS . $nombreImagenDestacada;
                         $imagenProcesada->toWebp(85)->save($rutaWebp);
-                        $imagenProcesada->toPng()->save($rutaPng);
-                        error_log("Imagen DESTACADA procesada y guardada (WebP: $rutaWebp, PNG: $rutaPng)");
-                    } catch (Exception $e) { /* ... manejo de error ... */ }
+
+                    } catch (Exception $e) {
+                        Blog::setAlerta('error', 'Hubo un error al procesar la imagen: ' . $e->getMessage());
+                        $alertas = Blog::getAlertas();
+                    }
                 }
-                
-                $alertas = Blog::getAlertas();
+
+                // Guardar en la base de datos si no hay errores
                 if (empty($alertas['error'])) {
-                    error_log("Valor de blog->imagen (destacada) ANTES de guardar en BD: '" . $blog->imagen . "'");
-                    $resultado = $blog->guardar(); // Guarda el blog, incluyendo $blog->imagen y $blog->contenido
-                    
+                    $resultado = $blog->guardar();
                     if ($resultado) {
-                        error_log("Blog CREADO exitosamente. ID: " . $blog->id . ". Redirigiendo...");
-                        // NO hay imágenes de contenido previas que limpiar al crear.
                         header('Location: /admin/blogs?resultado=1');
                         exit;
                     } else {
-                        error_log("ERROR: blog->guardar() devolvió falso.");
-                        Blog::setAlerta('error', 'Ocurrió un error al guardar la entrada del blog en la base de datos.');
-                        // También podrías obtener errores de la BD aquí si tu ActiveRecord los setea
-                        // error_log("Errores de BD (si los hay): " . print_r(Blog::getAlertas(), true));
+                        Blog::setAlerta('error', 'Ocurrió un error al guardar la entrada del blog.');
                     }
-                } else {
-                    error_log("Hay errores DESPUÉS del procesamiento de imagen, no se guardará en BD: " . print_r($alertas['error'], true));
                 }
-            } else {
-                error_log("Hay errores de validación, no se procesará imagen ni se guardará en BD: " . print_r($alertas['error'], true));
             }
         }
 
@@ -204,209 +181,88 @@ class BlogsController
         ], 'admin-layout');
     }
 
-    public static function editar(Router $router)
-    {
-        error_log("--- BlogsController: editar (GET o inicio de POST) ---");
+    public static function editar(Router $router) {
         if (!is_auth()) {
-            error_log("Usuario no autenticado, redirigiendo a /login");
             header('Location: /login');
             exit;
         }
 
         $id = filter_var($_GET['id'] ?? null, FILTER_VALIDATE_INT);
-        error_log("ID para editar: " . ($id ?: 'NINGUNO'));
         if (!$id) {
-            error_log("ID no válido, redirigiendo a /admin/blogs");
             header('Location: /admin/blogs');
             exit;
         }
 
         $blog = Blog::find($id);
         if (!$blog) {
-            error_log("Blog con ID " . $id . " no encontrado, redirigiendo.");
             header('Location: /admin/blogs?resultado=error_no_encontrado');
             exit;
         }
-        error_log("Blog encontrado para editar. ID: " . $blog->id . ". blog->imagen actual en BD: '" . $blog->imagen . "'");
-        error_log("blog->imagen_actual (del constructor): '" . $blog->imagen_actual . "'");
-        $contenidoOriginal = $blog->contenido; 
-        error_log("=== CONTENIDO ORIGINAL DIRECTO DE BD (Blog ID: {$id}) ===");
-        error_log($contenidoOriginal); // Imprime el HTML crudo
-        error_log("=========================================================");
 
-        $contenidoOriginalHtmlDecoded = html_entity_decode($contenidoOriginal, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-        error_log("=== CONTENIDO ORIGINAL DECODIFICADO (Blog ID: {$id}) ===");
-        error_log($contenidoOriginalHtmlDecoded); // Imprime el HTML decodificado
-        error_log("=========================================================");
-
-        $imagenesOriginalesEnContenido = self::extraerImagenesDeContenido($contenidoOriginalHtmlDecoded); 
-        error_log("IMÁGENES EXTRAÍDAS DEL CONTENIDO ORIGINAL (Blog ID: {$id}): " . print_r($imagenesOriginalesEnContenido, true));
-
-        $alertas = Blog::getAlertas(); // Limpiar/obtener alertas iniciales
+        $imagen_destacada_original = $blog->imagen;
+        $alertas = Blog::getAlertas(); 
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            error_log("--- BlogsController: editar (POST request) ---");
             if (!is_auth()) {
-                error_log("Usuario no autenticado en POST, redirigiendo a /login");
                 header('Location: /login');
                 exit;
             }
 
-            error_log("Datos POST recibidos para edición: " . print_r($_POST, true));
-            $args = $_POST;
-            $imagen_destacada_original_en_db = $blog->imagen; // Imagen DESTACADA original
-            error_log("Imagen DESTACADA original en BD (antes de sincronizar): '" . $imagen_destacada_original_en_db . "'");
+            $blog->sincronizar($_POST); 
 
-            $blog->sincronizar($args); // $blog->contenido ahora tiene el nuevo contenido
-            error_log("Blog sincronizado con POST. blog->imagen (destacada) después de sincronizar: '" . $blog->imagen . "'");
-
-            // --- NUEVA LÓGICA DE LIMPIEZA PRE-GUARDADO ---
-            $imagenesSubidasEstaSesion = $_SESSION['editor_temp_uploads'] ?? [];
-            $imagenesEnContenidoActualEditor = self::extraerImagenesDeContenido($blog->contenido); // Contenido del POST
-
-            // Convertir URLs completas a solo nombres de archivo para comparar con la sesión
-            $nombresImagenesEnContenidoActualEditor = array_map('basename', $imagenesEnContenidoActualEditor);
-
-            $imagenesASubirYEliminarInmediatamente = [];
-            if (!empty($imagenesSubidasEstaSesion)) {
-                foreach ($imagenesSubidasEstaSesion as $imgSubida) {
-                    // Si una imagen se subió en esta sesión pero YA NO ESTÁ en el contenido actual del editor
-                    if (!in_array($imgSubida, $nombresImagenesEnContenidoActualEditor)) {
-                        $imagenesASubirYEliminarInmediatamente[] = $imgSubida; // Guardamos solo el nombre del archivo
-                    }
-                }
-            }
-
-            if (!empty($imagenesASubirYEliminarInmediatamente)) {
-                error_log("Imágenes subidas en esta sesión y eliminadas antes de guardar: " . print_r($imagenesASubirYEliminarInmediatamente, true));
-                // Necesitamos pasar los nombres de archivo a eliminarArchivosDeImagen, no URLs relativas
-                // Así que modificamos ligeramente cómo se pasan o adaptar eliminarArchivosDeImagen
-                self::eliminarArchivosPorNombre($imagenesASubirYEliminarInmediatamente, CARPETA_IMAGENES_CONTENIDO_BLOGS);
-            }
-
-            $blog->autor_id = $_POST['autor_id'] ?? $blog->autor_id ?? $_SESSION['id'] ?? null;
-            error_log("autor_id para edición: " . $blog->autor_id);
-
-            $nombreImagenDestacadaNuevaBase = null;
             $seSubioNuevaImagenDestacada = false;
+            $nombreImagenDestacadaNueva = null;
 
-            // Manejo de la IMAGEN DESTACADA
-            if (isset($_FILES['imagen']['name']) && !empty($_FILES['imagen']['name'])) {
-                if (isset($_FILES['imagen']['tmp_name']) && is_uploaded_file($_FILES['imagen']['tmp_name']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
-                    $nombreImagenDestacadaNuevaBase = md5(uniqid(rand(), true));
-                    $seSubioNuevaImagenDestacada = true;
-                    error_log("Nueva imagen DESTACADA seleccionada. Nombre base: '" . $nombreImagenDestacadaNuevaBase . "'");
-                } else {
-                    error_log("NO se cumplieron todas las condiciones para procesar _FILES['imagen'] (nueva imagen para editar).");
-                     if(isset($_FILES['imagen']['error']) && $_FILES['imagen']['error'] !== UPLOAD_ERR_OK) {
-                        // Mismos códigos de error que en crear...
-                        $upload_errors = [ /* ... (copiar array de errores de crear) ... */ ];
-                        $error_message = $upload_errors[$_FILES['imagen']['error']] ?? "Error desconocido en la subida.";
-                        error_log("Código de error de subida _FILES['imagen']['error']: " . $_FILES['imagen']['error'] . " - " . $error_message);
-                        Blog::setAlerta('error', 'Error al subir la nueva imagen: ' . $error_message);
-                    }
-                }
-            } else {
-                error_log("No se envió una nueva imagen (_FILES['imagen']['name'] vacío o no seteado).");
+            // Manejo de la nueva imagen destacada
+            if (isset($_FILES['imagen']['tmp_name']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
+                $nombreImagenDestacadaNueva = md5(uniqid(rand(), true)) . '.webp';
+                $seSubioNuevaImagenDestacada = true;
             }
 
             $alertas = $blog->validar();
-            error_log("Alertas después de blog->validar() en edición: " . print_r($alertas, true));
 
             if (empty($alertas['error'])) {
-                $imagenProcesadaYGuardadaCorrectamente = true;
-
-                // CASO 1: Se subió una nueva imagen DESTACADA
-                if ($seSubioNuevaImagenDestacada && $nombreImagenDestacadaNuevaBase) {
+                // Si se subió una nueva imagen, la procesamos
+                if ($seSubioNuevaImagenDestacada && $nombreImagenDestacadaNueva) {
                     try {
-                        if ($imagen_destacada_original_en_db) {
-                            error_log("Eliminando imagen DESTACADA anterior del servidor: '" . $imagen_destacada_original_en_db . "'");
-                            $rutaAnteriorPNG = CARPETA_IMAGENES_BLOGS . $imagen_destacada_original_en_db . '.png';
-                            $rutaAnteriorWEBP = CARPETA_IMAGENES_BLOGS . $imagen_destacada_original_en_db . '.webp';
-                            if (file_exists($rutaAnteriorPNG)) { unlink($rutaAnteriorPNG); } // Quitado @
-                            if (file_exists($rutaAnteriorWEBP)) { unlink($rutaAnteriorWEBP); } // Quitado @
+                        // Eliminar la imagen anterior si existe
+                        if ($imagen_destacada_original && file_exists(CARPETA_IMAGENES_BLOGS . $imagen_destacada_original)) {
+                            unlink(CARPETA_IMAGENES_BLOGS . $imagen_destacada_original);
                         }
-
-                        if (!is_dir(CARPETA_IMAGENES_BLOGS)) mkdir(CARPETA_IMAGENES_BLOGS, 0755, true);
+                        
+                        if (!is_dir(CARPETA_IMAGENES_BLOGS)) {
+                            mkdir(CARPETA_IMAGENES_BLOGS, 0755, true);
+                        }
 
                         $manager = new ImageManager(new Driver());
                         $imagenProcesada = $manager->read($_FILES['imagen']['tmp_name']);
-                        
-                        $maxWidthDestacada = 800; $maxHeightDestacada = 600;
-                        $imagenProcesada->scaleDown(width: $maxWidthDestacada, height: $maxHeightDestacada); // CAMBIO: Usar scaleDown
+                        $imagenProcesada->scaleDown(width: 800, height: 600);
 
-                        $rutaWebpNueva = CARPETA_IMAGENES_BLOGS . $nombreImagenDestacadaNuevaBase . '.webp';
-                        $rutaPngNueva = CARPETA_IMAGENES_BLOGS . $nombreImagenDestacadaNuevaBase . '.png';
+                        // Guardar la nueva imagen como WebP
+                        $rutaWebpNueva = CARPETA_IMAGENES_BLOGS . $nombreImagenDestacadaNueva;
                         $imagenProcesada->toWebp(85)->save($rutaWebpNueva);
-                        $imagenProcesada->toPng()->save($rutaPngNueva);
                         
-                        $blog->imagen = $nombreImagenDestacadaNuevaBase; // Actualiza $blog->imagen
-                        error_log("blog->imagen (destacada) actualizado con nuevo nombre: '" . $blog->imagen . "'");
+                        // Actualizamos el nombre en el objeto
+                        $blog->setImagen($nombreImagenDestacadaNueva);
 
                     } catch (Exception $e) {
-                        error_log("ERROR al procesar la nueva imagen: " . $e->getMessage());
                         Blog::setAlerta('error', 'Error al procesar la nueva imagen: ' . $e->getMessage());
-                        $imagenProcesadaYGuardadaCorrectamente = false;
-                        // Importante: $blog->imagen NO se actualizó al nuevo nombre si hubo error aquí,
-                        // debería retener el valor original que tenía después de sincronizar.
-                        error_log("Debido al error, blog->imagen debería ser (revisar): '" . $blog->imagen . "' (probablemente la original o la sincronizada si el campo imagen fuera un input text).");
-                    }
-                // CASO 2: Se marcó "eliminar imagen actual" (DESTACADA)
-                } elseif (isset($_POST['eliminar_imagen_actual']) && $_POST['eliminar_imagen_actual'] == '1' && !$seSubioNuevaImagenDestacada) {
-                    if ($imagen_destacada_original_en_db) {
-                        error_log("Eliminando imagen DESTACADA actual (checkbox) del servidor: '" . $imagen_destacada_original_en_db . "'");
-                        $rutaAnteriorPNG = CARPETA_IMAGENES_BLOGS . $imagen_destacada_original_en_db . '.png';
-                        $rutaAnteriorWEBP = CARPETA_IMAGENES_BLOGS . $imagen_destacada_original_en_db . '.webp';
-                        if (file_exists($rutaAnteriorPNG)) { unlink($rutaAnteriorPNG); } // Quitado @
-                        if (file_exists($rutaAnteriorWEBP)) { unlink($rutaAnteriorWEBP); } // Quitado @
-                        $blog->imagen = ''; 
-                        error_log("blog->imagen (destacada) limpiado.");
                     }
                 }
-                
-                $alertas = Blog::getAlertas();
-                if (empty($alertas['error']) && $imagenProcesadaYGuardadaCorrectamente) {
-                    error_log("Valor de blog->imagen (destacada) ANTES de guardar en BD (edición): '" . $blog->imagen . "'");
-                    $resultadoGuardado = $blog->guardar(); // Guarda $blog->imagen y el NUEVO $blog->contenido
+
+                // Guardar en la base de datos si no hay errores
+                if (empty(Blog::getAlertas()['error'])) {
+                    $resultadoGuardado = $blog->guardar();
                     
                     if ($resultadoGuardado) {
-                        error_log("Blog ACTUALIZADO exitosamente. ID: " . $blog->id);
-                        
-                        // --- LÓGICA DE LIMPIEZA POST-GUARDADO (para imágenes que estaban ANTES en la BD) ---
-                        $imagenesNuevasEnContenidoGuardado = self::extraerImagenesDeContenido($blog->contenido); // $blog->contenido ya es el de la BD
-                        $imagenesAEliminarDelContenidoPersistido = array_diff($imagenesOriginalesEnContenido, $imagenesNuevasEnContenidoGuardado);
-                        
-                        if (!empty($imagenesAEliminarDelContenidoPersistido)) {
-                            error_log("Imágenes (persistidas) que ya no se usan y se eliminarán: " . print_r($imagenesAEliminarDelContenidoPersistido, true));
-                            // Esta función espera URLs relativas, lo cual es correcto para $imagenesAEliminarDelContenidoPersistido
-                            self::eliminarArchivosDeImagen($imagenesAEliminarDelContenidoPersistido, CARPETA_IMAGENES_CONTENIDO_BLOGS);
-                        } else {
-                            error_log("No hay imágenes (persistidas) antiguas para eliminar o todas siguen en uso.");
-                        }
-
-                        // Limpiar la sesión de subidas temporales DESPUÉS de que todo se procesó
-                        unset($_SESSION['editor_temp_uploads']);
-
                         header('Location: /admin/blogs?resultado=2');
                         exit;
                     }
-                } else {
-                    error_log("Hay errores o la imagen no se procesó correctamente, no se guardará en BD. Alertas: " . print_r($alertas['error'] ?? 'ninguna', true) . " Flag imagenProcesada: " . ($imagenProcesadaYGuardadaCorrectamente ? 'true' : 'false'));
                 }
-            } else {
-                 error_log("Hay errores de validación en edición, no se procesará imagen ni se guardará en BD: " . print_r($alertas['error'], true));
             }
-            
-            $alertas = Blog::getAlertas(); // Asegurar que las últimas alertas se capturen
         }
 
-        // Al cargar el formulario de edición por GET, también es buena idea limpiar la sesión de subidas
-        // previas para no confundir con una nueva sesión de edición.
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            unset($_SESSION['editor_temp_uploads']);
-        }
-
-        error_log("Renderizando vista admin/blogs/editar");
+        $alertas = Blog::getAlertas();
         $router->render('admin/blogs/editar', [
             'titulo' => 'Editar Entrada de Blog',
             'blog' => $blog,
@@ -414,76 +270,61 @@ class BlogsController
         ], 'admin-layout');
     }
 
-    public static function eliminar()
-    {
-        error_log("--- BlogsController: eliminar ---");
+    public static function eliminar() {
         if (!is_auth()) {
-            error_log("Usuario no autenticado, redirigiendo a /login");
             header('Location: /login');
             exit;
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            error_log("POST request para eliminar.");
-             if (!is_auth()) {
-                error_log("Usuario no autenticado en POST (eliminar), redirigiendo a /login");
+            if (!is_auth()) {
                 header('Location: /login');
                 exit;
             }
 
-            $id = $_POST['id'] ?? null;
-            $id = filter_var($id, FILTER_VALIDATE_INT);
-            error_log("ID para eliminar: " . ($id ?: 'NINGUNO/INVÁLIDO'));
-
+            $id = filter_var($_POST['id'] ?? null, FILTER_VALIDATE_INT);
             if (!$id) {
-                error_log("ID no válido para eliminar, redirigiendo.");
                 header('Location: /admin/blogs?resultado=id_invalido_eliminar');
                 exit;
             }
 
             $blog = Blog::find($id);
-
             if (!$blog) {
-                error_log("Blog con ID " . $id . " no encontrado para eliminar, redirigiendo.");
                 header('Location: /admin/blogs?resultado=no_encontrado_eliminar');
                 exit;
             }
-            error_log("Blog encontrado para eliminar. ID: " . $blog->id . ". Imagen asociada: '" . $blog->imagen . "'");
 
-            // --- INICIO ELIMINAR IMÁGENES DEL CONTENIDO ---
+            // 1. Eliminar la imagen DESTACADA del servidor
+            if ($blog->imagen) {
+                // Construimos la ruta completa usando el nombre de archivo desde la BD
+                $rutaImagenDestacada = CARPETA_IMAGENES_BLOGS . $blog->imagen;
+                
+                // Verificamos si el archivo existe y lo eliminamos
+                if (file_exists($rutaImagenDestacada)) {
+                    unlink($rutaImagenDestacada);
+                }
+            }
+
+            // 2. Eliminar las imágenes insertadas en el CONTENIDO del blog
             if ($blog->contenido) {
                 $imagenesEnContenido = self::extraerImagenesDeContenido($blog->contenido);
                 if (!empty($imagenesEnContenido)) {
-                    error_log("Eliminando imágenes del contenido del blog ID " . $blog->id . " que se va a borrar.");
                     self::eliminarArchivosDeImagen($imagenesEnContenido, CARPETA_IMAGENES_CONTENIDO_BLOGS);
                 }
             }
-            // --- FIN ELIMINAR IMÁGENES DEL CONTENIDO ---
 
-            // Eliminar la imagen DESTACADA del servidor
-            if ($blog->imagen) {
-                $nombreBaseImagenDestacada = $blog->imagen;
-                error_log("Intentando eliminar imagen DESTACADA (al eliminar blog) del servidor: '" . $nombreBaseImagenDestacada . "'");
-                $rutaWebp = CARPETA_IMAGENES_BLOGS . $nombreBaseImagenDestacada . '.webp';
-                $rutaPng = CARPETA_IMAGENES_BLOGS . $nombreBaseImagenDestacada . '.png';
-                if (file_exists($rutaWebp)) { unlink($rutaWebp); } // Quitado @
-                if (file_exists($rutaPng)) { unlink($rutaPng); } // Quitado @
-            }
-            
-            error_log("Intentando eliminar registro del blog de la BD...");
-            $resultado = $blog->eliminar(); // Elimina el registro de la BD
+            // Finalmente, elimina el registro del blog de la base de datos
+            $resultado = $blog->eliminar();
 
             if ($resultado) {
-                error_log("Blog eliminado exitosamente de la BD. Redirigiendo.");
                 header('Location: /admin/blogs?resultado=3');
                 exit;
             } else {
-                error_log("ERROR al eliminar el blog de la BD.");
                 header('Location: /admin/blogs?resultado=error_eliminar');
                 exit;
             }
         }
-        error_log("Solicitud a eliminar no fue POST, redirigiendo.");
+
         header('Location: /admin/blogs');
         exit;
     }
