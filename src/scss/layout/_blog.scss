@@ -58,18 +58,45 @@
         small {
             font-size: 1.4rem;
         }
+    }
 
-        .btn-favorito {
+    &__btn-favorito {
+        display: flex;
+        gap: 0.6rem;
+        align-items: center;
+        justify-content: center ;
+
+        button {
             background-color: transparent;
             border: none;
             cursor: pointer;
             padding: 0;
             width: 2rem;
             height: auto;
-
+            display: flex;
+            align-items: center;
+    
             svg {
                 width: 2rem;
                 height: auto;
+    
+                @include m.telefono {
+                    width: 1.6rem;
+                }
+        
+                @include m.tablet {
+                    width: 2rem;
+                }
+
+                path {
+                    transition: fill 0.3s ease;
+                }
+
+                &.liked {
+                    path {
+                        fill: #FF0000; // Color rojo cuando tiene la clase 'liked'
+                    }
+                }
             }
         }
     }
