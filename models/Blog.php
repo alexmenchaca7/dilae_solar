@@ -8,7 +8,7 @@ class Blog extends ActiveRecord {
     protected static $columnasDB = [
         'id', 'titulo', 'slug', 'contenido', 'imagen', 'autor_id', 
         'estado', 'fecha_creacion', 'fecha_actualizacion', 'meta_title', 'meta_description',
-        'lectura_estimada', 'likes'
+        'lectura_estimada', 'likes', 'views'
     ];
 
     // Columnas para la función de búsqueda 
@@ -27,6 +27,7 @@ class Blog extends ActiveRecord {
     public $meta_description; 
     public $lectura_estimada;
     public $likes;
+    public $views;
 
 
     public $imagen_actual; // Para mantener la referencia en la edición si no se cambia
@@ -45,6 +46,7 @@ class Blog extends ActiveRecord {
         $this->meta_description = $args['meta_description'] ?? '';
         $this->lectura_estimada = $args['lectura_estimada'] ?? 0;
         $this->likes = $args['likes'] ?? 0;
+        $this->views = $args['views'] ?? 0;
         
         // Para el formulario de edición
         $this->imagen_actual = $args['imagen'] ?? '';

@@ -61,11 +61,10 @@ class ApiController {
         
         $blog = Blog::find($blog_id);
         if (!$blog) {
-             echo json_encode(['status' => 'error', 'message' => 'Blog no encontrado']);
+            echo json_encode(['status' => 'error', 'message' => 'Blog no encontrado']);
             return;
         }
         
-        // Evitar que el autor del blog cuente sus propias vistas
         if(isset($_SESSION['id']) && $blog->autor_id == $_SESSION['id']) {
             echo json_encode(['status' => 'is_author']);
             return;
@@ -83,10 +82,22 @@ class ApiController {
                 'ip_address' => $ip_address,
                 'view_date' => date('Y-m-d')
             ]);
-            $view->guardar();
             
-            $blog->views = ($blog->views ?? 0) + 1;
-            $blog->guardar();
+            // --- LÍNEAS DE DEPURACIÓN ---
+            error_log("Intentando guardar esta vista: " . print_r($view, true));
+            $resultado_vista = $view->guardar();
+            error_log("Resultado de guardar vista: " . print_r($resultado_vista, true));
+            // --- FIN DE LÍNEAS DE DEPURACIÓN ---
+
+            if ($resultado_vista) {
+                $blog->views = ($blog->views ?? 0) + 1;
+
+                // --- LÍNEAS DE DEPURACIÓN ---
+                error_log("Intentando actualizar este blog: " . print_r($blog, true));
+                $resultado_blog = $blog->guardar();
+                error_log("Resultado de actualizar blog: " . print_r($resultado_blog, true));
+                // --- FIN DE LÍNEAS DE DEPURACIÓN ---
+            }
         }
 
         echo json_encode(['status' => 'success', 'views' => $blog->views]);

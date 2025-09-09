@@ -27,12 +27,8 @@
             font-size: 4rem;
             font-weight: 700;
             line-height: normal;
-            margin: 0;
-        }
-
-        h2 {
-            font-size: 2rem;
-            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 2rem;
         }
     }
 
@@ -89,12 +85,16 @@
                 }
 
                 path {
-                    transition: fill 0.3s ease;
+                    stroke: v.$negro;      // Color del borde para el corazón sin like
+                    stroke-width: 1.5;    // Ancho del borde
+                    fill: transparent;    // Sin relleno cuando no tiene like
+                    transition: all 0.3s ease;
                 }
 
                 &.liked {
                     path {
-                        fill: #FF0000; // Color rojo cuando tiene la clase 'liked'
+                        stroke: #FF0000;  // Borde rojo (para que no se vea el borde gris)
+                        fill: #FF0000;    // Relleno rojo cuando tiene like
                     }
                 }
             }

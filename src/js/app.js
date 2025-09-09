@@ -800,14 +800,14 @@ document.addEventListener('DOMContentLoaded', function() {
             const result = await response.json();
 
             if (result.status === 'success') {
-                const likesCountSpan = button.querySelector('.likes-count');
+                const likesCountSpan = button.parentElement.querySelector('.likes-count');
                 likesCountSpan.textContent = result.likes;
                 
-                // Cambia el estilo del botón si le ha gustado
+                const svg = button.querySelector('svg');
                 if(result.liked) {
-                    button.classList.add('liked'); // 'liked' es una clase que puedes estilizar
+                    svg.classList.add('liked');
                 } else {
-                    button.classList.remove('liked');
+                    svg.classList.remove('liked');
                 }
             }
 
