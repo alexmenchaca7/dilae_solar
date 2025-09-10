@@ -5,7 +5,7 @@
 
     // Configuración base
     $site_name = "Dilae Solar";
-    $base_url = $_ENV['HOST']; // Asegúrate que HOST en tu .env es la URL completa (ej. https://www.dilaesolar.com)
+    $base_url = $_ENV['HOST']; // Asegúrate que HOST en tu .env es la URL completa (ej. https://dilaesolar.com)
 
     // Estructura de datos SEO
     $seo = [

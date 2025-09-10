@@ -21,7 +21,7 @@
     "name": "Dilae Solar",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://www.dilaesolar.com/build/img/logo.png"
+      "url": "https://dilaesolar.com/build/img/logo.png"
     }
   },
   "datePublished": "<?php echo date('Y-m-d', strtotime($blog->fecha_creacion)); ?>",
