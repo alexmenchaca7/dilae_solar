@@ -101,14 +101,14 @@
             <div class="blogs__grid">
                 <?php foreach ($blogs_relacionados as $blog_relacionado) : ?>
                     <div class="blog">
-                        <a href="/blog/<?php echo htmlspecialchars($blog->slug); ?>" class="blog__imagen">
-                            <img loading="lazy" src="/img/blogs/<?php echo $blog->imagen; ?>" alt="Imagen de Entrada de Blog">
+                        <a href="/blog/<?php echo htmlspecialchars($blog_relacionado->slug); ?>" class="blog__imagen">
+                            <img loading="lazy" src="/img/blogs/<?php echo $blog_relacionado->imagen; ?>" alt="Imagen de Entrada de Blog">
                         </a>
                         <div class="blog__contenido">
-                            <small><?php echo date('d M Y', strtotime($blog->fecha_creacion)); ?>  -  <?php echo $blog->lectura_estimada; ?> Min. de lectura</small>
-                            <a href="/blog/<?php echo htmlspecialchars($blog->slug); ?>">
-                                <h2><?php echo $blog->titulo; ?></h2>
-                                <p><?php echo mb_substr(strip_tags(html_entity_decode($blog->contenido)), 0, 100) . '...'; ?></p>
+                            <small><?php echo date('d M Y', strtotime($blog_relacionado->fecha_creacion)); ?>  -  <?php echo $blog_relacionado->lectura_estimada; ?> Min. de lectura</small>
+                            <a href="/blog/<?php echo htmlspecialchars($blog_relacionado->slug); ?>">
+                                <h2><?php echo $blog_relacionado->titulo; ?></h2>
+                                <p><?php echo mb_substr(strip_tags(html_entity_decode($blog_relacionado->contenido)), 0, 100) . '...'; ?></p>
                             </a>
                         </div>
                         <hr class="blog__division">
@@ -124,17 +124,17 @@
                             </div>
             
                             <div class="blog__btn-favorito">
-                                <button class="btn-favorito" data-id="<?php echo $blog->id; ?>">
+                                <button class="btn-favorito" data-id="<?php echo $blog_relacionado->id; ?>">
                                     <?php
                                         $liked_blogs_cookie = isset($_COOKIE['liked_blogs']) ? json_decode($_COOKIE['liked_blogs'], true) : [];
                                         if (!is_array($liked_blogs_cookie)) $liked_blogs_cookie = [];
-                                        $es_likeado = in_array($blog->id, $liked_blogs_cookie);
+                                        $es_likeado = in_array($blog_relacionado->id, $liked_blogs_cookie);
                                     ?>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="<?php echo $es_likeado ? 'liked' : ''; ?>">
                                         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                                     </svg>
                                 </button>
-                                <span class="likes-count"><?php echo $blog->likes ?? 0; ?></span>
+                                <span class="likes-count"><?php echo $blog_relacionado->likes ?? 0; ?></span>
                             </div>
                         </div>
                     </div>
