@@ -27,6 +27,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Preconnect to Required Origins -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
     
     <title><?php echo htmlspecialchars($final_title); ?></title>
     <meta name="description" content="<?php echo htmlspecialchars($seo['meta_description']); ?>">
@@ -65,9 +69,19 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="Dilae Solar" />
     <link rel="manifest" href="/favicon/site.webmanifest" />
+
+    <!-- Preload imagenes Hero -->
+    <?php if (isset($lcp_image)): ?>
+        <link 
+            rel="preload" 
+            as="image" 
+            href="/build/img/<?php echo $lcp_image; ?>.webp" 
+            imagesrcset="/build/img/<?php echo $lcp_image; ?>.avif type=image/avif, /build/img/<?php echo $lcp_image; ?>.webp type=image/webp"
+            fetchpriority="high"
+        >
+    <?php endif; ?>
     
     <!-- Font Awesome -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer"/></noscript>
 

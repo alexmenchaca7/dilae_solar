@@ -52,7 +52,8 @@ class PaginasController {
     public static function index(Router $router) {
         $router->render('paginas/index', [
             'inicio' => true,
-            'hero' => 'templates/hero-index'
+            'hero' => 'templates/hero-index',
+            'lcp_image' => 'hero-index'
         ]); 
     }
 
@@ -77,7 +78,8 @@ class PaginasController {
 
         $router->render('paginas/nosotros', [
             'titulo' => $titulo,
-            'hero' => 'templates/hero-nosotros'
+            'hero' => 'templates/hero-nosotros',
+            'lcp_image' => 'hero-nosotros'
         ]); 
     }
 
@@ -86,7 +88,8 @@ class PaginasController {
 
         $router->render('paginas/soluciones', [
             'titulo' => $titulo,
-            'hero' => 'templates/hero-soluciones'
+            'hero' => 'templates/hero-soluciones',
+            'lcp_image' => 'hero-soluciones'
         ]); 
     }
 
@@ -379,7 +382,7 @@ class PaginasController {
             'titulo' => $titulo,
             'datos' => $datos,
             'resultados' => $resultados,
-            'mostrarResultados' => $mostrarResultados
+            'mostrarResultados' => $mostrarResultados,
         ]);
     }
 
@@ -407,6 +410,7 @@ class PaginasController {
 
         $router->render('paginas/blogs', [
             'hero' => 'templates/hero-blogs',
+            'lcp_image' => 'hero-blogs',
             'titulo' => 'Nuestro Blog',
             'blogs' => $blogs,
             'paginacion' => $paginacion->paginacion()
@@ -521,6 +525,7 @@ class PaginasController {
         $router->render('paginas/contacto', [
             'titulo' => $titulo,
             'hero' => 'templates/hero-contacto',
+            'lcp_image' => 'hero-contacto',
             'alertas' => $alertas,
             'datos' => $datos
         ]); 
