@@ -13,7 +13,7 @@
                     <source srcset="/build/img/index-soluciones.avif" type="image/avif">
                     <source srcset="/build/img/index-soluciones.webp" type="image/webp">
                     <source srcset="/build/img/index-soluciones.jpg" type="image/jpeg">
-                    <img loading="lazy" src="/build/img/index-soluciones.jpg" alt="Imagen de Ensamblaje de Paneles Solares">
+                    <img loading="lazy" width="2400" height="1601" src="/build/img/index-soluciones.jpg" alt="Imagen de Ensamblaje de Paneles Solares">
                 </picture>
             </div>
         </div>
@@ -67,7 +67,7 @@
                                     <p>Con la experiencia de 10 años de DILAE en la ejecución de proyectos de iluminación LED a gran escala en todo México. Solidez y capacidad probada ahora enfocada en tu proyecto solar residencial.</p>
                                 </div>
                                 
-                                <img loading="lazy" src="/build/img/garantia-solidez.svg" alt="Icono de Solidez y Trayectoria">
+                                <img loading="lazy" width="106" height="137" src="/build/img/garantia-solidez.svg" alt="Icono de Solidez y Trayectoria">
                             </div>
         
                             <div class="index-garantia__contenido-item" data-tab="2">
@@ -76,7 +76,7 @@
                                     <p>Su inversión está segura. Solo integramos componentes de fabricantes Tier 1, reconocidos mundialmente por su eficiencia y garantía.</p>
                                 </div>
                                 
-                                <img loading="lazy" src="/build/img/garantia-tecnologia.svg" alt="Icono de Tecnología de Vanguardia">
+                                <img loading="lazy" width="142" height="142" src="/build/img/garantia-tecnologia.svg" alt="Icono de Tecnología de Vanguardia">
                             </div>
         
                             <div class="index-garantia__contenido-item" data-tab="3">
@@ -85,7 +85,7 @@
                                     <p>Nuestra metodología de Ejecución Impecable garantiza cada detalle. Una supervisión exhaustiva, desde el análisis estructural hasta la configuración final, asegura un resultado perfecto y duradero.</p>
                                 </div>
         
-                                <img loading="lazy" src="/build/img/garantia-ejecucion.svg" alt="Icono de Ejecución Impecable">
+                                <img loading="lazy" width="150" height="126" src="/build/img/garantia-ejecucion.svg" alt="Icono de Ejecución Impecable">
                             </div>
                         </div>
                     </div>
@@ -113,7 +113,7 @@
 
         <div class="index-proceso__grid">
             <div class="index-proceso__imagen">
-                <img src="/build/img/index-proceso.png" alt="Imagen del proceso">
+                <img loading="lazy" width="948" height="397" src="/build/img/index-proceso.png" alt="Imagen del proceso">
             </div>
             <div class="index-proceso__items">
                 <div class="index-proceso__item">
@@ -211,7 +211,7 @@
                             <source srcset="/build/img/index-sistemas-interconectados.avif" type="image/avif">
                             <source srcset="/build/img/index-sistemas-interconectados.webp" type="image/webp">
                             <source srcset="/build/img/index-sistemas-interconectados.jpg" type="image/jpg">
-                            <img loading="lazy" src="/build/img/index-sistemas-interconectados.jpg" alt="Imagen de Sistemas Interconectados">
+                            <img loading="lazy" width="2400" height="3600" src="/build/img/index-sistemas-interconectados.jpg" alt="Imagen de Sistemas Interconectados">
                         </picture>
                     </div>
     
@@ -226,7 +226,7 @@
                             <source srcset="/build/img/index-sistemas-almacenamiento.avif" type="image/avif">
                             <source srcset="/build/img/index-sistemas-almacenamiento.webp" type="image/webp">
                             <source srcset="/build/img/index-sistemas-almacenamiento.jpg" type="image/jpg">
-                            <img loading="lazy" src="/build/img/index-sistemas-almacenamiento.jpg" alt="Imagen de Sistemas de Almacenamiento">
+                            <img loading="lazy" width="1536" height="1024" src="/build/img/index-sistemas-almacenamiento.jpg" alt="Imagen de Sistemas de Almacenamiento">
                         </picture>
                     </div>
     
@@ -241,7 +241,7 @@
                             <source srcset="/build/img/index-accesorios.avif" type="image/avif">
                             <source srcset="/build/img/index-accesorios.webp" type="image/webp">
                             <source srcset="/build/img/index-accesorios.jpg" type="image/jpg">
-                            <img loading="lazy" src="/build/img/index-accesorios.jpg" alt="Imagen de Accesorios">
+                            <img loading="lazy" width="1920" height="1080" src="/build/img/index-accesorios.jpg" alt="Imagen de Accesorios">
                         </picture>
                     </div>
     

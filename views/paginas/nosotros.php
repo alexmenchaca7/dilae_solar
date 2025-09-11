@@ -133,7 +133,7 @@
                     <source srcset="/build/img/nosotros-socio.avif" type="image/avif">
                     <source srcset="/build/img/nosotros-socio.webp" type="image/webp">
                     <source srcset="/build/img/nosotros-socio.jpg" type="image/jpeg">
-                    <img loading="lazy" src="/build/img/nosotros-socio.jpg" alt="Imagen montando paneles solares">
+                    <img loading="lazy" width="4096" height="2736" src="/build/img/nosotros-socio.jpg" alt="Imagen montando paneles solares">
                 </picture>
             </div>
         </div>
@@ -149,7 +149,7 @@
                     <source srcset="/build/img/trinasolar.avif" type="image/avif">
                     <source srcset="/build/img/trinasolar.webp" type="image/webp">
                     <source srcset="/build/img/trinasolar.png" type="image/png">
-                    <img loading="lazy" src="/build/img/trinasolar.png" alt="Logo de Trinasolar">
+                    <img loading="lazy" width="2560" height="593" src="/build/img/trinasolar.png" alt="Logo de Trinasolar">
                 </picture>
             </a>
             <a rel="noopener noreferrer" target="_blank" href="https://www.canadiansolar.com/la/">
@@ -157,7 +157,7 @@
                     <source srcset="/build/img/canadian-solar.avif" type="image/avif">
                     <source srcset="/build/img/canadian-solar.webp" type="image/webp">
                     <source srcset="/build/img/canadian-solar.png" type="image/png">
-                    <img loading="lazy" src="/build/img/canadian-solar.png" alt="Logo de Canadian Solar">
+                    <img loading="lazy" width="1245" height="183" src="/build/img/canadian-solar.png" alt="Logo de Canadian Solar">
                 </picture>
             </a>
             <a rel="noopener noreferrer" target="_blank" href="https://es.renesola-energy.com/">
@@ -165,7 +165,7 @@
                     <source srcset="/build/img/renesola.avif" type="image/avif">
                     <source srcset="/build/img/renesola.webp" type="image/webp">
                     <source srcset="/build/img/renesola.png" type="image/png">
-                    <img loading="lazy" src="/build/img/renesola.png" alt="Logo de ReneSola">
+                    <img loading="lazy" width="950" height="190" src="/build/img/renesola.png" alt="Logo de ReneSola">
                 </picture>
             </a>
             <a rel="noopener noreferrer" target="_blank" href="https://k2-systems.com/es-mx/">
@@ -173,7 +173,7 @@
                     <source srcset="/build/img/k2.avif" type="image/avif">
                     <source srcset="/build/img/k2.webp" type="image/webp">
                     <source srcset="/build/img/k2.png" type="image/png">
-                    <img loading="lazy" src="/build/img/k2.png" alt="Logo de K2">
+                    <img loading="lazy" width="400" height="400" src="/build/img/k2.png" alt="Logo de K2">
                 </picture>
             </a>
             <a rel="noopener noreferrer" target="_blank" href="https://latam.growatt.com/">
@@ -181,7 +181,7 @@
                     <source srcset="/build/img/growatt.avif" type="image/avif">
                     <source srcset="/build/img/growatt.webp" type="image/webp">
                     <source srcset="/build/img/growatt.png" type="image/png">
-                    <img loading="lazy" src="/build/img/growatt.png" alt="Logo de Growatt">
+                    <img loading="lazy" width="2187" height="672" src="/build/img/growatt.png" alt="Logo de Growatt">
                 </picture>
             </a>
             <a rel="noopener noreferrer" target="_blank" href="https://enphase.com/es-mx">
@@ -189,7 +189,7 @@
                     <source srcset="/build/img/enphase.avif" type="image/avif">
                     <source srcset="/build/img/enphase.webp" type="image/webp">
                     <source srcset="/build/img/enphase.png" type="image/png">
-                    <img loading="lazy" src="/build/img/enphase.png" alt="Logo de Enphase">
+                    <img loading="lazy" width="600" height="150" src="/build/img/enphase.png" alt="Logo de Enphase">
                 </picture>
             </a>
             <a rel="noopener noreferrer" target="_blank" href="https://solar.huawei.com/mx/">
@@ -197,7 +197,7 @@
                     <source srcset="/build/img/huawei.avif" type="image/avif">
                     <source srcset="/build/img/huawei.webp" type="image/webp">
                     <source srcset="/build/img/huawei.png" type="image/png">
-                    <img loading="lazy" src="/build/img/huawei.png" alt="Logo de Huawei">
+                    <img loading="lazy" width="1200" height="1221" src="/build/img/huawei.png" alt="Logo de Huawei">
                 </picture>
             </a>
             <a rel="noopener noreferrer" target="_blank" href="https://www.solisinverters.com/mx">
@@ -205,7 +205,7 @@
                     <source srcset="/build/img/solis.avif" type="image/avif">
                     <source srcset="/build/img/solis.webp" type="image/webp">
                     <source srcset="/build/img/solis.png" type="image/png">
-                    <img loading="lazy" src="/build/img/solis.png" alt="Logo de Solis">
+                    <img loading="lazy" width="600" height="200" src="/build/img/solis.png" alt="Logo de Solis">
                 </picture>
             </a>
             <a rel="noopener noreferrer" target="_blank" href="https://www.novotegra.com/es/">
@@ -213,7 +213,7 @@
                     <source srcset="/build/img/novotegra.avif" type="image/avif">
                     <source srcset="/build/img/novotegra.webp" type="image/webp">
                     <source srcset="/build/img/novotegra.png" type="image/png">
-                    <img loading="lazy" src="/build/img/novotegra.png" alt="Logo de Novotegra">
+                    <img loading="lazy" width="1500" height="700" src="/build/img/novotegra.png" alt="Logo de Novotegra">
                 </picture>
             </a>
             <a rel="noopener noreferrer" target="_blank" href="https://www.jinkosolar.com/es">
@@ -221,7 +221,7 @@
                     <source srcset="/build/img/jinko.avif" type="image/avif">
                     <source srcset="/build/img/jinko.webp" type="image/webp">
                     <source srcset="/build/img/jinko.png" type="image/png">
-                    <img loading="lazy" src="/build/img/jinko.png" alt="Logo de Jinko">
+                    <img loading="lazy" width="1200" height="410" src="/build/img/jinko.png" alt="Logo de Jinko">
                 </picture>
             </a>
             <a rel="noopener noreferrer" target="_blank" href="https://www.fronius.com/es-mx/mexico">
@@ -229,7 +229,7 @@
                     <source srcset="/build/img/fronius.avif" type="image/avif">
                     <source srcset="/build/img/fronius.webp" type="image/webp">
                     <source srcset="/build/img/fronius.png" type="image/png">
-                    <img loading="lazy" src="/build/img/fronius.png" alt="Logo de Fronius">
+                    <img loading="lazy" width="2400" height="666" src="/build/img/fronius.png" alt="Logo de Fronius">
                 </picture>
             </a>
         </div>

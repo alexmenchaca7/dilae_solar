@@ -52,7 +52,7 @@
                     <source srcset="/build/img/solucion-interconexion.avif" type="image/avif">
                     <source srcset="/build/img/solucion-interconexion.webp" type="image/webp">
                     <source srcset="/build/img/solucion-interconexion.jpg" type="image/jpg">
-                    <img loading="lazy" src="/build/img/solucion-interconexion.jpg" alt="Sistemas Interconectados">
+                    <img loading="lazy" width="4096" height="2731" src="/build/img/solucion-interconexion.jpg" alt="Sistemas Interconectados">
                 </picture>
             </div>
         </section>
@@ -113,7 +113,7 @@
                     <source srcset="/build/img/solucion-almacenamiento.avif" type="image/avif">
                     <source srcset="/build/img/solucion-almacenamiento.webp" type="image/webp">
                     <source srcset="/build/img/solucion-almacenamiento.jpg" type="image/jpg">
-                    <img loading="lazy" src="/build/img/solucion-almacenamiento.jpg" alt="Sistemas de Almacenamiento">
+                    <img loading="lazy" width="1536" height="1024" src="/build/img/solucion-almacenamiento.jpg" alt="Sistemas de Almacenamiento">
                 </picture>
             </div>
         </section>
@@ -181,7 +181,7 @@
                     <source srcset="/build/img/solucion-calentador.avif" type="image/avif">
                     <source srcset="/build/img/solucion-calentador.webp" type="image/webp">
                     <source srcset="/build/img/solucion-calentador.jpg" type="image/jpg">
-                    <img loading="lazy" src="/build/img/solucion-calentador.jpg" alt="Calentadores Solares">
+                    <img loading="lazy" width="3200" height="2133" src="/build/img/solucion-calentador.jpg" alt="Calentadores Solares">
                 </picture>
             </div>
         </section>
@@ -241,7 +241,7 @@
                     <source srcset="/build/img/solucion-accesorios.avif" type="image/avif">
                     <source srcset="/build/img/solucion-accesorios.webp" type="image/webp">
                     <source srcset="/build/img/solucion-accesorios.jpg" type="image/jpg">
-                    <img loading="lazy" src="/build/img/solucion-accesorios.jpg" alt="Accesorios para su Ecosistema">
+                    <img loading="lazy" width="4096" height="2734" src="/build/img/solucion-accesorios.jpg" alt="Accesorios para su Ecosistema">
                 </picture>
             </div>
         </section>

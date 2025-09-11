@@ -32,7 +32,7 @@
 <main class="seccion">
     <div class="entrada-blog contenedor-blog" data-blog-id="<?php echo $blog->id; ?>"> 
         <div class="entrada-blog__header">
-            <img src="/img/usuarios/<?php echo $blog->autor->imagen ?? 'default.png'; ?>" alt="Imagen del Autor del Articulo">
+            <img loading="lazy" src="/img/usuarios/<?php echo $blog->autor->imagen ?? 'default.png'; ?>" alt="Imagen del Autor del Articulo">
             <small><?php echo $blog->autor_nombre; ?>  -  <?php echo date('d M Y', strtotime($blog->fecha_creacion)); ?>  -  <?php echo $blog->lectura_estimada; ?> Min. de lectura</small>
         </div>
 

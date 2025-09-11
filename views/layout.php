@@ -92,7 +92,7 @@
                         <picture>
                             <source srcset="/build/img/logo.webp" type="image/webp">
                             <source srcset="/build/img/logo.png" type="image/png">
-                            <img loading="lazy" src="/build/img/logo.png" alt="Logo de Dilae Solar" class="logo">
+                            <img loading="lazy" width="437" height="246" src="/build/img/logo.png" alt="Logo de Dilae Solar" class="logo">
                         </picture>
                     </a>
 
@@ -138,7 +138,7 @@
                         <picture>
                             <source srcset="/build/img/logo-white.webp" type="image/webp">
                             <source srcset="/build/img/logo-white.png" type="image/png">
-                            <img loading="lazy" src="/build/img/logo-white.png" alt="Logo de Dilae Solar">
+                            <img loading="lazy" width="1920" height="1080" src="/build/img/logo-white.png" alt="Logo de Dilae Solar">
                         </picture>
                     </a>
                     <p>Copyright © <?php echo date('Y'); ?> <a href="/">DILAE</a></p>

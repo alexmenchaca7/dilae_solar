@@ -248,14 +248,14 @@
 <div id="recibo-modal" class="modal-overlay">
     <div class="modal-contenido">
         <span class="modal-cerrar">&times;</span>
-        <img src="/build/img/recibo-cfe.webp" alt="Tutorial para encontrar tipo de tarifa">
+        <img loading="lazy" width="856" height="1053" src="/build/img/recibo-cfe.webp" alt="Tutorial para encontrar tipo de tarifa">
     </div>
 </div>
 
 <div id="consumo-modal" class="modal-overlay">
     <div class="modal-contenido">
         <span class="modal-cerrar">&times;</span>
-        <img src="/build/img/consumo-cfe.webp" alt="Tutorial para encontrar el consumo histórico">
+        <img loading="lazy" width="856" height="1053" src="/build/img/consumo-cfe.webp" alt="Tutorial para encontrar el consumo histórico">
     </div>
 </div>
 
