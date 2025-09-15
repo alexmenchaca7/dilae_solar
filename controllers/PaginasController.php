@@ -53,8 +53,7 @@ class PaginasController {
         $router->render('paginas/index', [
             'inicio' => true,
             'hero' => 'templates/hero-index',
-            'lcp_image' => 'hero-index',
-            'critical_css' => 'critical-index.css'
+            'lcp_image' => 'hero-index'
         ]); 
     }
 
@@ -82,8 +81,7 @@ class PaginasController {
             'titulo' => $titulo,
             'meta_description' => $meta_description,
             'hero' => 'templates/hero-nosotros',
-            'lcp_image' => 'hero-nosotros',
-            'critical_css' => 'critical-nosotros.css'
+            'lcp_image' => 'hero-nosotros'
         ]); 
     }
 
@@ -95,8 +93,7 @@ class PaginasController {
             'titulo' => $titulo,
             'meta_description' => $meta_description,
             'hero' => 'templates/hero-soluciones',
-            'lcp_image' => 'hero-soluciones',
-            'critical_css' => 'critical-soluciones.css'
+            'lcp_image' => 'hero-soluciones'
         ]); 
     }
 
@@ -391,8 +388,7 @@ class PaginasController {
             'meta_description' => $meta_description,
             'datos' => $datos,
             'resultados' => $resultados,
-            'mostrarResultados' => $mostrarResultados,
-            'critical_css' => 'critical-calculadora.css'
+            'mostrarResultados' => $mostrarResultados
         ]);
     }
 
@@ -426,7 +422,6 @@ class PaginasController {
             'meta_description' => $meta_description,
             'hero' => 'templates/hero-blogs',
             'lcp_image' => 'hero-blogs',
-            'critical_css' => 'critical-blogs.css',
             'blogs' => $blogs,
             'paginacion' => $paginacion->paginacion()
         ]);
@@ -544,7 +539,6 @@ class PaginasController {
             'meta_description' => $meta_description,
             'hero' => 'templates/hero-contacto',
             'lcp_image' => 'hero-contacto',
-            'critical_css' => 'critical-contacto.css',
             'alertas' => $alertas,
             'datos' => $datos
         ]); 

@@ -85,18 +85,6 @@
     
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <link rel="preload" href="<?php echo get_asset('app.css'); ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
-
-    <!-- Estilos criticos -->
-    <?php if (isset($critical_css)): ?>
-        <style>
-            <?php
-            $css_path = $_SERVER['DOCUMENT_ROOT'] . '/critical/' . $critical_css;
-            if (file_exists($css_path)) {
-                echo file_get_contents($css_path);
-            }
-            ?>
-        </style>
-    <?php endif; ?>
     
     <noscript><link rel="stylesheet" href="<?php echo get_asset('app.css'); ?>"></noscript>
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"></noscript>
