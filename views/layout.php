@@ -235,6 +235,17 @@
         </footer>
     </div>
 
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BSSJTDK4SQ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-BSSJTDK4SQ');
+    </script>
+
+    <!--Start of Tawk.to Script-->
     <script type="text/javascript">
         var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
         (function(){
@@ -246,7 +257,7 @@
         s0.parentNode.insertBefore(s1,s0);
         })();
     </script>
-    <script data-domain="dilaesolar.com" src="https://analytics.dilaesolar.com/js/script.js" defer></script>
+    
     <script src="<?php echo get_asset('app.js'); ?>" defer></script>
 </body>
 </html>

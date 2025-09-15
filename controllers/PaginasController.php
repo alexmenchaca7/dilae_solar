@@ -75,10 +75,12 @@ class PaginasController {
     }
 
     public static function nosotros(Router $router) {
-        $titulo = 'Nosotros';
+        $titulo = 'Sobre Nosotros';
+        $meta_description = 'Expertos en energía solar en Guadalajara. En Dilae Solar combinamos ingeniería y las mejores marcas para ofrecerte proyectos solares precisos y rentables. ¡Conócenos!';
 
         $router->render('paginas/nosotros', [
             'titulo' => $titulo,
+            'meta_description' => $meta_description,
             'hero' => 'templates/hero-nosotros',
             'lcp_image' => 'hero-nosotros',
             'critical_css' => 'critical-nosotros.css'
@@ -87,9 +89,11 @@ class PaginasController {
 
     public static function soluciones(Router $router) {
         $titulo = 'Soluciones';
+        $meta_description = 'Soluciones de energía solar residencial en Guadalajara. Ofrecemos paneles solares, sistemas de almacenamiento, calentadores solares y más. ¡Empieza tu proyecto hoy!';
 
         $router->render('paginas/soluciones', [
             'titulo' => $titulo,
+            'meta_description' => $meta_description,
             'hero' => 'templates/hero-soluciones',
             'lcp_image' => 'hero-soluciones',
             'critical_css' => 'critical-soluciones.css'
@@ -98,6 +102,7 @@ class PaginasController {
 
     public static function calculadora(Router $router) {
         $titulo = 'Calculadora';
+        $meta_description = 'Calcula tu ahorro con paneles solares. Descubre cuántos paneles necesitas y el retorno de tu inversión en segundos. ¡Usa nuestra calculadora solar sin compromiso!';
         $datos = [];
         $resultados = [];
         $mostrarResultados = false;
@@ -383,6 +388,7 @@ class PaginasController {
     
         $router->render('paginas/calculadora', [
             'titulo' => $titulo,
+            'meta_description' => $meta_description,
             'datos' => $datos,
             'resultados' => $resultados,
             'mostrarResultados' => $mostrarResultados,
@@ -391,6 +397,9 @@ class PaginasController {
     }
 
     public static function blogs(Router $router) {
+        $titulo = 'Nuestro Blog';
+        $meta_description = 'Blog Tu Mundo Solar por Dilae Solar. Encuentra artículos, guías y consejos sobre paneles solares, ahorro de energía y tecnologías limpias para tu hogar.';
+
         $condiciones = ["estado = 'publicado'"]; 
 
         $pagina_actual = filter_var($_GET['page'] ?? 1, FILTER_VALIDATE_INT) ?: 1;
@@ -413,10 +422,11 @@ class PaginasController {
         $blogs = Blog::obtenerBlogsPublicadosPaginados($registros_por_pagina, $paginacion->offset());
 
         $router->render('paginas/blogs', [
+            'titulo' => $titulo,
+            'meta_description' => $meta_description,
             'hero' => 'templates/hero-blogs',
             'lcp_image' => 'hero-blogs',
             'critical_css' => 'critical-blogs.css',
-            'titulo' => 'Nuestro Blog',
             'blogs' => $blogs,
             'paginacion' => $paginacion->paginacion()
         ]);
@@ -450,6 +460,8 @@ class PaginasController {
 
     public static function contacto(Router $router) {
         $titulo = 'Contacto';
+        $meta_description = 'Contacta a Dilae Solar en Guadalajara. ¿Listo para empezar a ahorrar con energía solar? Llámanos o visita nuestras oficinas en Zapopan. ¡Cotiza tu proyecto hoy!';
+
         $alertas = [];
         $datos = [ // Para repoblar el formulario en caso de error o para limpiarlo
             'nombre' => '',
@@ -529,6 +541,7 @@ class PaginasController {
 
         $router->render('paginas/contacto', [
             'titulo' => $titulo,
+            'meta_description' => $meta_description,
             'hero' => 'templates/hero-contacto',
             'lcp_image' => 'hero-contacto',
             'critical_css' => 'critical-contacto.css',
