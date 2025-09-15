@@ -102,6 +102,10 @@
         gap: 1.5rem;
         margin-bottom: 2.5rem;
 
+        &--centrado {
+            justify-content: center;
+        }
+
         svg {
             flex-shrink: 0;
         }
@@ -159,6 +163,31 @@
                     fill: #FDFDFD;
                     stroke: #FDFDFD;
                 }
+            }
+        }
+
+        .btn-whatsapp {
+            max-width: 25rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.6rem;
+            border-radius: 5px;
+            border: 1px solid #2E7D32;
+            background-color: #FDFDFD;
+            cursor: pointer;
+            padding: 8px 2rem;
+            font-weight: 600;
+            color: #2E7D32;
+            transition: 0.3s ease all;
+
+            i {
+                font-size: 2.8rem;
+            }
+
+            &:hover {
+                background-color: #2E7D32;
+                color: #FDFDFD;
             }
         }
 

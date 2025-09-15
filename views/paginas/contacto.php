@@ -114,6 +114,13 @@
                         <p>Respondemos en menos de 24 horas</p>
                     </div>
                 </div>
+
+                <div class="info__seccion info__seccion--centrado">
+                    <a href="https://wa.me/523346323029?text=Hola,%20me%20gustaría%20obtener%20más%20información." target="_blank" aria-label="Contactar por WhatsApp" class="btn-whatsapp" >
+                        <i class="fa-brands fa-whatsapp"></i>
+                        Envíanos un Whatsapp
+                    </a>
+                </div>
             </div>
 
             <div class="horario">

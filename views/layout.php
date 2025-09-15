@@ -90,7 +90,7 @@
     <?php if (isset($critical_css)): ?>
         <style>
             <?php
-            $css_path = $_SERVER['DOCUMENT_ROOT'] . '/build/css/' . $critical_css;
+            $css_path = $_SERVER['DOCUMENT_ROOT'] . '/critical/' . $critical_css;
             if (file_exists($css_path)) {
                 echo file_get_contents($css_path);
             }
