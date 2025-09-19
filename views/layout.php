@@ -11,7 +11,7 @@
     $seo = [
         'title' => $titulo ?? 'Paneles Solares en Guadalajara',
         'meta_description' => $meta_description ?? 'Instalación profesional de energía solar en Guadalajara. Invierta en paneles solares para su hogar o negocio y reduzca su factura de CFE hasta un 90%',
-        'canonical' => $base_url . strtok($_SERVER['REQUEST_URI'], '?'),
+        'canonical' => rtrim($base_url, '/') . strtok($_SERVER['REQUEST_URI'], '?'),
         'og_type' => $og_type ?? 'website',
         'og_image' => $og_image ?? $base_url . '/build/img/logo.png', // Crea una imagen para redes sociales
         'og_image_alt' => $og_image_alt ?? 'Logo de DILAE Solar',
