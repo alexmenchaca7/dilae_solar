@@ -220,7 +220,10 @@
             <h2>Su Rendimiento Solar a 25 Años</h2>
 
             <div class="calculadora-grafica__chart">
-                <canvas id="calculadoraChart"></canvas>
+                <canvas 
+                    id="calculadoraChart" 
+                    data-grafica='<?php echo json_encode($resultados['datosGraficaLinea'] ?? []); ?>'
+                ></canvas>
             </div>
         </section>
 

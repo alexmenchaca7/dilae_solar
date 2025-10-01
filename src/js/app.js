@@ -460,182 +460,198 @@ document.addEventListener('DOMContentLoaded', function() {
     /** GRAFICA DE RENDIMIENTO SOLAR A 25 AÑOS */
     const ctxLinea = document.getElementById('calculadoraChart');
 
-    if (ctxLinea && typeof datosGraficaLinea !== 'undefined') {
+    if (ctxLinea) {
+        // Obtenemos los datos del atributo data-grafica
+        const datosGraficaString = ctxLinea.dataset.grafica;
+        
+        // Verificamos si hay datos antes de continuar
+        if (datosGraficaString && datosGraficaString !== '[]') {
+            try {
+                // Convertimos el string JSON a un objeto JavaScript
+                const datosGraficaLinea = JSON.parse(datosGraficaString);
 
-        const { inversionInicial, gananciaNetaFinal, aniosROI, roiTexto } = datosGraficaLinea;
+                // Si el objeto tiene datos, creamos la gráfica
+                if (Object.keys(datosGraficaLinea).length > 0) {
 
-        const COLOR_GANANCIA = '#C7922A'; 
-        const COLOR_INVERSION = '#001F3F'; 
-        const COLOR_ROI = '#6E6E6E';      
+                    const { inversionInicial, gananciaNetaFinal, aniosROI, roiTexto } = datosGraficaLinea;
 
-        const ahorroAnual = (gananciaNetaFinal - inversionInicial) / 25;
-        const labels = Array.from({ length: 26 }, (_, i) => i);
-        const datosAcumulados = labels.map(i => inversionInicial + (ahorroAnual * i));
-        const roiIndex = Math.round(aniosROI)
+                    const COLOR_GANANCIA = '#C7922A'; 
+                    const COLOR_INVERSION = '#001F3F'; 
+                    const COLOR_ROI = '#6E6E6E';      
 
-        const inversionData = [inversionInicial, ...Array(25).fill(null)];
-        const roiData = [...Array(roiIndex).fill(null), 0, ...Array(25 - roiIndex).fill(null)];
-        const gananciaData = [...Array(25).fill(null), gananciaNetaFinal];
+                    const ahorroAnual = (gananciaNetaFinal - inversionInicial) / 25;
+                    const labels = Array.from({ length: 26 }, (_, i) => i);
+                    const datosAcumulados = labels.map(i => inversionInicial + (ahorroAnual * i));
+                    const roiIndex = Math.round(aniosROI)
 
-        new Chart(ctxLinea, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [
-                    {
-                        label: 'Ganancia Acumulada',
-                        data: datosAcumulados,
-                        order: 1,
-                        borderWidth: 0,
-                        fill: true,
-                        tension: 0,
-                        pointRadius: 0,
-                        backgroundColor: function(context) {
-                            const chart = context.chart;
-                            const { ctx, chartArea } = chart;
-                            if (!chartArea) { return null; }
-                            const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-                            const yAxis = chart.scales.y;
-                            const zeroPixel = yAxis.getPixelForValue(0);
-                            if (yAxis.min >= 0) return COLOR_GANANCIA;
-                            if (yAxis.max <= 0) return COLOR_INVERSION;
-                            const zeroPosition = (zeroPixel - chartArea.top) / chartArea.height;
-                            gradient.addColorStop(0, COLOR_GANANCIA);
-                            gradient.addColorStop(zeroPosition, COLOR_GANANCIA);
-                            gradient.addColorStop(zeroPosition, COLOR_INVERSION);
-                            gradient.addColorStop(1, COLOR_INVERSION);
-                            return gradient;
-                        }
-                    },
-                    {
-                        label: `Inversión Inicial: $${new Intl.NumberFormat('es-MX').format(Math.abs(inversionInicial))} MXN`,
-                        data: inversionData,
-                        order: 2,
-                        pointBackgroundColor: COLOR_INVERSION,
-                        pointBorderColor: '#fff',
-                        pointBorderWidth: 2,
-                        pointRadius: 8, 
-                        pointHoverRadius: 10,
-                        pointStyle: 'circle'
-                    },
-                    {
-                        label: `Retorno de Inversión: ${roiTexto}`,
-                        data: roiData,
-                        order: 2,
-                        pointBackgroundColor: COLOR_ROI,
-                        pointBorderColor: '#fff',
-                        pointBorderWidth: 2,
-                        pointRadius: 8, 
-                        pointHoverRadius: 10,
-                        pointStyle: 'circle'
-                    },
-                    {
-                        label: `Ganancia Neta: $${new Intl.NumberFormat('es-MX').format(gananciaNetaFinal)} MXN`,
-                        data: gananciaData,
-                        order: 2,
-                        pointBackgroundColor: COLOR_GANANCIA,
-                        pointBorderColor: '#fff',
-                        pointBorderWidth: 2,
-                        pointRadius: 8, 
-                        pointHoverRadius: 10,
-                        pointStyle: 'circle'
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top',
-                        align: 'center',
-                        labels: {
-                            boxWidth: 15,
-                            padding: 20,
-                            usePointStyle: true,
-                            filter: (item) => {
-                                // Oculta la leyenda para el primer dataset ('Ganancia Acumulada')
-                                return item.datasetIndex !== 0;
-                            },
-                            font: {
-                                size: 12,
-                                family: "'Inter', sans-serif"
-                            }
-                        }
-                    },
-                    tooltip: {
-                        intersect: false,
-                        mode: 'nearest',
-                        callbacks: {
-                            title: function(tooltipItems) {
-                                const item = tooltipItems[0];
-                                if (item.datasetIndex > 0) {
-                                    return item.dataset.label;
-                                }
-                                return `Año ${item.label}`;
-                            },
-                            label: function(context) {
-                                // Muestra el valor solo para la línea de área.
-                                if (context.datasetIndex === 0) {
-                                    let value = context.parsed.y;
-                                    let label = value >= 0 ? 'Ganancia Acumulada: ' : 'Inversión: ';
-                                    return label + '$' + new Intl.NumberFormat('es-MX').format(value);
-                                }
-                                return ''; 
-                            }
-                        }
-                    }
-                },
-                annotation: {
-                    drawTime: 'beforeDatasetsDraw',
-                    annotations: {
-                        line1: {
-                            type: 'line',
-                            xMin: aniosROI,
-                            xMax: aniosROI,
-                            borderColor: COLOR_ROI,
-                            borderWidth: 2,
-                            borderDash: [6, 6], 
-                            label: {
-                                content: `ROI: ${roiTexto}`,
-                                enabled: true,
-                                position: 'start',
-                                backgroundColor: '#dc3545',
-                                font: {
-                                    size: 10,
-                                    weight: 'bold'
+                    const inversionData = [inversionInicial, ...Array(25).fill(null)];
+                    const roiData = [...Array(roiIndex).fill(null), 0, ...Array(25 - roiIndex).fill(null)];
+                    const gananciaData = [...Array(25).fill(null), gananciaNetaFinal];
+
+                    new Chart(ctxLinea, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [
+                                {
+                                    label: 'Ganancia Acumulada',
+                                    data: datosAcumulados,
+                                    order: 1,
+                                    borderWidth: 0,
+                                    fill: true,
+                                    tension: 0,
+                                    pointRadius: 0,
+                                    backgroundColor: function(context) {
+                                        const chart = context.chart;
+                                        const { ctx, chartArea } = chart;
+                                        if (!chartArea) { return null; }
+                                        const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+                                        const yAxis = chart.scales.y;
+                                        const zeroPixel = yAxis.getPixelForValue(0);
+                                        if (yAxis.min >= 0) return COLOR_GANANCIA;
+                                        if (yAxis.max <= 0) return COLOR_INVERSION;
+                                        const zeroPosition = (zeroPixel - chartArea.top) / chartArea.height;
+                                        gradient.addColorStop(0, COLOR_GANANCIA);
+                                        gradient.addColorStop(zeroPosition, COLOR_GANANCIA);
+                                        gradient.addColorStop(zeroPosition, COLOR_INVERSION);
+                                        gradient.addColorStop(1, COLOR_INVERSION);
+                                        return gradient;
+                                    }
                                 },
-                                yAdjust: -15
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        ticks: {
-                            callback: function(value) {
-                                return '$' + new Intl.NumberFormat('es-MX').format(value);
-                            }
-                        }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Años',
-                            font: { size: 12, family: "'Inter', sans-serif" }
+                                {
+                                    label: `Inversión Inicial: $${new Intl.NumberFormat('es-MX').format(Math.abs(inversionInicial))} MXN`,
+                                    data: inversionData,
+                                    order: 2,
+                                    pointBackgroundColor: COLOR_INVERSION,
+                                    pointBorderColor: '#fff',
+                                    pointBorderWidth: 2,
+                                    pointRadius: 8, 
+                                    pointHoverRadius: 10,
+                                    pointStyle: 'circle'
+                                },
+                                {
+                                    label: `Retorno de Inversión: ${roiTexto}`,
+                                    data: roiData,
+                                    order: 2,
+                                    pointBackgroundColor: COLOR_ROI,
+                                    pointBorderColor: '#fff',
+                                    pointBorderWidth: 2,
+                                    pointRadius: 8, 
+                                    pointHoverRadius: 10,
+                                    pointStyle: 'circle'
+                                },
+                                {
+                                    label: `Ganancia Neta: $${new Intl.NumberFormat('es-MX').format(gananciaNetaFinal)} MXN`,
+                                    data: gananciaData,
+                                    order: 2,
+                                    pointBackgroundColor: COLOR_GANANCIA,
+                                    pointBorderColor: '#fff',
+                                    pointBorderWidth: 2,
+                                    pointRadius: 8, 
+                                    pointHoverRadius: 10,
+                                    pointStyle: 'circle'
+                                }
+                            ]
                         },
-                        ticks: {
-                            callback: function(value, index) {
-                                return labels[index] % 5 === 0 ? labels[index] : '';
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    position: 'top',
+                                    align: 'center',
+                                    labels: {
+                                        boxWidth: 15,
+                                        padding: 20,
+                                        usePointStyle: true,
+                                        filter: (item) => {
+                                            // Oculta la leyenda para el primer dataset ('Ganancia Acumulada')
+                                            return item.datasetIndex !== 0;
+                                        },
+                                        font: {
+                                            size: 12,
+                                            family: "'Inter', sans-serif"
+                                        }
+                                    }
+                                },
+                                tooltip: {
+                                    intersect: false,
+                                    mode: 'nearest',
+                                    callbacks: {
+                                        title: function(tooltipItems) {
+                                            const item = tooltipItems[0];
+                                            if (item.datasetIndex > 0) {
+                                                return item.dataset.label;
+                                            }
+                                            return `Año ${item.label}`;
+                                        },
+                                        label: function(context) {
+                                            // Muestra el valor solo para la línea de área.
+                                            if (context.datasetIndex === 0) {
+                                                let value = context.parsed.y;
+                                                let label = value >= 0 ? 'Ganancia Acumulada: ' : 'Inversión: ';
+                                                return label + '$' + new Intl.NumberFormat('es-MX').format(value);
+                                            }
+                                            return ''; 
+                                        }
+                                    }
+                                }
                             },
-                            maxRotation: 0,
-                            minRotation: 0
+                            annotation: {
+                                drawTime: 'beforeDatasetsDraw',
+                                annotations: {
+                                    line1: {
+                                        type: 'line',
+                                        xMin: aniosROI,
+                                        xMax: aniosROI,
+                                        borderColor: COLOR_ROI,
+                                        borderWidth: 2,
+                                        borderDash: [6, 6], 
+                                        label: {
+                                            content: `ROI: ${roiTexto}`,
+                                            enabled: true,
+                                            position: 'start',
+                                            backgroundColor: '#dc3545',
+                                            font: {
+                                                size: 10,
+                                                weight: 'bold'
+                                            },
+                                            yAdjust: -15
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    ticks: {
+                                        callback: function(value) {
+                                            return '$' + new Intl.NumberFormat('es-MX').format(value);
+                                        }
+                                    }
+                                },
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Años',
+                                        font: { size: 12, family: "'Inter', sans-serif" }
+                                    },
+                                    ticks: {
+                                        callback: function(value, index) {
+                                            return labels[index] % 5 === 0 ? labels[index] : '';
+                                        },
+                                        maxRotation: 0,
+                                        minRotation: 0
+                                    }
+                                }
+                            }
                         }
-                    }
+                    });
                 }
+            } catch (e) {
+                console.error('Error al procesar los datos de la gráfica:', e);
             }
-        });
+        }
     }
 
 
