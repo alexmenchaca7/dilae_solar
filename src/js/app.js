@@ -116,46 +116,47 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     /** LOGICA PARA EL CARRUSEL DE LA PAGINA DE NOSOTROS EN LA SECCION DE PROCESO */
-    const carousel = document.querySelector('.nosotros-proceso__carousel');
+    window.addEventListener('load', function() {
+        const carousel = document.querySelector('.nosotros-proceso__carousel');
 
-    if (carousel) {
-        const container = document.querySelector('.nosotros-proceso__items');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
+        if (carousel) {
+            const container = document.querySelector('.nosotros-proceso__items');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
 
-        const updateButtons = () => {
-            const scrollLeft = container.scrollLeft;
-            const scrollWidth = container.scrollWidth;
-            const clientWidth = container.clientWidth;
+            const updateButtons = () => {
+                const scrollLeft = container.scrollLeft;
+                const scrollWidth = container.scrollWidth;
+                const clientWidth = container.clientWidth;
 
-            // Deshabilitar botón "anterior" si estamos al principio
-            prevBtn.disabled = scrollLeft < 1;
+                // Deshabilitar botón "anterior" si estamos al principio
+                prevBtn.disabled = scrollLeft < 1;
 
-            // Deshabilitar botón "siguiente" si estamos al final
-            nextBtn.disabled = scrollLeft + clientWidth >= scrollWidth - 1;
-        };
+                // Deshabilitar botón "siguiente" si estamos al final
+                nextBtn.disabled = scrollLeft + clientWidth >= scrollWidth - 1;
+            };
 
-        // Evento para el botón "siguiente"
-        nextBtn.addEventListener('click', () => {
-            const itemWidth = container.querySelector('.nosotros-proceso__item').offsetWidth;
-            const gap = parseInt(window.getComputedStyle(container).gap, 10);
-            container.scrollLeft += itemWidth + gap;
-        });
+            // Evento para el botón "siguiente"
+            nextBtn.addEventListener('click', () => {
+                const itemWidth = container.querySelector('.nosotros-proceso__item').offsetWidth;
+                const gap = parseInt(window.getComputedStyle(container).gap, 10);
+                container.scrollLeft += itemWidth + gap;
+            });
 
-        // Evento para el botón "anterior"
-        prevBtn.addEventListener('click', () => {
-            const itemWidth = container.querySelector('.nosotros-proceso__item').offsetWidth;
-            const gap = parseInt(window.getComputedStyle(container).gap, 10);
-            container.scrollLeft -= itemWidth + gap;
-        });
+            // Evento para el botón "anterior"
+            prevBtn.addEventListener('click', () => {
+                const itemWidth = container.querySelector('.nosotros-proceso__item').offsetWidth;
+                const gap = parseInt(window.getComputedStyle(container).gap, 10);
+                container.scrollLeft -= itemWidth + gap;
+            });
 
-        // Actualizar los botones cuando el usuario haga scroll manualmente
-        container.addEventListener('scroll', updateButtons);
+            // Actualizar los botones cuando el usuario haga scroll manualmente
+            container.addEventListener('scroll', updateButtons);
 
-        // Actualizar los botones al cargar la página
-        updateButtons();
-    }
-
+            // Actualizar los botones al cargar la página
+            updateButtons();
+        }
+    });
 
 
     /** CONTADORES ANIMADOS EN LA PAGINA DE INDEX Y NOSOTROS */

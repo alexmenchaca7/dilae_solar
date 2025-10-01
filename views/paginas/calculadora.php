@@ -258,6 +258,3 @@
         <img loading="lazy" width="856" height="1053" src="/build/img/consumo-cfe.webp" alt="Tutorial para encontrar el consumo histórico">
     </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/3.0.1/chartjs-plugin-annotation.min.js" defer></script>
