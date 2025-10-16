@@ -89,6 +89,9 @@
     <noscript><link rel="stylesheet" href="<?php echo get_asset('app.css'); ?>"></noscript>
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"></noscript>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/3.0.1/chartjs-plugin-annotation.min.js" defer></script>
+
     <?php if (isset($schema)) echo $schema; ?>
 </head>
 
@@ -247,7 +250,5 @@
     </script>
     
     <script src="<?php echo get_asset('app.js'); ?>" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/3.0.1/chartjs-plugin-annotation.min.js" defer></script>
 </body>
 </html>
